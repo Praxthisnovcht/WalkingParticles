@@ -6,7 +6,7 @@ author: CyberCube-HK Team & hoyinm14mc
 
 commands:
   walkp:
-    usage: /wparticles help
+    usage: /walkp help
     permission: walkingparticles.command.admin
     description: Admin command of WalkingParticles
     aliases: ["walkingparticles", "walkp"]

@@ -36,7 +36,12 @@ function procCmd(cmd){
 		 		case "add":
 		 		 if(cmd[1] !== null){
 		 		 	pc = cmd[1];
-		 		 }
+					particles[pc] = pc;
+					clientMessage(ChatColor.GREEN+"Added "+pc+" in to your WalkingParticles list!");
+					clientMessage("Note if the particle doesn't exist, may crash your launcher");
+		 		 }else{
+				 	clientMessage("Usage: /walkp add <particle>");
+				 }
 		 		break;
 		 		case "remove":
 		 		 if(cmd[1] !== null){
