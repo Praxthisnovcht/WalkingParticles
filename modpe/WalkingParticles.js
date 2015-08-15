@@ -20,7 +20,7 @@ var particles = [];
 
 function modTick(){
 	if(particles.length > 0){
-		temp = particle.length - 1
+		temp = particle.length - 1;
 		for(i=0;i=temp;i+1){
 		 Level.addParticle(ParticleType.particle[i], Player.getX(), Player.getY(), Player.getZ(), 0, 0, 0, 3);
 	 }
