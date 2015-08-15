@@ -31,7 +31,7 @@ class AdminCommand extends BaseCommand{
   
   public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
    switch($cmd->getName()):
-     case "walkingparticles":
+     case "walkp":
        if($issuer->hasPermission("walkingparticles.command") || $issuer->hasPermission("walkingparticles.command.admin")){
          if(isset($args[0])){
            switch($args[0]):

@@ -1,15 +1,15 @@
 name: WalkingParticles
 main: WalkingParticles\WalkingParticles
 api: ["1.13.0"]
-version: 1.1.0#dev2
-author: CyberCube-HK Team
+version: 2.0.0#23
+author: CyberCube-HK Team & hoyinm14mc
 
 commands:
-  walkingparticles:
+  walkp:
     usage: /wparticles help
     permission: walkingparticles.command.admin
     description: Admin command of WalkingParticles
-    aliases: ["wparticles", "walkp"]
+    aliases: ["walkingparticles", "walkp"]
   wplist:
     usage: /wplist
     permission: walkingparticles.command.wplist
