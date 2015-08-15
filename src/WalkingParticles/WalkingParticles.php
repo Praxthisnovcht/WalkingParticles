@@ -89,7 +89,7 @@ class WalkingParticles extends PluginBase{
    $this->getCommand("wplist")->setExecutor(new WplistCommand($this));
    $this->getCommand("wpget")->setExecutor(new WpgetCommand($this));
    $this->getCommand("walkingparticles")->setExecutor(new AdminCommand($this));
-   $this->getLogger()->info("§aLoaded Successfully!");
+   $this->getLogger()->info($this->colourMessage("&aLoaded Successfully!");
  }
  
  private function pluginLoaded($plugin){
@@ -119,6 +119,10 @@ class WalkingParticles extends PluginBase{
  
  public function getParticles(){
    return $this->particles;
+ }
+ 
+ public function colourMessage($message){
+ 	return str_replace("&", "§", $message);
  }
  
  public function putTemp(Player $player){
