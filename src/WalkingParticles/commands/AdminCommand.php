@@ -77,7 +77,7 @@ class AdminCommand extends BaseCommand{
                    return true;
                  }
                }else{
-                 $issuer->sendMessage("§fUsage: /wparticles defaultamplifier <amplifier>");
+                 $issuer->sendMessage("§fUsage: /walkp defaultamplifier <amplifier>");
                  return true;
                }
              break;
@@ -90,7 +90,7 @@ class AdminCommand extends BaseCommand{
                  $issuer->sendMessage("§fThe default §bWalkingParticles §f has been changed!");
                  return true;
                }else{
-                 $issuer->sendMessage("§fUsage: /wparticles setdefault <particle>");
+                 $issuer->sendMessage("§fUsage: /walkp setdefault <particle>");
                  return true;
                }
              break;
@@ -131,12 +131,12 @@ class AdminCommand extends BaseCommand{
                       return true;
                     }
                   }else{
-                    $issuer->sendMessage("Usage: /wparticles add <particle> <player>");
+                    $issuer->sendMessage("Usage: /walkp add <particle> <player>");
                     return true;
                   }
                 }
               }else{
-                $issuer->sendMessage("Usage: /wparticles add <particle> <player>");
+                $issuer->sendMessage("Usage: /walkp add <particle> <player>");
                 return true;
               }
             break;
@@ -161,12 +161,12 @@ class AdminCommand extends BaseCommand{
                     $issuer->sendMessage("§aYour particle '§b".$particle."§a' has been removed!");
                     return true;
                   }else{
-                    $issuer->sendMessage("Usage: /wparticles remove <particle> <player>");
+                    $issuer->sendMessage("Usage: /walkp remove <particle> <player>");
                     return true;
                   }  
                 }
               }else{
-                $issuer->sendMessage("Usage: /wparticles remove <particle> <player>");
+                $issuer->sendMessage("Usage: /walkp remove <particle> <player>");
                 return true;
               }
             break;
@@ -204,7 +204,7 @@ class AdminCommand extends BaseCommand{
                   return true;
                 }
               }else{
-                $issuer->sendMessage("§fUsage: /wparticles amplifier <amplifier> <player>");
+                $issuer->sendMessage("§fUsage: /walkp amplifier <amplifier> <player>");
                 return true;
               }
             break;
@@ -222,7 +222,7 @@ class AdminCommand extends BaseCommand{
                       $issuer->sendMessage("§aYou set §e".$target->getName()."§a's display to §bgroup§a!");
                         return true;
                       default:
-                        $issuer->sendMessage("Usage: /wparticles display line|group <target>");
+                        $issuer->sendMessage("Usage: /walkp display line|group <target>");
                         return true;
                     endswitch;
                   }else{
@@ -241,12 +241,12 @@ class AdminCommand extends BaseCommand{
                       $issuer->sendMessage("§aYou set your display to §bgroup§a!");
                       return true;
                     default:
-                      $issuer->sendMessage("Usage: /wparticles display line|group");
+                      $issuer->sendMessage("Usage: /walkp display line|group");
                       return true;
                   endswitch;
                 }
               }else{
-                $issuer->sendMessage("Usage: /wparticles display line|group <target>");
+                $issuer->sendMessage("Usage: /walkp display line|group <target>");
                 return true;
               }
             break;
