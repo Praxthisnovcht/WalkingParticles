@@ -89,7 +89,7 @@ class WalkingParticles extends PluginBase{
    $this->getCommand("wplist")->setExecutor(new WplistCommand($this));
    $this->getCommand("wpget")->setExecutor(new WpgetCommand($this));
    $this->getCommand("walkingparticles")->setExecutor(new AdminCommand($this));
-   $this->getLogger()->info($this->colourMessage("&aLoaded Successfully!");
+   $this->getLogger()->info($this->colourMessage("&aLoaded Successfully!"));
  }
  
  private function pluginLoaded($plugin){

@@ -44,23 +44,23 @@ class AdminCommand extends BaseCommand{
                	   return true;
                	 break;
                	 case 2:
-               	   $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(2/2)");
-               	   $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp pack <use|create|delete|addp|rmp|get|list> <args..>");
+               	   $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(2/2)"));
+               	   $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp pack <use|create|delete|addp|rmp|get|list> <args..>"));
                	   return true;
                	 break;
                	endswitch;
                }else{
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultparticle <particle>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultamplifier <amplifier>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp add <particle> <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp remove <particle> <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp amplifier <amplifier> <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp display line|group <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp randomshow <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp clear <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp get <player>");
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp list");
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultparticle <particle>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultamplifier <amplifier>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp add <particle> <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp remove <particle> <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp amplifier <amplifier> <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp display line|group <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp randomshow <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp clear <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp get <player>"));
+               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp list"));
                return true;
               }
              break;
