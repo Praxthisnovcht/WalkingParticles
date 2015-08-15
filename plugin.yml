@@ -1,0 +1,45 @@
+name: WalkingParticles
+main: WalkingParticles\WalkingParticles
+api: ["1.13.0"]
+version: 1.1.0#dev2
+author: CyberCube-HK Team
+
+commands:
+  walkingparticles:
+    usage: /wparticles help
+    permission: walkingparticles.command.admin
+    description: Admin command of WalkingParticles
+    aliases: ["wparticles", "walkp"]
+  wplist:
+    usage: /wplist
+    permission: walkingparticles.command.wplist
+    description: WalkingParticles > Show a list of available particles
+  wpget:
+    usage: /wpget
+    permission: walkingparticles.command.wpget
+    description: WalkingParticles > Show a list of your using particles
+  wppack:
+    usage: /wppack <apply|get|list> <args..>
+    permission: walkingparticles.command.wppack
+    description: Let players to apply/get/list packs using money
+
+permissions:
+  walkingparticles:
+    default: true
+  walkingparticles.command:
+    default: false
+    children:
+      walkingparticles.command.admin:
+        default: op
+      walkingparticles.command.wplist:
+        default: true
+      walkingparticles.command.wpget:
+        default: true
+      walkingparticles.command.wppack:
+        default: true
+  walkingparticles.sign.toggle:
+    default: true
+  walkingparticles.sign.create:
+    default: op
+  walkingparticles.sign.destroy:
+    default: op
