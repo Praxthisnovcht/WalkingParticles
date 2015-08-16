@@ -46,6 +46,15 @@ function procCmd(cmd){
 		 		case "remove":
 		 		 if(cmd[1] !== null){
 		 		 	pc = cmd[1];
+					temp = particle.length - 1;
+					for(i=0;i=temp;i++){
+						if(particles[i] = pc){
+							particles.splice(i, 1);
+							clientMessage(ChatColor.GREEN+"Removed "+pc+" from your WalkingParticles list!");
+							return;
+						}
+					}
+					clientMessage(ChatColor.RED+"Particle doesn't exist in you!");
 		 		 }
 		 		break;
 		 	}
