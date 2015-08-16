@@ -39,7 +39,7 @@ class Massiveeconomy{
   }
 		$money = $this->plugin->getEco()->getInstance()->getMoney($player->getName());
 		if($money < $this->plugin->getConfig()->get("apply-pack-fee")){
-			$player->sendMessage("§cYou don't have enough money to apply the pack!\n§cYou need ".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getConfig()->get("apply-pack-fee")."!");
+			$player->sendMessage($this->plugin->colourMessage("&cYou don't have enough money to apply the pack!\n&cYou need ".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getConfig()->get("apply-pack-fee")."!"));
 			return false;
 		}
 		if($this->plugin->packExists($pack) !== true){
@@ -48,7 +48,7 @@ class Massiveeconomy{
 		}
 		$this->plugin->getEco()->getInstance()->setMoney($player->getName(), $money - $this->plugin->getConfig()->get("apply-pack-fee"));
 		$this->plugin->activatePack($player, $pack);
-		$player->sendMessage("§aYou applied §b".$pack." §apack successfully!");
+		$player->sendMessage($this->plugin->colourMessage("&aYou applied &b".$pack." &apack successfully!"));
 		$player->sendMessage("Bank : -".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getConfig()->get("apply-pack-fee")." | ".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getEco()->getMoney($player->getName())." left");
 		return true;
 	}

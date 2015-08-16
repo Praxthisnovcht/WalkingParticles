@@ -78,10 +78,10 @@ class WppackCommand extends BaseCommand{
 			      if(isset($args[1])){
           	$pack_name = $args[1];
           	if($this->getPlugin()->packExists($pack_name) !== false){
-          		$issuer->sendMessage("§aPack §b".$pack_name." §acontains: §6".$this->getPlugin()->getPackParticles($pack_name));
+          		$issuer->sendMessage($this->getPlugin()->colourMessage("&aPack &b".$pack_name." &acontains: &6".$this->getPlugin()->getPackParticles($pack_name)));
           		return true;
       	    	}else{
-          		$issuer->sendMessage("§cPack doesn't exist!");
+          		$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
           		return true;
       	    	}
     	    }else{
@@ -90,7 +90,7 @@ class WppackCommand extends BaseCommand{
     	    }
 			     break;
 			     case "list":
-			       $issuer->sendMessage("§aList of particle packs: §6".$this->getPlugin()->listPacks());
+			       $issuer->sendMessage($this->getPlugin()->colourMessage("&aList of particle packs: &6".$this->getPlugin()->listPacks()));
       	   return true;
 			     break;
 			    endswitch;
@@ -102,7 +102,7 @@ class WppackCommand extends BaseCommand{
 			  	return true;
 			  }
 			 }else{
-			 	$issuer->sendMessage("§cYou don't have permission for this!");
+			 	$issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
 			 	return true;
 			 }
 			break;

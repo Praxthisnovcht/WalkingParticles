@@ -39,16 +39,16 @@ class Pocketmoney{
   }
 		$money = $this->plugin->getEco()->getMoney($player->getName());
 		if($money < $this->plugin->getConfig()->get("apply-pack-fee")){
-			$player->sendMessage("§cYou don't have enough money to apply the pack!\n§cYou need ".$this->plugin->getConfig()->get("apply-pack-fee")."PM!");
+			$player->sendMessage($this->plugin->colourMessage("&cYou don't have enough money to apply the pack!\n&cYou need ".$this->plugin->getConfig()->get("apply-pack-fee")."PM!"));
 			return false;
 		}
 		if($this->plugin->packExists($pack) !== true){
-			$player->sendMessage("§cPack doesn't exist!");
+			$player->sendMessage($this->plugin->colourMessage("&cPack doesn't exist!"));
 			return false;
 		}
 		$this->plugin->getEco()->setMoney($player->getName(), $money - $this->plugin->getConfig()->get("apply-pack-fee"));
 		$this->plugin->activatePack($player, $pack);
-		$player->sendMessage("§aYou applied §b".$pack." §apack successfully!");
+		$player->sendMessage($this->plugin->colourMessage("&aYou applied &b".$pack." &apack successfully!"));
 		$player->sendMessage("Bank : -".$this->plugin->getConfig()->get("apply-pack-fee")."PM | ".$this->plugin->getEco()->getMoney($player->getName())."PM left");
 		return true;
 	}

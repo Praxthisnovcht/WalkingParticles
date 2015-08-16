@@ -31,10 +31,10 @@ class WpgetCommand extends BaseCommand{
     switch($cmd->getName()){
       case "wpget":
         if($issuer->hasPermission("walkingparticles.command.wpget")){
-          $issuer->sendMessage("§aYour §bWalkingParticles§a: §f".$this->getPlugin()->getAllPlayerParticles($issuer));
+          $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles&a: &f".$this->getPlugin()->getAllPlayerParticles($issuer)));
           return true;
         }else{
-          $issuer->sendMessage("§cYou don't have permission for this!");
+          $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
           return true;
         }
       break;

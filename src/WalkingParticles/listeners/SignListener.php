@@ -41,12 +41,12 @@ class SignListener extends BaseListener{
        return;
      }
      $sign = $sign->getText();
-     if($sign[0]=='§f[§aWParticles§f]'){ 
+     if($sign[0]=='§f[§aWParticles§f]'){
        if($event->getPlayer()->hasPermission("walkingparticles.sign.destroy")){
-         $event->getPlayer()->sendMessage("§bWalkingParticles §esign has been destroyed!");
+         $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&bWalkingParticles &esign has been destroyed!"));
          return true;
        }else{
-         $event->getPlayer()->sendMessage("§cYou have no permission for this!");
+         $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
          $event->setCancelled(true);
        }
      }
@@ -74,17 +74,17 @@ class SignListener extends BaseListener{
                   $event->setLine(1, null);
                   $event->setLine(2, null);
                   $event->setLine(3, null);
-                  $event->getPlayer()->sendMessage("§cSign broken, line 4 should contain arguments!");
+                  $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, line 4 should contain arguments!"));
                   return false;
                  }else{
                  	 $event->setLine(3, "§6".$sign[3]);
                  }
                 }else{
                 	$event->setLine(0, null);        
-                $event->setLine(1, null);
-                $event->setLine(2, null);
-                $event->setLine(3, null);
-                $event->getPlayer()->sendMessage("§cSign broken, line 3 must be 'get', 'use' or 'list'");
+                  $event->setLine(1, null);
+                  $event->setLine(2, null);
+                  $event->setLine(3, null);
+                  $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, line 3 must be 'get', 'use' or 'list'"));
                 return false;
                 }
                break;
@@ -94,7 +94,7 @@ class SignListener extends BaseListener{
                    $event->setLine(1, null);
                    $event->setLine(2, null);
                    $event->setLine(3, null);
-                   $event->getPlayer()->sendMessage("§cSign broken, line 3 must be numeric as your creating a sign to change the amplifier!!");
+                   $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, line 3 must be numeric as your creating a sign to change the amplifier!"));
                    return false;
                  }
                break;
@@ -106,12 +106,12 @@ class SignListener extends BaseListener{
                    $event->setLine(1, null);
                    $event->setLine(2, null);
                    $event->setLine(3, null);
-                   $event->getPlayer()->sendMessage("§cSign broken, line 3 must be line/group as your creating a sign to change the display!!");
+                   $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, line 3 must be line/group as your creating a sign to change the display!"));
                    return false;
                  }
                break;
              endswitch;
-             $event->getPlayer()->sendMessage("§bWalkingParticles §asign created!");
+             $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&bWalkingParticles &asign created!"));
              $event->setLine(2, "§d".$sign[2]);
              return true;
            }else{
@@ -119,7 +119,7 @@ class SignListener extends BaseListener{
              $event->setLine(1, null);
              $event->setLine(2, null);
              $event->setLine(3, null);
-             $event->getPlayer()->sendMessage("§cSign broken, line 2 must be §eadd§c, §eremove §cor §eamplifier§c!!");
+             $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, line 2 must be &eadd&c, &eremove&c, &edisplay&c, &epack&c, &eget&c, &elist &cor &eamplifier&c!"));
              return false;
            }
          }else if(!empty($sign[1]) && empty($sign[2])){
@@ -135,21 +135,21 @@ class SignListener extends BaseListener{
              $event->setLine(1, null);
              $event->setLine(2, null);
              $event->setLine(3, null);
-             $event->getPlayer()->sendMessage("§cSign broken, please fill in correct information!");
+             $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, please fill in correct information!"));
              return false;
            }
          }else{
            $event->setLine(0, null);
            $event->setLine(1, null);
            $event->setLine(2, null);
-           $event->getPlayer()->sendMessage("§cSign broken, please fill in correct information!");
+           $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, please fill in correct information!"));
            return false;
          }
        }else{
          $event->setLine(0, null);
          $event->setLine(1, null);
          $event->setLine(2, null);
-         $event->getPlayer()->sendMessage("§cSign broken, you have no permission for this!");
+         $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSign broken, you have no permission for this!"));
          return false;
        }
      }
@@ -170,28 +170,28 @@ class SignListener extends BaseListener{
              case "§eadd":
                $particle = substr($sign[2], 3);
                $this->getPlugin()->addPlayerParticle($event->getPlayer(), $particle);
-               $event->getPlayer()->sendMessage("§aYou added your §bWalkingParticles§a's ".$particle." particle!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou added your &bWalkingParticles&a's ".$particle." particle!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              case "§eremove":
                $particle = substr($sign[2], 3);
                $this->getPlugin()->removePlayerParticle($event->getPlayer(), $particle);
-               $event->getPlayer()->sendMessage("§aYou removed your §bWalkingParticles§a's ".$particle." particle!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou removed your &bWalkingParticles&a's ".$particle." particle!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              case "§eamplifier":
                $amplifier = substr($sign[2], 3);
                $this->getPlugin()->setPlayerAmplifier($event->getPlayer(), $amplifier);
-               $event->getPlayer()->sendMessage("§aYou changed your §bWalkingParticles§a's amplifier!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou changed your &bWalkingParticles&a's amplifier!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              case "§edisplay":
                $display = substr($sign[2], 3);
                $this->getPlugin()->setPlayerDisplay($event->getPlayer(), $display);
-               $event->getPlayer()->sendMessage("§aYou changed the display of your particles!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou changed the display of your particles!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
@@ -202,31 +202,31 @@ class SignListener extends BaseListener{
               	  $option2 = substr($sign[3], 3);
               	  if($this->getPlugin()->packExists($option2)){
                	  	$this->getPlugin()->activatePack($event->getPlayer(), $option2);
-              	  	 $event->getPlayer()->sendMessage("§aYou are now using §b".$option2." §apack!");
+              	  	 $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou applied &b".$option2." &apack!"));
               	  	 $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
               	  }else{
-              	  	 $issuer->sendMessage("§cPack doesn't exist!");
+              	  	 $issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
               	  	 $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
               	  }
               	 break;
               	 case "§dget":
               	  $option2 = substr($sign[3], 3);
               	  if($this->getPlugin()->packExists($option2)){
-              	  	 $event->getPlayer()->sendMessage("§aList of particles in §b".$option2." §apack: §6".$this->getPlugin()->getPackParticles($option2));
+              	  	 $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aList of particles in &b".$option2." &apack: &6".$this->getPlugin()->getPackParticles($option2)));
               	  }else{
-              	  	 $issuer->sendMessage("§cPack doesn't exist!");
+              	  	 $issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
               	  }
               	  $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
               	 break;
               	 case "§dlist":
-              	  $event->getPlayer()->sendMessage("§aList of particle packs: §6".$this->getPlugin()->listPacks());
+              	  $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aList of particle packs: &6".$this->getPlugin()->listPacks()));
               	  $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
               	 break;
               endswitch;
              break;
            endswitch;
          }else{
-           $event->getPlayer()->sendMessage("§cYou have no permission for this!");
+           $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
            return false;
          }
        }else if(!empty($sign[1]) && empty($sign[2])){
@@ -234,33 +234,33 @@ class SignListener extends BaseListener{
            switch(strtolower($sign[1])):
              case "§erandomshow":
                $this->getPlugin()->switchRandomMode($event->getPlayer(), ($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? true : false));
-               $event->getPlayer()->sendMessage("§aYour random mode has been turned ".($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? "off" : "on")."!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned ".($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? "off" : "on")."!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
              break;
              case "§eget":
-               $event->getPlayer()->sendMessage("§aYour §bWalkingParticles§a: §f".$this->getPlugin()->getAllPlayerParticles($event->getPlayer()));
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles&a: &f".$this->getPlugin()->getAllPlayerParticles($event->getPlayer())));
                $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              case "§eclear":
                $this->getPlugin()->clearPlayerParticle($event->getPlayer());
-               $event->getPlayer()->sendMessage("§aYour §bWalkingParticles §ahas been cleared!");
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles &ahas been cleared!"));
                $event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              case "§elist":
                $particles = new Particles($this->getPlugin());
-               $event->getPlayer()->sendMessage("§aList of available particles: §6".implode(", ", $particles->getAll()));
+               $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aList of available particles: &6".implode(", ", $particles->getAll())));
                $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
                return true;
              break;
              endswitch;
          }else{
-           $event->getPlayer()->sendMessage("§cYou have no permission for this!");
+           $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou have no permission for this!"));
            return true;
          }
        }else{
-         $event->getPlayer()->sendMessage("§cSorry, you're clicking an incorrect §bWalkingParticles §csign!");
+         $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cSorry, you're clicking an incorrect &bWalkingParticles &csign!"));
          return false;
        }
      }

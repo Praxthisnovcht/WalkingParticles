@@ -48,7 +48,7 @@ use pocketmine\utils\TextFormat;
 
 class WalkingParticles extends PluginBase{
   
-  const VERSION = "2.0.0#23";
+  const VERSION = "2.0.0#25";
   
   private static $instance = null;
   private $eco = null;

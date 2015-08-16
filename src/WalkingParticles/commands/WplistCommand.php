@@ -33,10 +33,10 @@ class WplistCommand extends BaseCommand{
       case "wplist":
         if($issuer->hasPermission("walkingparticles.command") || $issuer->hasPermission("walkingparticles.command.wplist")){
         	  $particles = new Particles($this->getPlugin());
-          $issuer->sendMessage("§aList of particles: §6".implode(", ", $particles->getAll()));
+          $issuer->sendMessage($this->getPlugin()->colourMessage("&aList of particles: &6".implode(", ", $particles->getAll())));
           return true;
         }else{
-          $issuer->sendMessage("§cYou don't have permission for this!");
+          $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
           return true;
         }
       break;

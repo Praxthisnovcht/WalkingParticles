@@ -70,14 +70,14 @@ class AdminCommand extends BaseCommand{
                  if(is_numeric($args[1])){
                    $this->getConfig()->set("default-amplifier", $args[1]);
                    $this->getConfig()->save();
-                   $issuer->sendMessage("§fThe default §eamplifier §fof §bWalkingParticles §fhas been changed!");
+                   $issuer->sendMessage($this->getPlugin()->colourMessage("&fThe default &eamplifier &fof &bWalkingParticles &fhas been changed!"));
                    return true;
                  }else{
-                   $issuer->sendMessage("§cInvalid amplifier!");
+                   $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid amplifier!"));
                    return true;
                  }
                }else{
-                 $issuer->sendMessage("§fUsage: /walkp defaultamplifier <amplifier>");
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("Usage: /walkp defaultamplifier <amplifier>"));
                  return true;
                }
              break;
@@ -87,10 +87,10 @@ class AdminCommand extends BaseCommand{
                  $particle = $args[1];
                  $this->getConfig()->set("default-particle", $particle);
                  $this->getConfig()->save();
-                 $issuer->sendMessage("§fThe default §bWalkingParticles §f has been changed!");
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&fThe default &bWalkingParticles &f has been changed!"));
                  return true;
                }else{
-                 $issuer->sendMessage("§fUsage: /walkp setdefault <particle>");
+                 $issuer->sendMessage("Usage: /walkp setdefault <particle>");
                  return true;
                }
              break;
@@ -105,16 +105,16 @@ class AdminCommand extends BaseCommand{
                       foreach($this->getPlugin()->getParticles()->getAll() as $ps){
                         $this->getPlugin()->clearPlayerParticle($target);
                         $this->getPlugin()->addPlayerParticle($target, $ps);
-                        $issuer->sendMessage("§aAdded §l§bALL §r§aparticles to ".$target->getName());
+                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aAdded &l§bALL &r&aparticles to ".$target->getName()));
                         return true;
                       }
                     }else{
                       $this->getPlugin()->addPlayerParticle($target, $particle);
-                      $issuer->sendMessage("§aYou added ".$particle." to §b".$target->getName()."§a's WalkingParticles!");
+                      $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou added ".$particle." to &b".$target->getName()."&a's WalkingParticles!"));
                       return true;
                     }
                   }else{
-                    $issuer->sendMessage("§cInvalid target!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                   }
                 }else{
                   if($issuer instanceof Player){
@@ -122,12 +122,12 @@ class AdminCommand extends BaseCommand{
                       foreach($this->getPlugin()->getParticles()->getAll() as $ps){
                         $this->getPlugin()->clearPlayerParticle($issuer);
                         $this->getPlugin()->addPlayerParticle($issuer, $ps);
-                        $issuer->sendMessage("§aAdded §l§bALL §r§aparticles to you!");
+                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aAdded &l&bALL &r&aparticles to you!"));
                         return true;
                       }
                     }else{
                       $this->getPlugin()->addPlayerParticle($issuer, $particle);
-                      $issuer->sendMessage("§aYou added §b".$particle." §aparticle to your WalkingParticles!");
+                      $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou added &b".$particle." &aparticle to your WalkingParticles!"));
                       return true;
                     }
                   }else{
@@ -149,16 +149,16 @@ class AdminCommand extends BaseCommand{
                   $target = $this->getPlugin()->getServer()->getPlayer($args[2]);
                   if($target !== null){
                     $this->getPlugin()->removePlayerParticle($target, $particle);
-                    $issuer->sendMessage("§aYou removed §b".$target->getName()."§a's Walking Particle!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou removed &b".$target->getName()."&a's Walking Particle!"));
                     return true;
                   }else{
-                    $issuer->sendMessage("§cInvalid target!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                     return true;
                   }
                 }else{   
                   if($issuer instanceof Player){
                     $this->getPlugin()->removePlayerParticle($issuer, $particle);
-                    $issuer->sendMessage("§aYour particle '§b".$particle."§a' has been removed!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particle '&b".$particle."&a' has been removed!"));
                     return true;
                   }else{
                     $issuer->sendMessage("Usage: /walkp remove <particle> <player>");
@@ -178,14 +178,14 @@ class AdminCommand extends BaseCommand{
                   if($target !== null){
                     $amplifier = $args[1];
                     $this->getPlugin()->setPlayerAmplifier($target, $amplifier);
-                    $issuer->sendMessage("§aYou changed §b".$target->getName()."§a's amplifier!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou changed &b".$target->getName()."&a's amplifier!"));
                     return true;
                   }else{
-                    $issuer->sendMessage("§cInvalid target!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                     return true;
                   }
                 }else{
-                  $issuer->sendMessage("§cInvalid amplifier!");
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid amplifier!"));
                   return true;
                 }
               }else if(isset($args[1]) && !isset($args[2])){
@@ -193,18 +193,18 @@ class AdminCommand extends BaseCommand{
                   if($issuer instanceof Player){
                     $amplifier = $args[1];
                     $this->getPlugin()->setPlayerAmplifier($issuer, $amplifier);
-                    $issuer->sendMessage("§aYou changed yout amplifier of §bWalkingParticles§a!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou changed yout amplifier of &bWalkingParticles&a!"));
                     return true;
                   }else{
                     $issuer->sendMessage("Usage: /wparticles amplifier <amplifier> <player>");
                     return true;
                   }
                 }else{
-                  $issuer->sendMessage("§cInvalid amplifier!");
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid amplifier!"));
                   return true;
                 }
               }else{
-                $issuer->sendMessage("§fUsage: /walkp amplifier <amplifier> <player>");
+                $issuer->sendMessage($this->getPlugin()->colourMessage("&fUsage: /walkp amplifier <amplifier> <player>"));
                 return true;
               }
             break;
@@ -215,18 +215,18 @@ class AdminCommand extends BaseCommand{
                     switch($args[1]):
                       case "line":
                         $this->getPlugin()->setPlayerDisplay($target, "line");
-                        $issuer->sendMessage("§aYou set §e".$target->getName()."§a's display to §bline§a!");
+                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &e".$target->getName()."&a's display to &bline&a!"));
                         return true;
                       case "group":
                         $this->getPlugin()->setPlayerDisplay($target, "group");
-                      $issuer->sendMessage("§aYou set §e".$target->getName()."§a's display to §bgroup§a!");
+                      $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &e".$target->getName()."&a's display to &bgroup&a!"));
                         return true;
                       default:
                         $issuer->sendMessage("Usage: /walkp display line|group <target>");
                         return true;
                     endswitch;
                   }else{
-                    $issuer->sendMessage("§cInvalid target!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                     return true;
                   }
               }else if(isset($args[1]) && !isset($args[2])){
@@ -234,11 +234,11 @@ class AdminCommand extends BaseCommand{
                   switch($args[1]):
                     case "line":
                       $this->getPlugin()->setPlayerDisplay($issuer, "line");
-                      $issuer->sendMessage("§aYou set your display to §bline§a!");
+                      $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set your display to &bline&a!"));
                       return true;
                     case "group":
                       $this->getPlugin()->setPlayerDisplay($issuer, "group");
-                      $issuer->sendMessage("§aYou set your display to §bgroup§a!");
+                      $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set your display to &bgroup&a!"));
                       return true;
                     default:
                       $issuer->sendMessage("Usage: /walkp display line|group");
@@ -257,25 +257,25 @@ class AdminCommand extends BaseCommand{
                 if($target !== null){
                   if($this->getPlugin()->isCleared($target) !== true){
                     $this->getPlugin()->clearPlayerParticle($target);
-                    $issuer->sendMessage("§aYou cleared §b".$target->getName()."§a's WalkingParticles!");
-                    $target->sendMessage("§aYour §bWalkingParticles §ahas been cleared!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou cleared &b".$target->getName()."&a's WalkingParticles!"));
+                    $target->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles &ahas been cleared!"));
                     return true;
                   }else{
-                    $issuer->sendMessage("§cThere is no particle in use!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cThere is no particle in use!"));
                     return true;
                   }
                 }else{
-                  $issuer->sendMessage("§cInvalid target!");
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                   return true;
                 }
               }else{
               	  if($issuer instanceof Player){
                   if($this->getPlugin()->isCleared($issuer) !== true){
                     $this->getPlugin()->clearPlayerParticle($issuer);
-                    $issuer->sendMessage("§aYour §bWalkingParticles §ahas been cleared!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles &ahas been cleared!"));
                     return true;
                   }else{
-                    $issuer->sendMessage("§cThere are no particles in use!");
+                    $issuer->sendMessage($this->getPlugin()->colourMessage("&cThere are no particles in use!"));
                   return true;
                   }
                 }else{
@@ -293,14 +293,14 @@ class AdminCommand extends BaseCommand{
              	   	if($this->getPlugin()->packExists($args[2])){
              	   		if($issuer instanceof Player){
              	   			$this->getPlugin()->activatePack($issuer, $args[2]);
-             	    		$issuer->sendMessage("§aYou are now using walkp pack §b".$args[2]);
+             	    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou are now using walkp pack &b".$args[2]));
              	    		return true;
              	   		}else{
              	   			$issuer->sendMessage("Command only works in-game!");
              	   			return true;
              	   		}
              	   	}else{
-             	   		$issuer->sendMessage("§cPack doesn't exist!");
+             	   		$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
              	   		return true;
              	   	}
              	   }else{
@@ -314,10 +314,10 @@ class AdminCommand extends BaseCommand{
              	   	$pack_name = $args[2];
              	   	if($this->getPlugin()->packExists($pack_name) !== true){
              	   		$this->getPlugin()->createPack($pack_name);
-             	   		$issuer->sendMessage("§aWalkp pack created successfully with the name §b".$pack_name);
+             	   		$issuer->sendMessage($this->getPlugin()->colourMessage("&aWalkp pack created successfully with the name &b".$pack_name));
              	   		return true;
              	   	}else{
-             	   		$issuer->sendMessage("§cPack already exists!");
+             	   		$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack already exists!"));
              	   		return true;
              	   	}
              	   }else{
@@ -331,10 +331,10 @@ class AdminCommand extends BaseCommand{
              	   	$pack_name = $args[2];
              	   	if($this->getPlugin()->packExists($pack_name) !== false){
              	   		$this->getPlugin()->deletePack($pack_name);
-             	   		$issuer->sendMessage("§aWalkp pack deleted successfully!");
+             	   		$issuer->sendMessage($this->getPlugin()->colourMessage("&aWalkp pack deleted successfully!"));
              	   		return true;
              	   	}else{
-             	   		$issuer->sendMessage("§cPack doesn't exists!");
+             	   		$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exists!"));
              	   		return true;
              	   	}
              	   }else{
@@ -346,10 +346,10 @@ class AdminCommand extends BaseCommand{
              	    if(isset($args[2]) && isset($args[3])){
              	    if($this->getPlugin()->packExists($args[2]) !== false){
              	    	$this->getPlugin()->addParticleToPack($args[2], $args[3]);
-             	    	$issuer->sendMessage("§aYou added §e".$args[3]." §aparticle to the pack §b".$args[2]."§a!");
+             	    	$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou added &e".$args[3]." &aparticle to the pack &b".$args[2]."&a!"));
              	    	return true;
              	    }else{
-             	    	$issuer->sendMessage("§cPack doesn't exist!");
+             	    	$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
              	    	return true;
              	    }
              	   }else{
@@ -361,10 +361,10 @@ class AdminCommand extends BaseCommand{
              	    if(isset($args[2]) && isset($args[3])){
              	    if($this->getPlugin()->packExists($args[2])){
              	    	$this->getPlugin()->removeParticleFromPack($args[2], $args[3]);
-             	    	$issuer->sendMessage("§aYou removed §e".$args[3]." §aparticle from the pack §b".$args[2]."§a!");
+             	    	$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou removed &e".$args[3]." &aparticle from the pack &b".$args[2]."&a!"));
              	    	return true;
              	    }else{
-             	    	$issuer->sendMessage("§cPack doesn't exist!");
+             	    	$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
              	    	return true;
              	    }
              	   }else{
@@ -376,10 +376,10 @@ class AdminCommand extends BaseCommand{
              	    if(isset($args[2])){
              	    	$pack_name = $args[2];
              	    	if($this->getPlugin()->packExists($pack_name) !== false){
-             	    		$issuer->sendMessage("§aPack §b".$pack_name." §acontains: §6".$this->getPlugin()->getPackParticles($pack_name));
+             	    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aPack &b".$pack_name." &acontains: &6".$this->getPlugin()->getPackParticles($pack_name)));
              	    		return true;
              	    	}else{
-             	    		$issuer->sendMessage("§cPack doesn't exist!");
+             	    		$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
              	    		return true;
              	    	}
              	    }else{
@@ -388,7 +388,7 @@ class AdminCommand extends BaseCommand{
              	    }
              	  break;
              	  case "list":
-             	   $issuer->sendMessage("§aList of particle packs: §6".$this->getPlugin()->listPacks());
+             	   $issuer->sendMessage($this->getPlugin()->colourMessage("&aList of particle packs: &6".$this->getPlugin()->listPacks()));
              	   return true;
              	  break;
              	 endswitch;
@@ -404,17 +404,17 @@ class AdminCommand extends BaseCommand{
                $target = $this->getPlugin()->getServer()->getPlayer($args[1]);
                if($target !== null){
                 $this->getPlugin()->switchRandomMode($target, ($this->getPlugin()->isRandomMode($target) !== true ? true : false));
-                $issuer->sendMessage("§aYou turned ".($this->getPlugin()->isRandomMode($target) !== true ? "off" : "on")." §b".$target->getName()."§a's random mode!");
-                $target->sendMessage("§aYour random mode has been turned ".($this->getPlugin()->isRandomMode($target) !== true ? "off" : "on")."!");
+                $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned ".($this->getPlugin()->isRandomMode($target) !== true ? "off" : "on")." &b".$target->getName()."&a's random mode!"));
+                $target->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned ".($this->getPlugin()->isRandomMode($target) !== true ? "off" : "on")."!"));
                 return true;
                }else{
-                $issuer->sendMessage("§cInvalid target!");
+                $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                 return true;
                }
               }else{
                if($issuer instanceof Player){
                 $this->getPlugin()->switchRandomMode($issuer, ($this->getPlugin()->isRandomMode($issuer) !== true ? true : false));
-                $issuer->sendMessage("§aYour random mode has been turned ".($this->getPlugin()->isRandomMode($issuer) !== true ? "off" : "on")."!");
+                $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned ".($this->getPlugin()->isRandomMode($issuer) !== true ? "off" : "on")."!"));
                 return true;
                }else{
                 $issuer->sendMessage("Command only works in-game!");
@@ -426,15 +426,15 @@ class AdminCommand extends BaseCommand{
               if(isset($args[1])){
                 $target = $this->getPlugin()->getServer()->getPlayer($args[1]);
                 if($target !== null){
-                  $issuer->sendMessage("§e".$target->getName()."§a's §bWalkingParticles§a: §f".$this->getPlugin()->getAllPlayerParticles($target));
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&e".$target->getName()."&a's &bWalkingParticles§a: &f".$this->getPlugin()->getAllPlayerParticles($target)));
                   return true;
                 }else{
-                  $issuer->sendMessage("§cInvalid target!");
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
                   return true;
                 }
               }else{
               	  if($issuer instanceof Player){
-              	  	  $issuer->sendMessage("§aYour §bWalkingParticles§a: §f".$this->getPlugin()->getAllPlayerParticles($issuer));
+              	  	  $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles&a: &f".$this->getPlugin()->getAllPlayerParticles($issuer)));
                   return true;
               	  }else{
               	  	  $issuer->sendMessage("Command only works in-game!");
@@ -444,7 +444,7 @@ class AdminCommand extends BaseCommand{
             break;
             case "list":
               $particles = new Particles($this->getPlugin());
-              $issuer->sendMessage("§aList of available particles: §6".implode(", ", $particles->getAll()));
+              $issuer->sendMessage($this->getPlugin()->colourMessage("&aList of available particles: &6".implode(", ", $particles->getAll())));
               return true;
             break;
           endswitch;
@@ -452,7 +452,7 @@ class AdminCommand extends BaseCommand{
           return false;
         }
       }else{
-        $issuer->sendMessage("§cYou don't have permission for this!");
+        $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
         return true;
       }
     break;
