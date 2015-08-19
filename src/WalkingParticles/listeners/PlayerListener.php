@@ -27,10 +27,7 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\ProjectileLaunchEvent;
-use pocketmine\event\entity\ProjectileHitEvent;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\level\sound\AnvilFallSound;
 use pocketmine\math\Vector3;
 use pocketmine\item\Item;
@@ -82,9 +79,18 @@ class PlayerListener extends BaseListener{
  }
  
  public function onQuit(PlayerQuitEvent $event){
- 	if($this->getPlugin()->isRandomMode($event->getPlayer())){
- 		$this->getPlugin()->switchRandomMode($event->getPlayer(), false);
- 	}
+ 	if($this->getPlugin()->isRandomMode($event->getPlayer())) $this->getPlugin()->switchRandomMode($event->getPlayer(), false);
+ 	if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked) !== false) unset($this->getPlugin()->try_locked[$event->getPlayer()->getName()]);
+ }
+ 
+ public function onPlayerCommand(PlayerCommandPreprocessEvent $event){
+   if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked)){
+     $args = explode(" ", $event->getMessage());
+     if($args[0] == "/wptry" && $event->getPlayer()->isOp() !== true){
+       $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou are not able to use this command now!"));
+       $event->setCancelled(true);
+     }
+   }
  }
 
 }

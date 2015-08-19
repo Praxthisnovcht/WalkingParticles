@@ -25,9 +25,8 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 
 use WalkingParticles\WalkingParticles;
-use WalkingParticles\task\TryLockTask;
 
-class TryParticleTask extends PluginTask{
+class TryLockTask extends PluginTask{
   public $plugin;
   public $player;
   
@@ -38,12 +37,9 @@ class TryParticleTask extends PluginTask{
   }
   
   public function onRun($tick){
-    if($this->player !== null){
-      $this->plugin->byeTemp($this->player);
-      $this->player->sendMessage($this->plugin->colourMessage("&b[WalkingParticles] &aTry section has ended!\n&eRestored your original particles"));
-      $this->plugin->try_locked[$this->player->getName()] = $this->player->getName();
-      $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new TryLockTask($this->plugin, $this->player), 20*60);
-      $this->player->sendTip("You will not be able to try any particles in 1 minute");
+    if($this->player !== null && in_array($this->player->getName(), $this->plugin->try_locked)){
+      unset($this->plugin->try_locked[$this->player->getName()]);
+      $this->player->sendTip("You are now able to try particles xD");
       $this->plugin->getServer()->getScheduler()->cancelTask($this->getTaskId());
     }
   }
