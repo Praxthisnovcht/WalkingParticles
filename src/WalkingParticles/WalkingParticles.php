@@ -26,16 +26,19 @@ use WalkingParticles\events\PlayerRemoveWPEvent;
 use WalkingParticles\events\PlayerSetAmplifierEvent;
 use WalkingParticles\events\PlayerSetDisplayEvent;
 use WalkingParticles\events\PlayerSwitchRandommodeEvent;
+use WalkingParticles\events\PlayerTryPlayerParticleEvent;
 use WalkingParticles\events\PlayerApplyPackEvent;
 use WalkingParticles\listeners\PlayerListener;
 use WalkingParticles\listeners\SignListener;
 use WalkingParticles\listeners\EntityListener;
 use WalkingParticles\task\ParticleShowTask;
 use WalkingParticles\task\RandomModeTask;
+use WalkingParticles\task\TryParticleTask;
 use WalkingParticles\Particles;
 use WalkingParticles\commands\WppackCommand;
 use WalkingParticles\commands\WplistCommand;
 use WalkingParticles\commands\WpgetCommand;
+use WalkingParticles\commands\WptryCommand;
 use WalkingParticles\commands\AdminCommand;
 
 use pocketmine\plugin\PluginBase;
@@ -48,12 +51,13 @@ use pocketmine\utils\TextFormat;
 
 class WalkingParticles extends PluginBase{
   
-  const VERSION = "2.0.0#25";
+  const VERSION = "2.0.0#033";
   
   private static $instance = null;
   private $eco = null;
   
   public $random_mode = [];
+  public $try_locked = [];
 
  public function onEnable(){
    $this->getLogger()->info("Loading resources..");
@@ -66,13 +70,13 @@ class WalkingParticles extends PluginBase{
    $this->data = new Config($this->getDataFolder()."players.yml", Config::YAML, array());
    $this->data2 = new Config($this->getDataFolder()."particlepacks.yml", Config::YAML, array());
    $this->data3 = new Config($this->getDataFolder()."temp1.yml", array());
-   $this->getLogger()->info("Loading economic plugins..");
-   $plugins = array("EconomyAPI", "PocketMoney", "MassiveEconomy", "GoldStd");
+   $this->getLogger()->info("Loading economy plugins..");
+   $plugins = ["EconomyAPI", "PocketMoney", "MassiveEconomy", "GoldStd"];
    foreach($plugins as $plugin){
     $pl = $this->getServer()->getPluginManager()->getPlugin($plugin);
     if($this->pluginLoaded($pl) !== false){
-    	$this->eco = $pl;
-    	$this->getLogger()->info("Loaded with ".$plugin."!");
+     	$this->eco = $pl;
+     	$this->getLogger()->info("Loaded with ".$plugin."!");
     }
    }
    if($this->eco === null){ 
@@ -88,6 +92,7 @@ class WalkingParticles extends PluginBase{
    $this->getCommand("wppack")->setExecutor(new WppackCommand($this));
    $this->getCommand("wplist")->setExecutor(new WplistCommand($this));
    $this->getCommand("wpget")->setExecutor(new WpgetCommand($this));
+   $this->getCommand("wptry")->setExecutor(new WptryCommand($this));
    $this->getCommand("walkingparticles")->setExecutor(new AdminCommand($this));
    $this->getLogger()->info($this->colourMessage("&aLoaded Successfully!"));
  }
@@ -113,8 +118,19 @@ class WalkingParticles extends PluginBase{
  	 return $this->eco;
  }
  
- public function getData(){
-   return $this->data;
+ //For external use
+ public function getData($file="data"){
+   switch(strtolower($file)):
+     case "data":
+       return $this->data;
+     case "data2":
+     case "particlepacks":
+       return $this->data2;
+     case "data3":
+     case "temp":
+       return $this->data3;
+   endswitch;
+   return false;
  }
  
  public function getParticles(){
@@ -123,6 +139,30 @@ class WalkingParticles extends PluginBase{
  
  public function colourMessage($message){
  	return str_replace("&", "§", $message);
+ }
+ 
+ public function tryPlayerParticle(Player $player, Player $player2){
+   $this->getServer()->getPluginManager()->callEvent($event = new PlayerTryPlayerParticleEvent($this, $player, $player2));
+	 	if($event->isCancelled()){
+	 	 	return false;
+	 	}
+   $t = $this->data->getAll();
+   if($this->isCleared($player2) !== false){
+     $player->sendMessage($this->colourMessage("&c".$player2->getName()." is not using any particles!"));
+     return false;
+   }
+   $this->putTemp($player);
+   $this->clearPlayerParticle($player);
+   foreach($t[$player2->getName()]["particle"] as $pc){
+     $this->addPlayerParticle($player);
+   }
+   $this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20*10);
+   return true;
+ }
+ 
+ public function playerTempExists(Player $player){
+   $temp = $this->data3->getAll();
+   return isset($temp[$player->getName()]);
  }
  
  public function putTemp(Player $player){
@@ -139,7 +179,7 @@ class WalkingParticles extends PluginBase{
  
  public function byeTemp(Player $player){
  	 $temp = $this->data3->getAll();
- 	 if(isset($temp[$player->getName()])){
+ 	 if($this->playerTempExists($player) !== false){
  	 	 foreach($temp[$player->getName()] as $pc){
  	 	 	 $this->clearPlayerParticle($player);
  	 	 	 $this->addPlayerParticle($player, $pc);
@@ -326,7 +366,7 @@ class WalkingParticles extends PluginBase{
    return true;
  }
  
- public function switchRandomMode(Player $player, $value){
+ public function switchRandomMode(Player $player, $value=true){
       $this->getServer()->getPluginManager()->callEvent($event = new PlayerSwitchRandommodeEvent($this, $player, $value));
       if($event->isCancelled()){         
         return false;

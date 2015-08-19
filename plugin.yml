@@ -1,7 +1,7 @@
 name: WalkingParticles
 main: WalkingParticles\WalkingParticles
 api: ["1.13.0"]
-version: 2.0.0#25
+version: 2.0.0#033
 author: CyberCube-HK Team & hoyinm14mc
 
 commands:
@@ -22,7 +22,10 @@ commands:
     usage: /wppack <apply|get|list> <args..>
     permission: walkingparticles.command.wppack
     description: Let players to apply/get/list packs using money
-
+  wptry:
+    usage: /wptry <player>
+    permission: walkingparticles.command.wptry
+    description: Let players to try out a player's particle pack
 permissions:
   walkingparticles:
     default: true
@@ -36,6 +39,8 @@ permissions:
       walkingparticles.command.wpget:
         default: true
       walkingparticles.command.wppack:
+        default: true
+      walkingparticles.command.wptry:
         default: true
   walkingparticles.sign.toggle:
     default: true

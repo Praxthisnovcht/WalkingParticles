@@ -40,6 +40,8 @@ class PlayerApplyPackEvent extends BaseEvent implements Cancellable{
 	
 	private $player;
 	private $pack;
+	private $method;
+	private $eco;
 	
 	public function __construct(WalkingParticles $plugin, Player $player, $pack, $method, $eco){
 		$this->player = $player;
@@ -58,11 +60,11 @@ class PlayerApplyPackEvent extends BaseEvent implements Cancellable{
 	}
 	
 	public function getMethodID(){
-		return $this->method;
+		return (int) $this->method;
 	}
 	
 	public function getEcoID(){
-		return $this->eco;
+		return (int) $this->eco;
 	}
 	
 }

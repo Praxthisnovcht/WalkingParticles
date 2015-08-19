@@ -145,8 +145,7 @@ class Particles{
  }
  
  public function getAll(){
-   $array = ["bubble", "explode", "splash", "water", "critical", "spell", "smoke", "driplava", "dripwater", "spore", "portal", "flame", "entityflame", "lava", "reddust", "snowball", "heart", "ink", "hugeexplode", "largeexplode", "instantspell", "slime", "enchantment", "happyvillager", "angryvillager", "droplet", "§bitem_{id}§6", "§bblock_{id}§6", "desblock_{id}"];
-   return $array;
+   return ["bubble", "explode", "splash", "water", "critical", "spell", "smoke", "driplava", "dripwater", "spore", "portal", "flame", "entityflame", "lava", "reddust", "snowball", "heart", "ink", "hugeexplode", "largeexplode", "instantspell", "slime", "enchantment", "happyvillager", "angryvillager", "droplet", "§bitem_{id}§6", "§bblock_{id}§6", "desblock_{id}"];
  }
  
 }

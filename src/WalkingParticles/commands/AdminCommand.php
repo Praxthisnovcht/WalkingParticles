@@ -46,23 +46,24 @@ class AdminCommand extends BaseCommand{
                	 case 2:
                	   $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(2/2)"));
                	   $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp pack <use|create|delete|addp|rmp|get|list> <args..>"));
+               	   $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp try <player>"));
                	   return true;
                	 break;
                	endswitch;
                }else{
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultparticle <particle>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultamplifier <amplifier>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp add <particle> <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp remove <particle> <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp amplifier <amplifier> <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp display line|group <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp randomshow <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp clear <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp get <player>"));
-               $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp list"));
-               return true;
-              }
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultparticle <particle>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultamplifier <amplifier>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp add <particle> <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp remove <particle> <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp amplifier <amplifier> <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp display line|group <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp randomshow <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp clear <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp get <player>"));
+                 $issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp list"));
+                 return true;
+               }
              break;
              case "setdefaultamplifier":
              case "defaultamplifier":
@@ -396,6 +397,23 @@ class AdminCommand extends BaseCommand{
              	 $issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|rmp|get|list> <args..>");
              	 return true;
              }
+            break;
+            case "try":
+              if(isset($args[1])){
+                $target = $this->getPlugin()->getServer()->getPlayer($args[1]);
+                if($target !== null){
+                  $this->getPlugin()->tryPlayerParticle($issuer, $target);
+                  $particles = new Particles($this->getPlugin());
+                  $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b".$target->getName()."&a's particles!\n&aParticles which ".$target->getName()." using: &6".$particles->getAll($target)));
+                  return true;
+                }else{
+                  $issuer->sendMessage($this->plugin->colourMessage("&cInvalid target!"));
+                  return true;
+                }
+              }else{
+                $issuer->sendMessage("Usage: /walkp try <player>");
+                return true;
+              }
             break;
             case "randomshow":
             case "random":

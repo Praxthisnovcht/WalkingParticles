@@ -14,7 +14,7 @@ default-particle: item_264
 default-amplifier: 11
 
 # How do you want particles to present for default?
-# A line behind the player, or in a group?
+# A line behind the player, or in group format?
 default-display: line
 
 # How much money do u want players to pay while they apply packs to use?
@@ -22,15 +22,10 @@ default-display: line
 # Currently support EconomyS
 apply-pack-fee: 2500
 
-# Exclusive feature
-# Show blood particle and sound effect when you get hurt?
-# default true/false? (to all players)
-hurt-effects: true
-
 # Inventory MENU (TODO)
 #give-menu-onJoin: true
 #menu-id: 388
 
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0#25"
+v: "2.0.0#033"
