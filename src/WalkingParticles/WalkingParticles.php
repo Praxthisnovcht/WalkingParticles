@@ -30,7 +30,6 @@ use WalkingParticles\events\PlayerTryPlayerParticleEvent;
 use WalkingParticles\events\PlayerApplyPackEvent;
 use WalkingParticles\listeners\PlayerListener;
 use WalkingParticles\listeners\SignListener;
-use WalkingParticles\listeners\EntityListener;
 use WalkingParticles\task\ParticleShowTask;
 use WalkingParticles\task\RandomModeTask;
 use WalkingParticles\task\TryParticleTask;
@@ -66,7 +65,6 @@ class WalkingParticles extends PluginBase{
    }
    $this->saveDefaultConfig();
    $this->reloadConfig();
-   $this->updateConfig();
    $this->data = new Config($this->getDataFolder()."players.yml", Config::YAML, array());
    $this->data2 = new Config($this->getDataFolder()."particlepacks.yml", Config::YAML, array());
 	//Update the file caz build#39 has bug
@@ -74,6 +72,7 @@ class WalkingParticles extends PluginBase{
 		unlink($this->getDataFolder()."temp1.yml");
 	}
    $this->data3 = new Config($this->getDataFolder()."temp1.yml", Config::YAML, array());
+	$this->updateConfig();
    $this->getLogger()->info("Loading economy plugins..");
    $plugins = ["EconomyAPI", "PocketMoney", "MassiveEconomy", "GoldStd"];
    foreach($plugins as $plugin){
@@ -107,7 +106,7 @@ class WalkingParticles extends PluginBase{
  
  private function updateConfig(){
    $this->getLogger()->info("Updating config file..");
-   if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") !== self::VERSION){
+   if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") !== $this::VERSION){
      unlink($this->getDataFolder()."config.yml");
      $this->saveDefaultConfig();
      $this->reloadConfig();
@@ -178,7 +177,9 @@ class WalkingParticles extends PluginBase{
  	 	 }
  	 	 $this->data3->setAll($temp);
  	 	 $this->data3->save();
+		 return true;
  	 }
+	 return false;
  }
  
  public function byeTemp(Player $player){
@@ -191,7 +192,9 @@ class WalkingParticles extends PluginBase{
  	 	 unset($temp[$player->getName()]);
  	 	 $this->data3->setAll($temp);
  	 	 $this->data3->save();
+		 return true;
  	 }
+	 return false;
  }
  
  public function addPlayerParticle(Player $player, $particle){

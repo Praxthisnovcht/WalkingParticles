@@ -28,7 +28,9 @@ class RandomModeTask extends BaseTask{
          public function onRun($tick){
                  foreach((array) $this->getPlugin()->random_mode as $rp){
                          $p = $this->getPlugin()->getServer()->getPlayer($rp);
-                         $this->getPlugin()->changeParticle($p);
+								 if($p !== null){
+								 	$this->getPlugin()->changeParticle($p);
+								 }
                  }
          }
          
