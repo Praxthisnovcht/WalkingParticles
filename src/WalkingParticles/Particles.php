@@ -68,9 +68,9 @@ class Particles{
      case "explode":
        return new ExplodeParticle($pos);
      case "largeexplode":
-			    	return new LargeExplodeParticle($pos);
-	   		case "hugeexplode":
-    				return new HugeExplodeParticle($pos);
+		 return new LargeExplodeParticle($pos);
+	  case "hugeexplode":
+    	 return new HugeExplodeParticle($pos);
      case "bubble":
        return new BubbleParticle($pos);
      case "splash":
@@ -83,7 +83,7 @@ class Particles{
      case "spell":
        return new EnchantParticle($pos);
      case "instantspell":
-		    		return new InstantEnchantParticle($pos);
+		 return new InstantEnchantParticle($pos);
      case "smoke":
        return new SmokeParticle($pos, ($data === null ? 0 : $data));
      case "dripwater":
@@ -115,11 +115,11 @@ class Particles{
        return new InkParticle($pos, ($data === null ? 0 : $data));
      case "enchantmenttable":
      case "enchantment":
-			    	return new EnchantmentTableParticle($pos);
-		   	case "happyvillager":
-    				return new HappyVillagerParticle($pos);
-	   		case "angryvillager":
-	    			return new AngryVillagerParticle($pos);
+		 return new EnchantmentTableParticle($pos);
+	  case "happyvillager":
+    	 return new HappyVillagerParticle($pos);
+	  case "angryvillager":
+	    return new AngryVillagerParticle($pos);
 	    	case "droplet":
 	    	case "rain":
 		    		return new RainSplashParticle($pos);
@@ -140,11 +140,13 @@ class Particles{
  }
  
  public function getRandomParticle(){
+   //I think the TerrainParticle performs quite well
    $random = round(rand(0, 114));
    return "block_".$random;
  }
  
  public function getAll(){
+   //For string output
    return ["bubble", "explode", "splash", "water", "critical", "spell", "smoke", "driplava", "dripwater", "spore", "portal", "flame", "entityflame", "lava", "reddust", "snowball", "heart", "ink", "hugeexplode", "largeexplode", "instantspell", "slime", "enchantment", "happyvillager", "angryvillager", "droplet", "§bitem_{id}§6", "§bblock_{id}§6", "desblock_{id}"];
  }
  

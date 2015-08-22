@@ -51,7 +51,7 @@ use pocketmine\utils\TextFormat;
 
 class WalkingParticles extends PluginBase{
   
-  const VERSION = "2.0.0#039";
+  const VERSION = "2.0.0#041";
   
   private static $instance = null;
   private $eco = null;
@@ -69,7 +69,11 @@ class WalkingParticles extends PluginBase{
    $this->updateConfig();
    $this->data = new Config($this->getDataFolder()."players.yml", Config::YAML, array());
    $this->data2 = new Config($this->getDataFolder()."particlepacks.yml", Config::YAML, array());
-   $this->data3 = new Config($this->getDataFolder()."temp1.yml", array());
+	//Update the file caz build#39 has bug
+	if(file_exists($this->getDataFolder()."temp1.yml")){
+		unlink($this->getDataFolder()."temp1.yml");
+	}
+   $this->data3 = new Config($this->getDataFolder()."temp1.yml", Config::YAML, array());
    $this->getLogger()->info("Loading economy plugins..");
    $plugins = ["EconomyAPI", "PocketMoney", "MassiveEconomy", "GoldStd"];
    foreach($plugins as $plugin){
@@ -180,8 +184,8 @@ class WalkingParticles extends PluginBase{
  public function byeTemp(Player $player){
  	 $temp = $this->data3->getAll();
  	 if($this->playerTempExists($player) !== false){
+	    $this->clearPlayerParticle($player);
  	 	 foreach($temp[$player->getName()] as $pc){
- 	 	 	 $this->clearPlayerParticle($player);
  	 	 	 $this->addPlayerParticle($player, $pc);
  	 	 }
  	 	 unset($temp[$player->getName()]);
@@ -237,7 +241,7 @@ class WalkingParticles extends PluginBase{
    foreach($particles as $ps){
      $p .= $ps.", ";
    }
-   return substr($p, 0, -2);
+   return (string) substr($p, 0, -2);
  }
  
  public function isCleared(Player $player){
@@ -343,7 +347,7 @@ class WalkingParticles extends PluginBase{
  	foreach($p[$pack_name] as $ps){
  		$msg .= $ps.", ";
  	}
- 	return substr($msg, 0, -2);
+ 	return (string) substr($msg, 0, -2);
  }
  
  public function listPacks(){
@@ -353,7 +357,7 @@ class WalkingParticles extends PluginBase{
  	foreach($array as $pack_names){
  		$msg .= $pack_names.", ";
  	}
- 	return substr($msg, 0, -2);;
+ 	return (string) substr($msg, 0, -2);;
  }
  
  /* RANDOM MODE

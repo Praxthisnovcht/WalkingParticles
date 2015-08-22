@@ -86,7 +86,7 @@ class PlayerListener extends BaseListener{
  public function onPlayerCommand(PlayerCommandPreprocessEvent $event){
    if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked)){
      $args = explode(" ", $event->getMessage());
-     if($args[0] == "/wptry" && $event->getPlayer()->isOp() !== true){
+     if($args[0] == "/wptry" && $event->getPlayer()->hasPermission("walkingparticles.command.admin") !== true){
        $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou are not able to use this command now!"));
        $event->setCancelled(true);
      }
