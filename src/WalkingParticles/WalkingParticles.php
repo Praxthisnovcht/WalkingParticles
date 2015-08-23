@@ -46,11 +46,10 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
-use pocketmine\utils\TextFormat;
 
 class WalkingParticles extends PluginBase{
   
-  const VERSION = "2.0.0#041";
+  const VERSION = "2.0.0#043";
   
   private static $instance = null;
   private $eco = null;

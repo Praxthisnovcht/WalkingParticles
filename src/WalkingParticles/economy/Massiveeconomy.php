@@ -23,33 +23,28 @@ namespace WalkingParticles\economy;
 use WalkingParticles\WalkingParticles;
 use WalkingParticles\events\PlayerApplyPackEvent;
 use pocketmine\Player;
+use WalkingParticles\base\BaseEconomy;
 
-class Massiveeconomy{
-	
-	public $plugin;
-	
-	public function __construct(WalkingParticles $plugin){
-		$this->plugin = $plugin;
-	}
-	
+class Massiveeconomy extends BaseEconomy{
+
 	public function applyPack(Player $player, $pack){
-		$this->plugin->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 1, 4));
-  if($event->isCancelled()){
-    return false;
-  }
-		$money = $this->plugin->getEco()->getInstance()->getMoney($player->getName());
-		if($money < $this->plugin->getConfig()->get("apply-pack-fee")){
-			$player->sendMessage($this->plugin->colourMessage("&cYou don't have enough money to apply the pack!\n&cYou need ".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getConfig()->get("apply-pack-fee")."!"));
+		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 1, 4));
+        if($event->isCancelled()){
+          return false;
+        }
+		$money = $this->getPlugin()->getEco()->getInstance()->getMoney($player->getName());
+		if($money < $this->getPlugin()->getConfig()->get("apply-pack-fee")){
+			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to apply the pack!\n&cYou need ".$this->getPlugin()->getEco()->getInstance()->getMoneySymbol().$this->getConfig()->get("apply-pack-fee")."!"));
 			return false;
 		}
-		if($this->plugin->packExists($pack) !== true){
-			$player->sendMessage("§cPack doesn't exist!");
+		if($this->getPlugin()->packExists($pack) !== true){
+			$player->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
 			return false;
 		}
-		$this->plugin->getEco()->getInstance()->setMoney($player->getName(), $money - $this->plugin->getConfig()->get("apply-pack-fee"));
-		$this->plugin->activatePack($player, $pack);
-		$player->sendMessage($this->plugin->colourMessage("&aYou applied &b".$pack." &apack successfully!"));
-		$player->sendMessage("Bank : -".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getConfig()->get("apply-pack-fee")." | ".$this->plugin->getEco()->getInstance()->getMoneySymbol().$this->plugin->getEco()->getMoney($player->getName())." left");
+		$this->getPlugin()->getEco()->getInstance()->setMoney($player->getName(), $money - $this->getConfig()->get("apply-pack-fee"));
+		$this->getPlugin()->activatePack($player, $pack);
+		$player->sendMessage($this->getPlugin()->colourMessage("&aYou applied &b".$pack." &apack successfully!"));
+		$player->sendMessage("Bank : -".$this->getPlugin()->getEco()->getInstance()->getMoneySymbol().$this->getConfig()->get("apply-pack-fee")." | ".$this->getPlugin()->getEco()->getInstance()->getMoneySymbol().$this->getPlugin()->getEco()->getMoney($player->getName())." left");
 		return true;
 	}
 	
