@@ -32,7 +32,7 @@ class PlayerTryPlayerParticleEvent extends BaseEvent implements Cancellable{
 	private $player;
 	private $player2;
 	
-	public function __construct(WalkingParticles $plugin, Player $player, $player2){
+	public function __construct(WalkingParticles $plugin, Player $player, Player $player2){
 		$this->player = $player;
 		$this->player2 = $player2;
 		parent::__construct($plugin);
