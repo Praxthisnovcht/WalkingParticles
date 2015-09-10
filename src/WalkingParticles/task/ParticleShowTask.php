@@ -30,7 +30,7 @@ class ParticleShowTask extends BaseTask{
   public function onRun($tick){
     $t = $this->getPlugin()->getData()->getAll();
     foreach((array) $this->getPlugin()->getServer()->getOnlinePlayers() as $p){
-      if($this->getPlugin()->isCleared($p) !== true){
+      if(isset($t[$p->getName()]) && $this->getPlugin()->isCleared($p) !== true){
         foreach((array) $t[$p->getName()]["particle"] as $particle){
           $y = $p->y;
           $y2 = $y+0.5;
