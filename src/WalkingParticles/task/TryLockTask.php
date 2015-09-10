@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of WalkingParticles.
- * Copyright (C) 2015  CyberCube-HK
+ * Copyright (C) 2015 CyberCube-HK
  *
  * WalkingParticles is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -11,38 +11,38 @@
  *
  * WalkingParticles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with WalkingParticles.  If not, see <http://www.gnu.org/licenses/>.
+ * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace WalkingParticles\task;
 
 use pocketmine\scheduler\PluginTask;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
-
 use WalkingParticles\WalkingParticles;
 
 class TryLockTask extends PluginTask{
-  public $plugin;
-  public $player;
-  
-  public function __construct(WalkingParticles $plugin, Player $player){
-    $this->plugin = $plugin;
-    $this->player = $player;
-    parent::__construct($plugin);
-  }
-  
-  public function onRun($tick){
-    if($this->player !== null && in_array($this->player->getName(), $this->plugin->try_locked)){
-      unset($this->plugin->try_locked[$this->player->getName()]);
-      $this->player->sendTip("You are now able to try particles xD");
-      $this->plugin->getServer()->getScheduler()->cancelTask($this->getTaskId());
-    }
-  }
-  
+
+	public $plugin;
+
+	public $player;
+
+	public function __construct(WalkingParticles $plugin, Player $player){
+		$this->plugin = $plugin;
+		$this->player = $player;
+		parent::__construct($plugin);
+	}
+
+	public function onRun($tick){
+		if($this->player !== null && in_array($this->player->getName(), $this->plugin->try_locked)){
+			unset($this->plugin->try_locked[$this->player->getName()]);
+			$this->player->sendTip("You are now able to try particles xD");
+			$this->plugin->getServer()->getScheduler()->cancelTask($this->getTaskId());
+		}
+	}
+
 }
 ?>

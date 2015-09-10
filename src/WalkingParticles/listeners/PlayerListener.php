@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of WalkingParticles.
- * Copyright (C) 2015  CyberCube-HK
+ * Copyright (C) 2015 CyberCube-HK
  *
  * WalkingParticles is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -11,13 +11,12 @@
  *
  * WalkingParticles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with WalkingParticles.  If not, see <http://www.gnu.org/licenses/>.
+ * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace WalkingParticles\listeners;
 
 use pocketmine\event\player\PlayerMoveEvent;
@@ -31,67 +30,68 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\level\sound\AnvilFallSound;
 use pocketmine\math\Vector3;
 use pocketmine\item\Item;
-
 use WalkingParticles\base\BaseListener;
 use WalkingParticles\WalkingParticles;
 
 class PlayerListener extends BaseListener{
-  
-  public function onMove(PlayerMoveEvent $event){
-   if($event->getPlayer()->hasPermission("walkingparticles")){
-   	if($event->getFrom()->x == $event->getPlayer()->x && $event->getFrom()->z == $event->getPlayer()->z){	
-   	}else{
-     if($this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
-         $x = $event->getPlayer()->x;
-         $y = $event->getPlayer()->y;
-         $z = $event->getPlayer()->z;
-         $x1 = $x-1;
-         $x2 = $x+1;
-         $y1 = $y+0.6;
-         $y2 = $y+1;
-         $y3 = $y+1.4;
-         $z1 = $z-1;
-         $z2 = $z+1;
-         for($i=0;$i < $this->getPlugin()->getPlayerAmplifier($event->getPlayer());$i++){
-           $t = $this->getPlugin()->getData()->getAll();
-           foreach((array) $t[$event->getPlayer()->getName()]["particle"] as $p){
-             if($this->getPlugin()->getPlayerDisplay($event->getPlayer()) == "line"){
-               $event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3($x, $y2, $z)));
-             }else{
-               $event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3(mt_rand($x1, $x2), mt_rand(rand($y1, $y), rand($y2, $y3)), mt_rand($z1, $z2))));
-             }
-           }
-         }
-      }
-     }
-   }
- }
- 
- public function onJoin(PlayerJoinEvent $event){
-   $t = $this->getPlugin()->getData()->getAll();
-   if(!isset($t[$event->getPlayer()->getName()])){
-     $t[$event->getPlayer()->getName()]["particle"][] = $this->getPlugin()->getConfig()->get("default-particle");
-     $t[$event->getPlayer()->getName()]["amplifier"] = $this->getPlugin()->getConfig()->get("default-amplifier");
-     $t[$event->getPlayer()->getName()]["display"] = $this->getPlugin()->getConfig()->get("default-display");
-     $this->getPlugin()->getData()->setAll($t);
-     $this->getPlugin()->getData()->save();
-   }
- }
- 
- public function onQuit(PlayerQuitEvent $event){
- 	if($this->getPlugin()->isRandomMode($event->getPlayer())) $this->getPlugin()->switchRandomMode($event->getPlayer(), false);
- 	if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked) !== false) unset($this->getPlugin()->try_locked[$event->getPlayer()->getName()]);
- }
- 
- public function onPlayerCommand(PlayerCommandPreprocessEvent $event){
-   if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked)){
-     $args = explode(" ", $event->getMessage());
-     if($args[0] == "/wptry" && $event->getPlayer()->hasPermission("walkingparticles.command.admin") !== true){
-       $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou are not able to use this command now!"));
-       $event->setCancelled(true);
-     }
-   }
- }
+
+	public function onMove(PlayerMoveEvent $event){
+		if($event->getPlayer()->hasPermission("walkingparticles")){
+			if($event->getFrom()->x == $event->getPlayer()->x && $event->getFrom()->z == $event->getPlayer()->z){
+			} else{
+				if($this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
+					$x = $event->getPlayer()->x;
+					$y = $event->getPlayer()->y;
+					$z = $event->getPlayer()->z;
+					$x1 = $x - 1;
+					$x2 = $x + 1;
+					$y1 = $y + 0.6;
+					$y2 = $y + 1;
+					$y3 = $y + 1.4;
+					$z1 = $z - 1;
+					$z2 = $z + 1;
+					for($i = 0; $i < $this->getPlugin()->getPlayerAmplifier($event->getPlayer()); $i ++){
+						$t = $this->getPlugin()->getData()->getAll();
+						foreach((array) $t[$event->getPlayer()->getName()]["particle"] as $p){
+							if($this->getPlugin()->getPlayerDisplay($event->getPlayer()) == "line"){
+								$event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3($x, $y2, $z)));
+							} else{
+								$event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3(mt_rand($x1, $x2), mt_rand(rand($y1, $y), rand($y2, $y3)), mt_rand($z1, $z2))));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public function onJoin(PlayerJoinEvent $event){
+		$t = $this->getPlugin()->getData()->getAll();
+		if(! isset($t[$event->getPlayer()->getName()])){
+			$t[$event->getPlayer()->getName()]["particle"][] = $this->getPlugin()->getConfig()->get("default-particle");
+			$t[$event->getPlayer()->getName()]["amplifier"] = $this->getPlugin()->getConfig()->get("default-amplifier");
+			$t[$event->getPlayer()->getName()]["display"] = $this->getPlugin()->getConfig()->get("default-display");
+			$this->getPlugin()->getData()->setAll($t);
+			$this->getPlugin()->getData()->save();
+		}
+	}
+
+	public function onQuit(PlayerQuitEvent $event){
+		if($this->getPlugin()->isRandomMode($event->getPlayer()))
+			$this->getPlugin()->switchRandomMode($event->getPlayer(), false);
+		if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked) !== false)
+			unset($this->getPlugin()->try_locked[$event->getPlayer()->getName()]);
+	}
+
+	public function onPlayerCommand(PlayerCommandPreprocessEvent $event){
+		if(in_array($event->getPlayer()->getName(), $this->getPlugin()->try_locked)){
+			$args = explode(" ", $event->getMessage());
+			if($args[0] == "/wptry" && $event->getPlayer()->hasPermission("walkingparticles.command.admin") !== true){
+				$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&cYou are not able to use this command now!"));
+				$event->setCancelled(true);
+			}
+		}
+	}
 
 }
 ?>

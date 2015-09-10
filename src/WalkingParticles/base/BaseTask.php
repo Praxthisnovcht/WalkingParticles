@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of WalkingParticles.
- * Copyright (C) 2015  CyberCube-HK
+ * Copyright (C) 2015 CyberCube-HK
  *
  * WalkingParticles is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -11,34 +11,33 @@
  *
  * WalkingParticles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with WalkingParticles.  If not, see <http://www.gnu.org/licenses/>.
+ * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace WalkingParticles\base;
- 
-use pocketmine\scheduler\PluginTask;
 
+use pocketmine\scheduler\PluginTask;
 use WalkingParticles\WalkingParticles;
 
 abstract class BaseTask extends PluginTask{
-  public $plugin;
-  
-  public function __construct(WalkingParticles $plugin){
-    $this->plugin = $plugin;
-    parent::__construct($plugin);
-  }
-  
-  public final function getPlugin(){
-    return $this->plugin;
-  }
-  
-  public final function getConfig(){
-    return $this->plugin->getConfig();
-  }
-  
+
+	public $plugin;
+
+	public function __construct(WalkingParticles $plugin){
+		$this->plugin = $plugin;
+		parent::__construct($plugin);
+	}
+
+	public final function getPlugin(){
+		return $this->plugin;
+	}
+
+	public final function getConfig(){
+		return $this->plugin->getConfig();
+	}
+
 }
 ?>
