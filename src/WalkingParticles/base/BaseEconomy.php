@@ -23,7 +23,10 @@ use WalkingParticles\WalkingParticles;
 
 abstract class BaseEconomy{
 
-	private $plugin;
+	/**
+	 * @var $plugin
+	 */
+	protected $plugin;
 
 	public function __construct(WalkingParticles $plugin){
 		$this->plugin = $plugin;

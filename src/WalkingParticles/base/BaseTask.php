@@ -24,7 +24,10 @@ use WalkingParticles\WalkingParticles;
 
 abstract class BaseTask extends PluginTask{
 
-	public $plugin;
+	/**
+	 * @var $plugin
+	 */
+	protected $plugin;
 
 	public function __construct(WalkingParticles $plugin){
 		$this->plugin = $plugin;

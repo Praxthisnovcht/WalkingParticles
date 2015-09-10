@@ -23,6 +23,11 @@ use pocketmine\event\plugin\PluginEvent;
 use WalkingParticles\WalkingParticles;
 
 abstract class BaseEvent extends PluginEvent{
+	
+	/**
+	 * @var $plugin
+	 */
+	protected $plugin;
 
 	public function __construct(WalkingParticles $plugin){
 		$this->plugin = $plugin;

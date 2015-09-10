@@ -25,7 +25,10 @@ use WalkingParticles\WalkingParticles;
 
 abstract class BaseCommand extends PluginBase implements CommandExecutor{
 
-	public $plugin;
+	/**
+	 * @var $plugin
+	 */
+	protected $plugin;
 
 	public function __construct(WalkingParticles $plugin){
 		$this->plugin = $plugin;

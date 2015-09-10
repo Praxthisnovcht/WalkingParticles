@@ -23,8 +23,11 @@ use WalkingParticles\WalkingParticles;
 use pocketmine\event\Listener;
 
 abstract class BaseListener implements Listener{
-
-	private $plugin;
+    
+	/**
+	 * @var $plugin
+	 */
+	protected $plugin;
 
 	public function __construct(WalkingParticles $plugin){
 		$this->plugin = $plugin;
