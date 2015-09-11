@@ -195,6 +195,7 @@ class WalkingParticles extends PluginBase{
 	 * @return boolean
 	 */
 	public function usePlayerParticles(Player $player, Player $player2){
+		$t = $this->data->getAll();
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerUsePlayerParticlesEvent($this, $player, $player2));
 		if($event->isCancelled()){
 			return false;
@@ -205,9 +206,8 @@ class WalkingParticles extends PluginBase{
 			return false;
 			break;
 		}
-		$this->clearPlayerParticle($player);
-		$t = $this->data->getAll();
-	    foreach($t[$player2->getName()]["particle"] as $pc){
+	    $this->clearPlayerParticle($player);
+		foreach($t[$player2->getName()]["particle"] as $pc){
 			$this->addPlayerParticle($player, $pc);
 		}
 		return true;
