@@ -41,9 +41,6 @@ class TryParticleTask extends PluginTask{
 		if($this->player !== null){
 			$this->plugin->byeTemp($this->player);
 			$this->player->sendMessage($this->plugin->colourMessage("&b[WalkingParticles] &aTry section has ended!\n&eRestored your original particles"));
-			$this->plugin->try_locked[$this->player->getName()] = $this->player->getName();
-			$this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new TryLockTask($this->plugin, $this->player), 20 * 60);
-			$this->player->sendTip("You will not be able to try any particles in 1 minute");
 			$this->plugin->getServer()->getScheduler()->cancelTask($this->getTaskId());
 		}
 	}

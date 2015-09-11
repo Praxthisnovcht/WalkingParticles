@@ -48,24 +48,22 @@ use pocketmine\item\Item;
 class WalkingParticles extends PluginBase{
 
 	/**
+	 *
 	 * @var $instance
 	 */
 	private static $instance = null;
 
 	/**
+	 *
 	 * @var $eco
 	 */
 	private $eco = null;
 
 	/**
+	 *
 	 * @var $random_mode
 	 */
 	public $random_mode = [];
-
-	/**
-	 * @var $try_locked
-	 */
-	public $try_locked = [];
 
 	public function onEnable(){
 		$this->getLogger()->info("Loading resources..");
@@ -81,7 +79,6 @@ class WalkingParticles extends PluginBase{
 			unlink($this->getDataFolder() . "temp1.yml");
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
-		//$this->data4 = new Config($this->getDataFolder() . "timings.yml", Config::YAML, array());
 		$this->updateConfig();
 		$this->getLogger()->info("Loading economy plugins..");
 		$plugins = [
@@ -178,25 +175,20 @@ class WalkingParticles extends PluginBase{
 			$player->sendMessage($this->colourMessage("&c" . $player2->getName() . " is not using any particles!"));
 			return false;
 		}
-		if(! in_array($player->getName(), $this->try_locked)){
-			$this->putTemp($player);
-			$this->clearPlayerParticle($player);
-			foreach($t[$player2->getName()]["particle"] as $pc){
-				$this->addPlayerParticle($player, $pc);
-			}
-			$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
-			return true;
-		} else{
-			$player->sendMessage($this->colourMessage("&cYou are not allowed to try any particles now!"));
-			return false;
+		$this->putTemp($player);
+		$this->clearPlayerParticle($player);
+		foreach($t[$player2->getName()]["particle"] as $pc){
+			$this->addPlayerParticle($player, $pc);
 		}
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
+		return true;
 	}
-	
+
 	/**
-	 * 
-	 * @param Player $player
-	 * @param Player $player2
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param Player $player2        	
+	 *
 	 * @return boolean
 	 */
 	public function usePlayerParticles(Player $player, Player $player2){
