@@ -160,9 +160,20 @@ class WalkingParticles extends PluginBase{
 		return str_replace("&", "§", $message);
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * @param Player $player2
+	 * 
+	 * @return boolean
+	 */
 	public function tryPlayerParticle(Player $player, Player $player2){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerTryPlayerParticleEvent($this, $player, $player2));
 		if($event->isCancelled()){
+			return false;
+		}
+		if(in_array($player->getName(), $this->try_locked)){
+			$player->sendMessage($this->colourMessage("&cYou are not allowed to try any particles now!"));
 			return false;
 		}
 		$t = $this->data->getAll();
@@ -179,11 +190,23 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function playerTempExists(Player $player){
 		$temp = $this->data3->getAll();
 		return isset($temp[$player->getName()]);
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function putTemp(Player $player){
 		if($this->isCleared($player) !== true){
 			$t = $this->data->getAll();
@@ -198,6 +221,12 @@ class WalkingParticles extends PluginBase{
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function byeTemp(Player $player){
 		$temp = $this->data3->getAll();
 		if($this->playerTempExists($player) !== false){
@@ -213,6 +242,13 @@ class WalkingParticles extends PluginBase{
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $particle
+	 * 
+	 * @return boolean
+	 */
 	public function addPlayerParticle(Player $player, $particle){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerAddWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
@@ -225,6 +261,14 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $particle
+	 * 
+	 * @return boolean
+	 */
 	public function removePlayerParticle(Player $player, $particle){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerRemoveWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
@@ -238,6 +282,12 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function clearPlayerParticle(Player $player){
 		$t = $this->data->getAll();
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerClearWPEvent($this, $player, $t[$player->getName()]["particle"]));
@@ -253,6 +303,12 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return string
+	 */
 	public function getAllPlayerParticles(Player $player){
 		$t = $this->data->getAll();
 		$particles = $t[$player->getName()]["particle"];
@@ -263,12 +319,25 @@ class WalkingParticles extends PluginBase{
 		return (string) substr($p, 0, - 2);
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function isCleared(Player $player){
 		$t = $this->data->getAll();
 		$array = $t[$player->getName()]["particle"];
 		return (bool) count($array) < 1;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * @param int $amplifier
+	 * 
+	 * @return boolean
+	 */
 	public function setPlayerAmplifier(Player $player, $amplifier){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetAmplifierEvent($this, $player, $amplifier));
 		if($event->isCancelled()){
@@ -281,11 +350,24 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return integer
+	 */
 	public function getPlayerAmplifier(Player $player){
 		$t = $this->data->getAll();
 		return $t[$player->getName()]["amplifier"];
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $display
+	 * 
+	 * @return boolean
+	 */
 	public function setPlayerDisplay(Player $player, $display){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetDisplayEvent($this, $player, $display));
 		if($event->isCancelled()){
@@ -298,6 +380,12 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return string
+	 */
 	public function getPlayerDisplay(Player $player){
 		$t = $this->data->getAll();
 		return $t[$player->getName()]["display"];
@@ -306,6 +394,14 @@ class WalkingParticles extends PluginBase{
 	/*
 	 * Packs
 	 * API Part
+	 */
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $pack_name
+	 * 
+	 * @return boolean
 	 */
 	public function activatePack(Player $player, $pack_name){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 0, null));
@@ -320,6 +416,10 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 */
 	public function createPack($pack_name){
 		$p = $this->data2->getAll();
 		$p[$pack_name][] = "";
@@ -327,6 +427,12 @@ class WalkingParticles extends PluginBase{
 		$this->data2->save();
 	}
 
+	
+	/**
+	 * 
+	 * @param string $pack_name
+	 * @param string $particle
+	 */
 	public function addParticleToPack($pack_name, $particle){
 		$p = $this->data2->getAll();
 		$pa = array_search("", $p[$pack_name]);
@@ -336,6 +442,11 @@ class WalkingParticles extends PluginBase{
 		$this->data2->save();
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 * @param string $particle
+	 */
 	public function removeParticleFromPack($pack_name, $particle){
 		$p = $this->data2->getAll();
 		$pc = array_search($particle, $p[$pack_name]);
@@ -344,11 +455,21 @@ class WalkingParticles extends PluginBase{
 		$this->data->save();
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 * 
+	 * @return string
+	 */
 	public function getPack($pack_name){
 		$p = $this->data2->getAll();
 		return $p[$pack_name];
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 */
 	public function deletePack($pack_name){
 		$p = $this->data2->getAll();
 		unset($p[$pack_name]);
@@ -356,11 +477,23 @@ class WalkingParticles extends PluginBase{
 		$this->data2->save();
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 * 
+	 * @return boolean
+	 */
 	public function packExists($pack_name){
 		$p = $this->data2->getAll();
 		return isset($p[$pack_name]);
 	}
 
+	/**
+	 * 
+	 * @param string $pack_name
+	 * 
+	 * @return string
+	 */
 	public function getPackParticles($pack_name){
 		$p = $this->data2->getAll();
 		$msg = "";
@@ -370,6 +503,9 @@ class WalkingParticles extends PluginBase{
 		return (string) substr($msg, 0, - 2);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function listPacks(){
 		$p = $this->data2->getAll();
 		$array = array_keys($p);
@@ -385,6 +521,13 @@ class WalkingParticles extends PluginBase{
 	 * RANDOM MODE
 	 * API PART
 	 */
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function changeParticle(Player $player){
 		$this->clearPlayerParticle($player);
 		$this->addPlayerParticle($player, $this->particles->getRandomParticle());
@@ -392,6 +535,13 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $value
+	 * 
+	 * @return boolean
+	 */
 	public function switchRandomMode(Player $player, $value = true){
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSwitchRandommodeEvent($this, $player, $value));
 		if($event->isCancelled()){
@@ -410,7 +560,13 @@ class WalkingParticles extends PluginBase{
 		;
 		return true;
 	}
-
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * 
+	 * @return boolean
+	 */
 	public function isRandomMode(Player $player){
 		return in_array($player->getName(), $this->random_mode);
 	}
