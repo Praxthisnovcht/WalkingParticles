@@ -447,7 +447,7 @@ class AdminCommand extends BaseCommand{
 								if(isset($args[1])){
 							    	$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
-										$this->getPlugin()->usePlayerParticles($target);
+										$this->getPlugin()->usePlayerParticles($issuer, $target);
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as ".$target->getName()."'s!"));
 										return true;
 									} else{
@@ -456,6 +456,7 @@ class AdminCommand extends BaseCommand{
 									}
 								}else{
 									$issuer->sendMessage("Usage: /walkp use <player>");
+									return true;
 								}
 							break;
 							case "get":

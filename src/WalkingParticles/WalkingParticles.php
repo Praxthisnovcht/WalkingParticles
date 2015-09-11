@@ -44,6 +44,7 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
+use WalkingParticles\events\PlayerUsePlayerParticlesEvent;
 
 class WalkingParticles extends PluginBase{
 
@@ -192,6 +193,10 @@ class WalkingParticles extends PluginBase{
 	 * @return boolean
 	 */
 	public function usePlayerParticles(Player $player, Player $player2){
+		$this->getServer()->getPluginManager()->callEvent($event = new PlayerUsePlayerParticlesEvent($this, $player, $player2));
+		if($event->isCancelled()){
+			return false;
+		}
 		$this->clearPlayerParticle($player);
 		$t = $this->data->getAll();
 		foreach($t[$player2->getName()]["particle"] as $pc){

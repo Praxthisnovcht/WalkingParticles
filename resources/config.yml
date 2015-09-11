@@ -19,7 +19,6 @@ default-display: line
 
 # How much money do u want players to pay while they apply packs to use?
 # Ignore this if you do not have any economy plugins installed
-# Currently support EconomyS
 apply-pack-fee: 2500
 
 # Inventory MENU (TODO)
@@ -28,4 +27,4 @@ apply-pack-fee: 2500
 
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0#050"
+v: "2.0.0#051"
