@@ -181,7 +181,7 @@ class WalkingParticles extends PluginBase{
 			foreach($t[$player->getName()]["particle"] as $pc){
 				$temp[$player->getName()][] = $pc;
 			}
-			$this->data3->setAll($temp);
+			$this->data3->setAll($temp, $pc);
 			$this->data3->save();
 			return true;
 		}
