@@ -170,11 +170,13 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerTryPlayerParticleEvent($this, $player, $player2));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$t = $this->data->getAll();
 		if($this->isCleared($player2) !== false){
 			$player->sendMessage($this->colourMessage("&c" . $player2->getName() . " is not using any particles!"));
 			return false;
+			break;
 		}
 		$this->putTemp($player);
 		$this->clearPlayerParticle($player);
@@ -196,10 +198,12 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerUsePlayerParticlesEvent($this, $player, $player2));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		if($this->isCleared($player2) !== false){
 			$player->sendMessage($this->colourMessage("&c" . $player2->getName() . " is not using any particles!"));
 			return false;
+			break;
 		}
 		$this->clearPlayerParticle($player);
 		$t = $this->data->getAll();
@@ -272,6 +276,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerAddWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["particle"][] = $particle;
@@ -291,6 +296,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerRemoveWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$t = $this->data->getAll();
 		$p = array_search($particle, $t[$player->getName()]["particle"]);
@@ -311,10 +317,12 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerClearWPEvent($this, $player, $t[$player->getName()]["particle"]));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		if($this->isRandomMode($player)){
 			$player->sendMessage($this->colourMessage("&cYou cannot clear your particles while your on random_mode!"));
 			return false;
+			break;
 		}
 		foreach($t[$player->getName()]["particle"] as $p){
 			$pa = array_search($p, $t[$player->getName()]["particle"]);
@@ -364,6 +372,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetAmplifierEvent($this, $player, $amplifier));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["amplifier"] = $amplifier;
@@ -394,6 +403,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetDisplayEvent($this, $player, $display));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["display"] = $display;
@@ -429,6 +439,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 0, null));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		$p = $this->data2->getAll();
 		$this->clearPlayerParticle($player);
@@ -568,6 +579,7 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSwitchRandommodeEvent($this, $player, $value));
 		if($event->isCancelled()){
 			return false;
+			break;
 		}
 		switch($value):
 			case true:
