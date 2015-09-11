@@ -122,7 +122,7 @@ class SignListener extends BaseListener{
 							return false;
 						}
 					} else if(! empty($sign[1]) && empty($sign[2])){
-						if($sign[1] == 'clear' || $sign[1] == 'get' || $sign[1] == 'list' || $sign[1] == 'randomshow'){
+						if($sign[1] == 'clear' || $sign[1] == 'get' || $sign[1] == 'list' || $sign[1] == 'randomshow' || $sign[1] == 'random'){
 							$event->getPlayer()->sendMessage("§bWalkingParticles §asign created!");
 							$event->setLine(0, "§f[§aWParticles§f]");
 							$event->setLine(1, "§e" . $sign[1]);

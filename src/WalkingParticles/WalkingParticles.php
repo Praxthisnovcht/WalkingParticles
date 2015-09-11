@@ -46,7 +46,7 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
 
 class WalkingParticles extends PluginBase{
-    
+
 	/**
 	 * @var $instance
 	 */
@@ -81,6 +81,7 @@ class WalkingParticles extends PluginBase{
 			unlink($this->getDataFolder() . "temp1.yml");
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
+		//$this->data4 = new Config($this->getDataFolder() . "timings.yml", Config::YAML, array());
 		$this->updateConfig();
 		$this->getLogger()->info("Loading economy plugins..");
 		$plugins = [
@@ -161,10 +162,10 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * @param Player $player2
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param Player $player2        	
+	 *
 	 * @return boolean
 	 */
 	public function tryPlayerParticle(Player $player, Player $player2){
@@ -172,28 +173,45 @@ class WalkingParticles extends PluginBase{
 		if($event->isCancelled()){
 			return false;
 		}
-		if(in_array($player->getName(), $this->try_locked)){
-			$player->sendMessage($this->colourMessage("&cYou are not allowed to try any particles now!"));
-			return false;
-		}
 		$t = $this->data->getAll();
 		if($this->isCleared($player2) !== false){
 			$player->sendMessage($this->colourMessage("&c" . $player2->getName() . " is not using any particles!"));
 			return false;
 		}
-		$this->putTemp($player);
+		if(! in_array($player->getName(), $this->try_locked)){
+			$this->putTemp($player);
+			$this->clearPlayerParticle($player);
+			foreach($t[$player2->getName()]["particle"] as $pc){
+				$this->addPlayerParticle($player, $pc);
+			}
+			$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
+			return true;
+		} else{
+			$player->sendMessage($this->colourMessage("&cYou are not allowed to try any particles now!"));
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * @param Player $player2
+	 * 
+	 * @return boolean
+	 */
+	public function usePlayerParticles(Player $player, Player $player2){
 		$this->clearPlayerParticle($player);
+		$t = $this->data->getAll();
 		foreach($t[$player2->getName()]["particle"] as $pc){
 			$this->addPlayerParticle($player, $pc);
 		}
-		$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
 		return true;
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function playerTempExists(Player $player){
@@ -202,9 +220,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function putTemp(Player $player){
@@ -222,9 +240,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function byeTemp(Player $player){
@@ -243,10 +261,10 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $particle
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $particle        	
+	 *
 	 * @return boolean
 	 */
 	public function addPlayerParticle(Player $player, $particle){
@@ -261,12 +279,11 @@ class WalkingParticles extends PluginBase{
 		return true;
 	}
 
-	
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $particle
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $particle        	
+	 *
 	 * @return boolean
 	 */
 	public function removePlayerParticle(Player $player, $particle){
@@ -283,15 +300,19 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function clearPlayerParticle(Player $player){
 		$t = $this->data->getAll();
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerClearWPEvent($this, $player, $t[$player->getName()]["particle"]));
 		if($event->isCancelled()){
+			return false;
+		}
+		if($this->isRandomMode($player)){
+			$player->sendMessage($this->colourMessage("&cYou cannot clear your particles while your on random_mode!"));
 			return false;
 		}
 		foreach($t[$player->getName()]["particle"] as $p){
@@ -304,9 +325,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return string
 	 */
 	public function getAllPlayerParticles(Player $player){
@@ -320,9 +341,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function isCleared(Player $player){
@@ -332,10 +353,10 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * @param int $amplifier
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param int $amplifier        	
+	 *
 	 * @return boolean
 	 */
 	public function setPlayerAmplifier(Player $player, $amplifier){
@@ -351,9 +372,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return integer
 	 */
 	public function getPlayerAmplifier(Player $player){
@@ -362,10 +383,10 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $display
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $display        	
+	 *
 	 * @return boolean
 	 */
 	public function setPlayerDisplay(Player $player, $display){
@@ -381,9 +402,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return string
 	 */
 	public function getPlayerDisplay(Player $player){
@@ -397,10 +418,10 @@ class WalkingParticles extends PluginBase{
 	 */
 	
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $pack_name
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $pack_name        	
+	 *
 	 * @return boolean
 	 */
 	public function activatePack(Player $player, $pack_name){
@@ -417,8 +438,8 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
+	 *
+	 * @param string $pack_name        	
 	 */
 	public function createPack($pack_name){
 		$p = $this->data2->getAll();
@@ -427,11 +448,10 @@ class WalkingParticles extends PluginBase{
 		$this->data2->save();
 	}
 
-	
 	/**
-	 * 
-	 * @param string $pack_name
-	 * @param string $particle
+	 *
+	 * @param string $pack_name        	
+	 * @param string $particle        	
 	 */
 	public function addParticleToPack($pack_name, $particle){
 		$p = $this->data2->getAll();
@@ -443,9 +463,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
-	 * @param string $particle
+	 *
+	 * @param string $pack_name        	
+	 * @param string $particle        	
 	 */
 	public function removeParticleFromPack($pack_name, $particle){
 		$p = $this->data2->getAll();
@@ -456,9 +476,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
-	 * 
+	 *
+	 * @param string $pack_name        	
+	 *
 	 * @return string
 	 */
 	public function getPack($pack_name){
@@ -467,8 +487,8 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
+	 *
+	 * @param string $pack_name        	
 	 */
 	public function deletePack($pack_name){
 		$p = $this->data2->getAll();
@@ -478,9 +498,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
-	 * 
+	 *
+	 * @param string $pack_name        	
+	 *
 	 * @return boolean
 	 */
 	public function packExists($pack_name){
@@ -489,9 +509,9 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param string $pack_name
-	 * 
+	 *
+	 * @param string $pack_name        	
+	 *
 	 * @return string
 	 */
 	public function getPackParticles($pack_name){
@@ -504,6 +524,7 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
+	 *
 	 * @return string
 	 */
 	public function listPacks(){
@@ -523,9 +544,9 @@ class WalkingParticles extends PluginBase{
 	 */
 	
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function changeParticle(Player $player){
@@ -536,10 +557,10 @@ class WalkingParticles extends PluginBase{
 	}
 
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $value
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $value        	
+	 *
 	 * @return boolean
 	 */
 	public function switchRandomMode(Player $player, $value = true){
@@ -560,11 +581,11 @@ class WalkingParticles extends PluginBase{
 		;
 		return true;
 	}
-	
+
 	/**
-	 * 
-	 * @param Player $player
-	 * 
+	 *
+	 * @param Player $player        	
+	 *
 	 * @return boolean
 	 */
 	public function isRandomMode(Player $player){

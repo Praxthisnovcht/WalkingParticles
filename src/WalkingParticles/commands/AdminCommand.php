@@ -45,6 +45,7 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(2/2)"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp pack <use|create|delete|addp|rmp|get|list> <args..>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp try <player>"));
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp use <player>"));
 											return true;
 										break;
 									endswitch
@@ -440,6 +441,21 @@ class AdminCommand extends BaseCommand{
 										$issuer->sendMessage("Command only works in-game!");
 										return true;
 									}
+								}
+							break;
+							case "use":
+								if(isset($args[1])){
+							    	$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
+									if($target !== null){
+										$this->getPlugin()->usePlayerParticles($target);
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as ".$target->getName()."'s!"));
+										return true;
+									} else{
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
+										return true;
+									}
+								}else{
+									$issuer->sendMessage("Usage: /walkp use <player>");
 								}
 							break;
 							case "get":

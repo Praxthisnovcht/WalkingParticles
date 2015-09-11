@@ -31,7 +31,7 @@ class WptryCommand extends BaseCommand{
 			case "wptry":
 				if($issuer->hasPermission("walkingparticles.command.wptry")){
 					if(isset($args[0])){
-						$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
+						$target = $this->getPlugin()->getServer()->getPlayer($args[0]);
 						if($target !== null){
 							$this->getPlugin()->tryPlayerParticle($issuer, $target);
 							$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
