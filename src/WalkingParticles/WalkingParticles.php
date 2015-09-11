@@ -163,7 +163,7 @@ class WalkingParticles extends PluginBase{
 		$this->putTemp($player);
 		$this->clearPlayerParticle($player);
 		foreach($t[$player2->getName()]["particle"] as $pc){
-			$this->addPlayerParticle($player);
+			$this->addPlayerParticle($player, $pc);
 		}
 		$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
 		return true;
