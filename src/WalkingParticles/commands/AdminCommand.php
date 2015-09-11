@@ -448,7 +448,7 @@ class AdminCommand extends BaseCommand{
 							    	$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
 										$this->getPlugin()->usePlayerParticles($issuer, $target);
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as ".$target->getName()."'s!"));
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as &b".$target->getName()."&a's!"));
 										return true;
 									} else{
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));

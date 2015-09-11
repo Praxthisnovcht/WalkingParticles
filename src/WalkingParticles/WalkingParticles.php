@@ -197,9 +197,13 @@ class WalkingParticles extends PluginBase{
 		if($event->isCancelled()){
 			return false;
 		}
+		if($this->isCleared($player2) !== false){
+			$player->sendMessage($this->colourMessage("&c" . $player2->getName() . " is not using any particles!"));
+			return false;
+		}
 		$this->clearPlayerParticle($player);
 		$t = $this->data->getAll();
-		foreach($t[$player2->getName()]["particle"] as $pc){
+	    foreach($t[$player2->getName()]["particle"] as $pc){
 			$this->addPlayerParticle($player, $pc);
 		}
 		return true;
