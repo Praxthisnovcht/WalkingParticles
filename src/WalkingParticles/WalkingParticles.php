@@ -319,11 +319,6 @@ class WalkingParticles extends PluginBase{
 			return false;
 			break;
 		}
-		if($this->isRandomMode($player)){
-			$player->sendMessage($this->colourMessage("&cYou cannot clear your particles while your on random_mode!"));
-			return false;
-			break;
-		}
 		foreach($t[$player->getName()]["particle"] as $p){
 			$pa = array_search($p, $t[$player->getName()]["particle"]);
 			unset($t[$player->getName()]["particle"][$pa]);
