@@ -405,7 +405,7 @@ class AdminCommand extends BaseCommand{
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
 										$this->getPlugin()->tryPlayerParticle($issuer, $target);
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getPlayerParticles($target)));
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getPlayerParticle($target)));
 										return true;
 									} else{
 										$issuer->sendMessage($this->plugin->colourMessage("&cInvalid target!"));
@@ -419,6 +419,7 @@ class AdminCommand extends BaseCommand{
 							case "randomshow":
 							case "random":
 							case "randommode":
+							case "rand":
 								if(isset($args[1])){
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){

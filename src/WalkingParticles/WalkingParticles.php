@@ -46,15 +46,25 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
 
 class WalkingParticles extends PluginBase{
-
-	const VERSION = "2.0.0#043";
-
+    
+	/**
+	 * @var $instance
+	 */
 	private static $instance = null;
 
+	/**
+	 * @var $eco
+	 */
 	private $eco = null;
 
+	/**
+	 * @var $random_mode
+	 */
 	public $random_mode = [];
 
+	/**
+	 * @var $try_locked
+	 */
 	public $try_locked = [];
 
 	public function onEnable(){
@@ -110,7 +120,7 @@ class WalkingParticles extends PluginBase{
 
 	private function updateConfig(){
 		$this->getLogger()->info("Updating config file..");
-		if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") !== $this::VERSION){
+		if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") != $this->getDescription()->getVersion()){
 			unlink($this->getDataFolder() . "config.yml");
 			$this->saveDefaultConfig();
 			$this->reloadConfig();
