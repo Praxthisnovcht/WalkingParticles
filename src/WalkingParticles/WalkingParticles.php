@@ -266,6 +266,19 @@ class WalkingParticles extends PluginBase{
 		}
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * @param string $particle
+	 * 
+	 * @return boolean
+	 */
+	public function setPlayerParticle(Player $player, $particle){
+		$this->clearPlayerParticle($player);
+		$this->addPlayerParticle($player, $particle);
+		return true;
+	}
 
 	/**
 	 *

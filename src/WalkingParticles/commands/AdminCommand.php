@@ -46,6 +46,7 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp pack <use|create|delete|addp|rmp|get|list> <args..>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp try <player>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp use <player>"));
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp set <particle> <player>"));
 											return true;
 										break;
 									endswitch
@@ -456,6 +457,26 @@ class AdminCommand extends BaseCommand{
 									}
 								}else{
 									$issuer->sendMessage("Usage: /walkp use <player>");
+									return true;
+								}
+							break;
+							case "set":
+								if(isset($args[1]) && isset($args[2])){
+									$target = $this->getPlugin()->getServer()->getPlayer($args[2]);
+									if($target !== null){
+										$this->getPlugin()->setPlayerParticle($target, $args[1]);
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set your WalkingParticle to ".$args[1]."!"));
+										return true;
+									}else{
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
+										return true;
+									}
+								}else if(isset($args[1]) && !isset($args[2])){
+									$this->getPlugin()->setPlayerParticle($issuer, $args[1]);
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set your WalkingParticle to ".$args[1]."!"));
+									return true;
+								}else{
+									$issuer->sendMessage("Usage: /walkp set <particle> <player>");
 									return true;
 								}
 							break;
