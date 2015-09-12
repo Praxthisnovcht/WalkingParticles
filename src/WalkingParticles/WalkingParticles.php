@@ -82,7 +82,6 @@ class WalkingParticles extends PluginBase{
 			unlink($this->getDataFolder() . "temp1.yml");
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
-		$this->data4 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
 		$this->updateConfig();
 		$this->getLogger()->info("Loading economy plugins..");
 		$plugins = [
@@ -106,7 +105,6 @@ class WalkingParticles extends PluginBase{
 		$this->particles = new Particles($this);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleShowTask($this), 13);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new RandomModeTask($this), 10);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(new TimerTask($this), 20);
 		$this->getServer()->getPluginManager()->registerEvents(new PlayerListener($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new SignListener($this), $this);
 		$this->getCommand("wppack")->setExecutor(new WppackCommand($this));
@@ -122,7 +120,7 @@ class WalkingParticles extends PluginBase{
 	}
 
 	private function updateConfig(){
-		$this->getLogger()->info("Updating config file..");
+		$this->getLogger()->info("Checking config file..");
 		if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") != $this->getDescription()->getVersion()){
 			unlink($this->getDataFolder() . "config.yml");
 			$this->saveDefaultConfig();
@@ -190,8 +188,6 @@ class WalkingParticles extends PluginBase{
 			$this->addPlayerParticle($player, $pc);
 		}
 		$this->getServer()->getScheduler()->scheduleDelayedTask(new TryParticleTask($this, $player), 20 * 10);
-		$this->data4->set($player->getName(), 10);
-		$this->data4->save();
 		return true;
 	}
 
