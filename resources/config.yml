@@ -17,14 +17,14 @@ default-amplifier: 11
 # A line behind the player, or in group format?
 default-display: line
 
+# How much money do u want players to pay while they try player's particles?
+# Ignore this if you do not have any economy plugins installed
+try-player-fee: 300
+
 # How much money do u want players to pay while they apply packs to use?
 # Ignore this if you do not have any economy plugins installed
 apply-pack-fee: 2500
 
-# Inventory MENU (TODO)
-#give-menu-onJoin: true
-#menu-id: 388
-
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0#53"
+v: "2.0.0#55"

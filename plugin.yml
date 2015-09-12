@@ -1,7 +1,7 @@
 name: WalkingParticles
 main: WalkingParticles\WalkingParticles
 api: ["1.13.0", "2.0.0"]
-version: 2.0.0#053
+version: 2.0.0#055
 author: CyberCube-HK Team & hoyinm14mc
 
 commands:
@@ -29,6 +29,8 @@ commands:
 permissions:
   walkingparticles:
     default: true
+  walkingparticles.try.pay.bypass:
+    default: op
   walkingparticles.command:
     default: false
     children:

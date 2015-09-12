@@ -147,8 +147,6 @@ class WalkingParticles extends PluginBase{
 			case "data3":
 			case "temp":
 				return $this->data3;
-			case "data4":
-				return $this->data4;
 		endswitch
 		;
 		return false;
