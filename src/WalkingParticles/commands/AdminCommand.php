@@ -406,9 +406,14 @@ class AdminCommand extends BaseCommand{
 								if(isset($args[1])){
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
-										$this->getPlugin()->tryPlayerParticle($issuer, $target);
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
-										return true;
+										if($issuer instanceof Player){
+											$this->getPlugin()->tryPlayerParticle($issuer, $target);
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+											return true;
+										} else{
+											$issuer->sendMessage($this->getPlugin()->colourMessage("Command only works in-game!"));
+											return true;
+										}
 									} else{
 										$issuer->sendMessage($this->plugin->colourMessage("&cInvalid target!"));
 										return true;
@@ -446,16 +451,21 @@ class AdminCommand extends BaseCommand{
 							break;
 							case "use":
 								if(isset($args[1])){
-							    	$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
+									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
-										$this->getPlugin()->usePlayerParticles($issuer, $target);
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as &b".$target->getName()."&a's!"));
-										return true;
+										if($issuer instanceof Player){
+											$this->getPlugin()->usePlayerParticles($issuer, $target);
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as &b" . $target->getName() . "&a's!"));
+											return true;
+										} else{
+											$issuer->sendMessage("Command only works in-game!");
+											return true;
+										}
 									} else{
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
 										return true;
 									}
-								}else{
+								} else{
 									$issuer->sendMessage("Usage: /walkp use <player>");
 									return true;
 								}
@@ -465,23 +475,23 @@ class AdminCommand extends BaseCommand{
 									$target = $this->getPlugin()->getServer()->getPlayer($args[2]);
 									if($target !== null){
 										$this->getPlugin()->setPlayerParticle($target, $args[1]);
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &b".$args[1]."&a as &e".$target->getName()."&a walkingparticle!"));
-                                                                                $target->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticle has been set to &b".$args[1]."&a!"));
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &b" . $args[1] . "&a as &e" . $target->getName() . "&a walkingparticle!"));
+										$target->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticle has been set to &b" . $args[1] . "&a!"));
 										return true;
-									}else{
+									} else{
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
 										return true;
 									}
-								}else if(isset($args[1]) && !isset($args[2])){
-                                                                        if($issuer instanceof Player){
-									        $this->getPlugin()->setPlayerParticle($issuer, $args[1]);
-									        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &b".$args[1]."&a as your walkingparticle!"));
-									        return true;
-                                                                        }else{
-                                                                                $issuer->sendMessage($this->getPlugin()->colourMessage("Usage: /walkp set <particle> <player>"));
-                                                                                return true;
-                                                                        }
-								}else{
+								} else if(isset($args[1]) && ! isset($args[2])){
+									if($issuer instanceof Player){
+										$this->getPlugin()->setPlayerParticle($issuer, $args[1]);
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou set &b" . $args[1] . "&a as your walkingparticle!"));
+										return true;
+									} else{
+										$issuer->sendMessage($this->getPlugin()->colourMessage("Usage: /walkp set <particle> <player>"));
+										return true;
+									}
+								} else{
 									$issuer->sendMessage("Usage: /walkp set <particle> <player>");
 									return true;
 								}

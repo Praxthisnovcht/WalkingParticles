@@ -24,9 +24,11 @@ use WalkingParticles\events\PlayerClearWPEvent;
 use WalkingParticles\events\PlayerRemoveWPEvent;
 use WalkingParticles\events\PlayerSetAmplifierEvent;
 use WalkingParticles\events\PlayerSetDisplayEvent;
+use WalkingParticles\events\PlayerSetWPEvent;
 use WalkingParticles\events\PlayerSwitchRandommodeEvent;
 use WalkingParticles\events\PlayerTryPlayerParticleEvent;
 use WalkingParticles\events\PlayerApplyPackEvent;
+use WalkingParticles\events\PlayerUsePlayerParticlesEvent;
 use WalkingParticles\listeners\PlayerListener;
 use WalkingParticles\listeners\SignListener;
 use WalkingParticles\task\ParticleShowTask;
@@ -45,8 +47,6 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
-use WalkingParticles\events\PlayerUsePlayerParticlesEvent;
-use WalkingParticles\base\BaseTask;
 
 class WalkingParticles extends PluginBase{
 
@@ -275,6 +275,11 @@ class WalkingParticles extends PluginBase{
 	 * @return boolean
 	 */
 	public function setPlayerParticle(Player $player, $particle){
+		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetWPEvent($this, $player, $particle));
+		if($event->isCancelled()){
+			return false;
+			break;
+		}
 		$this->clearPlayerParticle($player);
 		$this->addPlayerParticle($player, $particle);
 		return true;
