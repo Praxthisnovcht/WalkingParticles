@@ -61,7 +61,15 @@ class SignListener extends BaseListener{
 			if($sign[0] == '[WParticles]'){
 				if($event->getPlayer()->hasPermission("walkingparticles.sign.create")){
 					if(! empty($sign[1]) && ! empty($sign[2])){
-						if($sign[1] == 'add' || $sign[1] == 'amplifier' || $sign[1] == 'remove' || $sign[1] == 'display' || $sign[1] == 'pack'){
+						$allowed = [
+								"set",
+								"add",
+								"amplifier",
+								"remove",
+								"display",
+								"pack"
+						];
+						if(in_array($sign[1], $allowed)){
 							$event->setLine(0, "§f[§aWParticles§f]");
 							$event->setLine(1, "§e" . $sign[1]);
 							switch($sign[1]):
@@ -122,7 +130,14 @@ class SignListener extends BaseListener{
 							return false;
 						}
 					} else if(! empty($sign[1]) && empty($sign[2])){
-						if($sign[1] == 'clear' || $sign[1] == 'get' || $sign[1] == 'list' || $sign[1] == 'randomshow' || $sign[1] == 'random'){
+						$allowed2 = [
+								"clear",
+								"get",
+								"list",
+								"randomshow",
+								"random"
+						];
+						if(in_array($sign[1], $allowed2)){
 							$event->getPlayer()->sendMessage("§bWalkingParticles §asign created!");
 							$event->setLine(0, "§f[§aWParticles§f]");
 							$event->setLine(1, "§e" . $sign[1]);
@@ -180,6 +195,13 @@ class SignListener extends BaseListener{
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
 								return true;
 							break;
+							case "§eset":
+								$particle = substr($sign[2], 3);
+								$this->getPlugin()->setPlayerParticle($event->getPlayer(), $particle);
+								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou set your &bWalkingParticles&a's particle to &e" . $particle . "!"));
+								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
+								return true;
+								break;
 							case "§eamplifier":
 								$amplifier = substr($sign[2], 3);
 								$this->getPlugin()->setPlayerAmplifier($event->getPlayer(), $amplifier);

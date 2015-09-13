@@ -47,5 +47,8 @@ class Massiveeconomy extends BaseEconomy{
 		return true;
 	}
 
+	public function tryPack(Player $player, $pack){
+	}
+
 }
 ?>
