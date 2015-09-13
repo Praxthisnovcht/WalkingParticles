@@ -480,7 +480,7 @@ class AdminCommand extends BaseCommand{
                                                                         }else{
                                                                                 $issuer->sendMessage($this->getPlugin()->colourMessage("Usage: /walkp set <particle> <player>"));
                                                                                 return true;
-                                                                        ]
+                                                                        }
 								}else{
 									$issuer->sendMessage("Usage: /walkp set <particle> <player>");
 									return true;
