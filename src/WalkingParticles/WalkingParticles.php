@@ -208,7 +208,7 @@ class WalkingParticles extends PluginBase{
 			return false;
 			break;
 		}
-	    $this->clearPlayerParticle($player);
+		$this->clearPlayerParticle($player);
 		foreach($t[$player2->getName()]["particle"] as $pc){
 			$this->addPlayerParticle($player, $pc);
 		}
@@ -266,12 +266,12 @@ class WalkingParticles extends PluginBase{
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 
-	 * @param Player $player
-	 * @param string $particle
-	 * 
+	 *
+	 * @param Player $player        	
+	 * @param string $particle        	
+	 *
 	 * @return boolean
 	 */
 	public function setPlayerParticle(Player $player, $particle){

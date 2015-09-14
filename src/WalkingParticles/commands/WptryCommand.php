@@ -23,6 +23,10 @@ use WalkingParticles\base\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
+use WalkingParticles\economy\Economyapi;
+use WalkingParticles\economy\Goldstd;
+use WalkingParticles\economy\Massiveeconomy;
+use WalkingParticles\economy\Pocketmoney;
 
 class WptryCommand extends BaseCommand{
 
@@ -33,9 +37,39 @@ class WptryCommand extends BaseCommand{
 					if(isset($args[0])){
 						$target = $this->getPlugin()->getServer()->getPlayer($args[0]);
 						if($target !== null){
-							$this->getPlugin()->tryPlayerParticle($issuer, $target);
-							$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
-							return true;
+							if($this->getPlugin()->getEco() !== null){
+								switch($this->getPlugin()->getEco()->getName()):
+							    	case "EconomyAPI":
+								    	$economyapi = new Economyapi($this->getPlugin());
+								        $economyapi->tryPlayer($issuer, $target);
+								        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							        	return true;
+							    	break;
+							    	case "PocketMoney":
+							    		$pocketmoney = new Pocketmoney($this->getPlugin());
+							    		$pocketmoney->tryPlayer($issuer, $target);
+							    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							    		return true;
+							    	break;
+							    	case "MassiveEconomy":
+							    		$me = new Massiveeconomy($this->getPlugin());
+							    		$me->tryPlayer($issuer, $target);
+							    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							    		return true;
+							    	break;
+							    	case "GoldStd":
+								    	$goldstd = new Goldstd($this->getPlugin());
+								    	$goldstd->tryPlayer($issuer, $target);
+								    	$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+								    	return true;
+							    	break;
+								endswitch
+									;
+							} else{
+								$this->getPlugin()->tryPlayerParticle($issuer, $target);
+								$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							    return true;
+							}
 						} else{
 							$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
 							return true;

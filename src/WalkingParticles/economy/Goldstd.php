@@ -53,9 +53,9 @@ class Goldstd extends BaseEconomy{
 			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
 			return false;
 		}
-		$this->getPlugin()->getEco()->setMoney($player, $money - $this->getConfig()->get("apply-player-fee"));
+		$this->getPlugin()->getEco()->setMoney($player, $money - $this->getConfig()->get("try-player-fee"));
 		$this->getPlugin()->tryPlayerParticle($player, $player2);
-		$player->sendMessage("Bank : -" . $this->getPlugin()->getConfig()->get("apply-player-fee") . " golds | " . $this->getPlugin()->getEco()->getMoney($player) . " gold left");
+		$player->sendMessage("Bank : -" . $this->getPlugin()->getConfig()->get("try-player-fee") . " golds | " . $this->getPlugin()->getEco()->getMoney($player) . " gold left");
 	}
 
 }

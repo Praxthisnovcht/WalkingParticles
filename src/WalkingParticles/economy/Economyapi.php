@@ -53,9 +53,9 @@ class Economyapi extends BaseEconomy{
 			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
 			return false;
 		}
-		$this->getPlugin()->getEco()->getInstance()->reduceMoney($player, $this->getPlugin()->getConfig()->get("apply-player-fee"));
+		$this->getPlugin()->getEco()->getInstance()->reduceMoney($player, $this->getPlugin()->getConfig()->get("try-player-fee"));
 		$this->getPlugin()->tryPlayerParticle($player, $player2);
-		$player->sendMessage("Bank : -$" . $this->getConfig()->get("apply-player-fee") . " | $" . $this->getPlugin()->getEco()->getInstance()->myMoney($player) . " left");
+		$player->sendMessage("Bank : -$" . $this->getConfig()->get("try-player-fee") . " | $" . $this->getPlugin()->getEco()->getInstance()->myMoney($player) . " left");
 	}
 
 }
