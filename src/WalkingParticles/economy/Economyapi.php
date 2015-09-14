@@ -47,7 +47,15 @@ class Economyapi extends BaseEconomy{
 		return true;
 	}
 
-	public function tryPack(Player $player, $pack){
+	public function tryPlayer(Player $player, Player $player2){
+		$money = $this->getPlugin()->getEco()->getInstance()->myMoney($player);
+		if($money < $this->getConfig()->get("try-player-fee")){
+			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
+			return false;
+		}
+		$this->getPlugin()->getEco()->getInstance()->reduceMoney($player, $this->getPlugin()->getConfig()->get("apply-player-fee"));
+		$this->getPlugin()->tryPlayerParticle($player, $player2);
+		$player->sendMessage("Bank : -$" . $this->getConfig()->get("apply-player-fee") . " | $" . $this->getPlugin()->getEco()->getInstance()->myMoney($player) . " left");
 	}
 
 }
