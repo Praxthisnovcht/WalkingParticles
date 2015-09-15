@@ -454,6 +454,10 @@ class AdminCommand extends BaseCommand{
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
 										if($issuer instanceof Player){
+											if($this->getPlugin()->isCleared($target) !== false){
+												$issuer->sendMessage($this->getPlugin()->colourMessage("&c" . $target->getName() . " is not using any particles!"));
+												return true;
+											}
 											$this->getPlugin()->usePlayerParticles($issuer, $target);
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour particles are now same as &b" . $target->getName() . "&a's!"));
 											return true;
