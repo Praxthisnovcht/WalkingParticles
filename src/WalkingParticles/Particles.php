@@ -135,7 +135,7 @@ class Particles{
 			$arr = explode("_", $name);
 			return new DestroyBlockParticle($pos, Block::get((int) $arr[1]));
 		}
-		return "";
+		return new TerrainParticle($pos, Block::get(round(rand(0, 114))));
 	}
 
 	public function getRandomParticle(){
@@ -173,8 +173,8 @@ class Particles{
 				"happyvillager",
 				"angryvillager",
 				"droplet",
-				"§bitem_{id}§6",
-				"§bblock_{id}§6",
+				"item_{id}",
+				"block_{id}",
 				"desblock_{id}"
 		];
 	}

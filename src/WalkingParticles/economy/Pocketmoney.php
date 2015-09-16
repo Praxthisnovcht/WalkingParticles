@@ -27,7 +27,7 @@ use WalkingParticles\base\BaseEconomy;
 class Pocketmoney extends BaseEconomy{
 
 	public function applyPack(Player $player, $pack){
-		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 1, 3));
+		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this->getPlugin(), $player, $pack, 1, 3));
 		if($event->isCancelled()){
 			return false;
 		}
@@ -50,12 +50,14 @@ class Pocketmoney extends BaseEconomy{
     public function tryPlayer(Player $player, Player $player2){
 		$money = $this->getPlugin()->getEco()->getMoney($player->getName());
 		if($money < $this->getConfig()->get("try-player-fee")){
-			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
+		    $player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
 			return false;
-		}
-		$this->getPlugin()->getEco()->setMoney($player->getName(), $money - $this->getConfig()->get("try-player-fee"));
+		}else{
+			   $this->getPlugin()->getEco()->setMoney($player->getName(), $money - $this->getConfig()->get("try-player-fee"));
 		$this->getPlugin()->tryPlayerParticle($player, $player2);
 		$player->sendMessage("Bank : -" . $this->getPlugin()->getConfig()->get("try-player-fee") . "PM | " . $this->getPlugin()->getEco()->getMoney($player->getName()) . "PM left");
+			return true;
+		}
 	}
 
 }

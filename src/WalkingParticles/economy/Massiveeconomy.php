@@ -27,7 +27,7 @@ use WalkingParticles\base\BaseEconomy;
 class Massiveeconomy extends BaseEconomy{
 
 	public function applyPack(Player $player, $pack){
-		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 1, 4));
+		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this->getPlugin(), $player, $pack, 1, 4));
 		if($event->isCancelled()){
 			return false;
 		}

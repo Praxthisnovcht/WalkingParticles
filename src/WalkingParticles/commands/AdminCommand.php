@@ -357,7 +357,7 @@ class AdminCommand extends BaseCommand{
 													return true;
 												}
 											} else{
-												$issuer->sendMessage("Usage: /walkp addp <pack_name> <particle>");
+												$issuer->sendMessage("Usage: /walkp pack addp <pack_name> <particle>");
 												return true;
 											}
 										break;
@@ -372,7 +372,7 @@ class AdminCommand extends BaseCommand{
 													return true;
 												}
 											} else{
-												$issuer->sendMessage("Usage: /walkp rmp <pack_name> <particle>");
+												$issuer->sendMessage("Usage: /walkp pack rmp <pack_name> <particle>");
 												return true;
 											}
 										break;
@@ -407,6 +407,10 @@ class AdminCommand extends BaseCommand{
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
 										if($issuer instanceof Player){
+										    if($this->getPlugin()->isCleared($target) !== false){
+										        $issuer->sendMessage($this->getPlugin()->colourMessage("&cTarget player isn't using any particles!"));
+										        return true;
+										    }
 											$this->getPlugin()->tryPlayerParticle($issuer, $target);
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
 											return true;

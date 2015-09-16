@@ -27,7 +27,7 @@ use pocketmine\Player;
 class Economyapi extends BaseEconomy{
 
 	public function applyPack(Player $player, $pack){
-		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 1, 2));
+		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this->getPlugin(), $player, $pack, 1, 2));
 		if($event->isCancelled()){
 			return false;
 		}

@@ -25,6 +25,7 @@ use pocketmine\level\sound\BatSound;
 use pocketmine\level\sound\ClickSound;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use WalkingParticles\base\BaseListener;
 use WalkingParticles\WalkingParticles;
@@ -32,6 +33,19 @@ use WalkingParticles\Particles;
 
 class SignListener extends BaseListener{
 
+ public function onBlockPlace(BlockPlaceEvent $event){
+     if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
+         $sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
+	       		if(! $sign instanceof Sign){
+	            			return;
+	       		}
+	       		$sign = $sign->getText();
+		       	if($sign[0] == '§f[§aWParticles§f]' && $event->getPlayer()->isSneaking() !== true ){
+		       	    $event->setCancelled(true);
+		       	}
+     }
+ }
+ 
 	public function onBlockBreak(BlockBreakEvent $event){
 		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
 			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());

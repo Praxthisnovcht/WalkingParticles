@@ -38,30 +38,46 @@ class WptryCommand extends BaseCommand{
 						$target = $this->getPlugin()->getServer()->getPlayer($args[0]);
 						if($target !== null){
 							if($this->getPlugin()->getEco() !== null){
+							    if($this->getPlugin()->isCleared($target) !== false){
+							        $issuer->sendMessage($this->getPlugin()->colourMessage("&cTarget player isn't using any particles!"));
+							        return true;
+							    }
 								switch($this->getPlugin()->getEco()->getName()):
 							    	case "EconomyAPI":
 								    	$economyapi = new Economyapi($this->getPlugin());
-								        $economyapi->tryPlayer($issuer, $target);
+								    	   if($economyapi->tryPlayer($issuer, $target) !== false){
 								        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
 							        	return true;
+								    	   }else{
+								    	       return true;
+								    	   }
 							    	break;
 							    	case "PocketMoney":
 							    		$pocketmoney = new Pocketmoney($this->getPlugin());
-							    		$pocketmoney->tryPlayer($issuer, $target);
-							    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
-							    		return true;
+							    		if($pocketmoney->tryPlayer($issuer, $target) !== false){
+							    		    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							       		return true;
+							    		}else{
+							    		    return true;
+							    		}
 							    	break;
 							    	case "MassiveEconomy":
 							    		$me = new Massiveeconomy($this->getPlugin());
-							    		$me->tryPlayer($issuer, $target);
-							    		$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+							    		if($me->tryPlayer($issuer, $target) !== false){
+							    		    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
 							    		return true;
+							    		}else{
+							    		    return true;
+							    		}
 							    	break;
 							    	case "GoldStd":
 								    	$goldstd = new Goldstd($this->getPlugin());
-								    	$goldstd->tryPlayer($issuer, $target);
-								    	$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
+								    	if($goldstd->tryPlayer($issuer, $target) !== false){
+								    	    $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
 								    	return true;
+								    	}else{
+								    	    return true;
+								    	}
 							    	break;
 								endswitch
 									;
