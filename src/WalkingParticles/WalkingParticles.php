@@ -67,6 +67,12 @@ class WalkingParticles extends PluginBase{
 	 * @var $random_mode
 	 */
 	public $random_mode = [];
+	
+	/**
+	 * 
+	 * @var $item_mode
+	 */
+	public $item_mode = [];
 
 	public function onEnable(){
 		$this->getLogger()->info("Loading resources..");
@@ -609,6 +615,25 @@ class WalkingParticles extends PluginBase{
 	public function isRandomMode(Player $player){
 		return in_array($player->getName(), $this->random_mode);
 	}
+	
+	/*
+	 * ITEM MODE
+	 * API PART
+	 */
+        public function switchItemMode(Player $player, $value=true){
+        	if($value !== false){
+        		$this->item_mode[$player->getName()] = $player->getName();
+        		return true;
+        	}else if($value !== true){
+        		unset($this->item_mode[$player->getName()]);
+        		return true;
+        	}
+        	return false;
+        }
+        
+        public function isItemMode(Player $player){
+        	return (bool) in_array($player->getName(), $this->item_mode);
+        }
 
 }
 ?>
