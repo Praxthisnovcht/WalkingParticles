@@ -76,12 +76,6 @@ class WalkingParticles extends PluginBase{
 	 */
 	public $item_mode = [];
 
-	/**
-	 *
-	 * @var $item_mode
-	 */
-	public $item_mode = [];
-
 	public function onEnable(){
 		$this->getLogger()->info("Loading resources..");
 		if(! is_dir($this->getDataFolder())){
