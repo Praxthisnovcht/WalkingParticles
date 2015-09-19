@@ -17,112 +17,155 @@
  * You should have received a copy of the GNU General Public License
  * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace WalkingParticles;
 
 use WalkingParticles\WalkingParticles;
 use pocketmine\Player;
 
 class SignHelp{
-    private $plugin;
-    
-    public function __construct(WalkingParticles $plugin){
-        $this->plugin = $plugin;
-    }
-    
-    public function getHelp($line2){
-        switch(strtolower($line2)):
-            case "add":
-              return ["[WParticles]", "add", "<particle>"];
-            case "remove":
-              return ["[WParticles]", "remove", "<particle>"];
-            case "set":
-              return ["[WParticles]", "set", "<particle>"];
-            case "amplifier":
-              return ["[WParticles]", "amplifier", "<amplifier>"];
-            case "display":
-              return ["[WParticles]", "display", "line/group"];
-            case "pack":
-              return ["[WParticles]", "pack", "use/get/list", "<pack>"];
-            case "randomshow":
-              return ["[WParticles]", "randomshow"];
-            case "itemshow":
-              return ["[WParticles]", "itemshow"];
-            case "get":
-              return ["[WParticles]", "get"];
-            case "list":
-              return ["[WParticles]", "list"];
-            case "clear":
-              return ["[WParticles]", "clear"];
-        endswitch;
-        return false;
-    }
-    
-    public function sendHelp($issuer, $line2){
-        switch(strtolower($line2)):
-            case "add":
-                $array = $this->getHelp("add");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-            break;
-            case "remove":
-                $array = $this->getHelp("remove");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-            break;
-            case "set":
-                $array = $this->getHelp("set");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-            break;
-            case "amplifier":
-                $array = $this->getHelp("amplifier");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-            break;
-            case "display":
-                $array = $this->getHelp("display");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-            break;
-            case "pack":
-                $array = $this->getHelp("pack");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-                $issuer->sendMessage("Line 3: ".$array[2]);
-                $issuer->sendMessage("Line 4: ".$array[3]);
-            break;
-            case "randomshow":
-                $array = $this->getHelp("randomshow");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-            break;
-            case "itemshow":
-                $array = $this->getHelp("itemshow");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-            break;
-            case "get":
-                $array = $this->getHelp("get");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-            break;
-            case "list":
-                $array = $this->getHelp("list");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-            break;
-            case "clear":
-                $array = $this->getHelp("clear");
-                $issuer->sendMessage("Line 1: ".$array[0]);
-                $issuer->sendMessage("Line 2: ".$array[1]);
-            break;
-        endswitch;
-    }
+
+	private $plugin;
+
+	public function __construct(WalkingParticles $plugin){
+		$this->plugin = $plugin;
+	}
+
+	public function getHelp($line2){
+		switch(strtolower($line2)):
+			case "add":
+				return [
+						"[WParticles]",
+						"add",
+						"<particle>"
+				];
+			case "remove":
+				return [
+						"[WParticles]",
+						"remove",
+						"<particle>"
+				];
+			case "set":
+				return [
+						"[WParticles]",
+						"set",
+						"<particle>"
+				];
+			case "amplifier":
+				return [
+						"[WParticles]",
+						"amplifier",
+						"<amplifier>"
+				];
+			case "display":
+				return [
+						"[WParticles]",
+						"display",
+						"line/group"
+				];
+			case "pack":
+				return [
+						"[WParticles]",
+						"pack",
+						"use/get/list",
+						"<pack>"
+				];
+			case "randomshow":
+				return [
+						"[WParticles]",
+						"randomshow"
+				];
+			case "itemshow":
+				return [
+						"[WParticles]",
+						"itemshow"
+				];
+			case "get":
+				return [
+						"[WParticles]",
+						"get"
+				];
+			case "list":
+				return [
+						"[WParticles]",
+						"list"
+				];
+			case "clear":
+				return [
+						"[WParticles]",
+						"clear"
+				];
+		endswitch
+		;
+		return false;
+	}
+
+	public function sendHelp($issuer, $line2){
+		switch(strtolower($line2)):
+			case "add":
+				$array = $this->getHelp("add");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+			break;
+			case "remove":
+				$array = $this->getHelp("remove");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+			break;
+			case "set":
+				$array = $this->getHelp("set");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+			break;
+			case "amplifier":
+				$array = $this->getHelp("amplifier");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+			break;
+			case "display":
+				$array = $this->getHelp("display");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+			break;
+			case "pack":
+				$array = $this->getHelp("pack");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+				$issuer->sendMessage("Line 3: " . $array[2]);
+				$issuer->sendMessage("Line 4: " . $array[3]);
+			break;
+			case "randomshow":
+				$array = $this->getHelp("randomshow");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+			break;
+			case "itemshow":
+				$array = $this->getHelp("itemshow");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+			break;
+			case "get":
+				$array = $this->getHelp("get");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+			break;
+			case "list":
+				$array = $this->getHelp("list");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+			break;
+			case "clear":
+				$array = $this->getHelp("clear");
+				$issuer->sendMessage("Line 1: " . $array[0]);
+				$issuer->sendMessage("Line 2: " . $array[1]);
+			break;
+		endswitch
+		;
+	}
+
 }
 ?>

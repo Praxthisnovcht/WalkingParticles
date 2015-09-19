@@ -541,7 +541,7 @@ class AdminCommand extends BaseCommand{
 										if($this->getPlugin()->switchItemMode($target, $this->getPlugin()->isItemMode($target) ? false : true) !== true){
 											return true;
 										}
-										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned " . ($this->getPlugin()->isItemMode($target) ? "on" : "off") . $target->getName() . "'s item mode!"));
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned " . ($this->getPlugin()->isItemMode($target) ? "on " : "off ") . $target->getName() . "'s item mode!"));
 										$target->sendMessage($this->getPlugin()->colourMessage("&aYour item mode has been turned " . ($this->getPlugin()->isItemMode($target) ? "on" : "off") . "!"));
 										return true;
 									} else{
@@ -581,10 +581,10 @@ class AdminCommand extends BaseCommand{
 									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp clear"));
 									return true;
 								} else{
-									$issuer->sendMessage("-----");
+									$issuer->sendMessage($this->getPlugin()->colourMessage("-----"));
 									$sh = new SignHelp($this->getPlugin());
 									$sh->sendHelp($issuer, $args[1]);
-									$issuer->sendMessage("-----");
+									$issuer->sendMessage($this->getPlugin()->colourMessage("-----"));
 									return true;
 								}
 							break;
