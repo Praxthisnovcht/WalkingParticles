@@ -21,6 +21,7 @@ namespace WalkingParticles\commands;
 
 use WalkingParticles\base\BaseCommand;
 use WalkingParticles\Particles;
+use WalkingParticles\SignHelp;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
@@ -47,12 +48,15 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp try <player>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp use <player>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp set <particle> <player>"));
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp itemshow <player>"));
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp signhelp <args..>"));
+											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp version"));
 											return true;
 										break;
 									endswitch
 									;
 								} else{
-									$issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&aShowing help page &6(1/2)  &e-  &7Show the next page by typing '/walkp help 2'"));
 									$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultparticle <particle>"));
 									$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp defaultamplifier <amplifier>"));
 									$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp add <particle> <player>"));
@@ -361,6 +365,7 @@ class AdminCommand extends BaseCommand{
 												return true;
 											}
 										break;
+										case "removep":
 										case "rmp":
 											if(isset($args[2]) && isset($args[3])){
 												if($this->getPlugin()->packExists($args[2])){
@@ -395,6 +400,9 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&aList of particle packs: &6" . $this->getPlugin()->listPacks()));
 											return true;
 										break;
+										default:
+											$issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|rmp|get|list> <args..>");
+											return true;
 									endswitch
 									;
 								} else{
@@ -407,10 +415,10 @@ class AdminCommand extends BaseCommand{
 									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
 									if($target !== null){
 										if($issuer instanceof Player){
-										    if($this->getPlugin()->isCleared($target) !== false){
-										        $issuer->sendMessage($this->getPlugin()->colourMessage("&cTarget player isn't using any particles!"));
-										        return true;
-										    }
+											if($this->getPlugin()->isCleared($target) !== false){
+												$issuer->sendMessage($this->getPlugin()->colourMessage("&cTarget player isn't using any particles!"));
+												return true;
+											}
 											$this->getPlugin()->tryPlayerParticle($issuer, $target);
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou have &e10 &aseconds to test &b" . $target->getName() . "&a's particles!\n&aParticles which " . $target->getName() . " using: &6" . $this->getPlugin()->getAllPlayerParticles($target)));
 											return true;
@@ -524,9 +532,65 @@ class AdminCommand extends BaseCommand{
 									}
 								}
 							break;
+							case "itemmode":
+							case "itemshow":
+							case "item":
+								if(isset($args[1])){
+									$target = $this->getPlugin()->getServer()->getPlayer($args[1]);
+									if($target !== null){
+										if($this->getPlugin()->switchItemMode($target, $this->getPlugin()->isItemMode($target) ? false : true) !== true){
+											return true;
+										}
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned " . ($this->getPlugin()->isItemMode($target) ? "on" : "off") . $target->getName() . "'s item mode!"));
+										$target->sendMessage($this->getPlugin()->colourMessage("&aYour item mode has been turned " . ($this->getPlugin()->isItemMode($target) ? "on" : "off") . "!"));
+										return true;
+									} else{
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid target!"));
+										return true;
+									}
+								} else{
+									if(! $issuer instanceof Player){
+										$issuer->sendMessage("Usage: /walkp item <player>");
+										return true;
+									}
+									if($this->getPlugin()->switchItemMode($issuer, ($this->getPlugin()->isItemMode($issuer) ? false : true)) !== true){
+										return true;
+									}
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned " . ($this->getPlugin()->isItemMode($issuer) ? "on" : "off") . " your item mode!"));
+									return true;
+								}
+							break;
 							case "list":
 								$particles = new Particles($this->getPlugin());
 								$issuer->sendMessage($this->getPlugin()->colourMessage("&aList of available particles: &6" . implode(", ", $particles->getAll())));
+								return true;
+							break;
+							case "signhelp":
+							case "sign":
+								if(! isset($args[1])){
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp add"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp remove"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp set"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp amplifier"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp display"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp pack"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp randomshow"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp itemshow"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp get"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp list"));
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&a- &f/walkp signhelp clear"));
+									return true;
+								} else{
+									$issuer->sendMessage("-----");
+									$sh = new SignHelp($this->getPlugin());
+									$sh->sendHelp($issuer, $args[1]);
+									$issuer->sendMessage("-----");
+									return true;
+								}
+							break;
+							case "about":
+							case "version":
+								$issuer->sendMessage("You are using WalkingParticles version 2.0.0#build72 for PocketMine 1.6 (API 1.13.0/2.0.0) developed by hoyinm14mc!");
 								return true;
 							break;
 						endswitch

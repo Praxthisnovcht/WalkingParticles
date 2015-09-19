@@ -33,19 +33,19 @@ use WalkingParticles\Particles;
 
 class SignListener extends BaseListener{
 
- public function onBlockPlace(BlockPlaceEvent $event){
-     if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
-         $sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
-	       		if(! $sign instanceof Sign){
-	            			return;
-	       		}
-	       		$sign = $sign->getText();
-		       	if($sign[0] == '§f[§aWParticles§f]' && $event->getPlayer()->isSneaking() !== true ){
-		       	    $event->setCancelled(true);
-		       	}
-     }
- }
- 
+	public function onBlockPlace(BlockPlaceEvent $event){
+		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
+			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
+			if(! $sign instanceof Sign){
+				return;
+			}
+			$sign = $sign->getText();
+			if($sign[0] == '§f[§aWParticles§f]' && $event->getPlayer()->isSneaking() !== true){
+				$event->setCancelled(true);
+			}
+		}
+	}
+
 	public function onBlockBreak(BlockBreakEvent $event){
 		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
 			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
@@ -149,7 +149,9 @@ class SignListener extends BaseListener{
 								"get",
 								"list",
 								"randomshow",
-								"random"
+								"random",
+								"itemshow",
+								"item"
 						];
 						if(in_array($sign[1], $allowed2)){
 							$event->getPlayer()->sendMessage("§bWalkingParticles §asign created!");
@@ -215,7 +217,7 @@ class SignListener extends BaseListener{
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou set your &bWalkingParticles&a's particle to &e" . $particle . "!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
 								return true;
-								break;
+							break;
 							case "§eamplifier":
 								$amplifier = substr($sign[2], 3);
 								$this->getPlugin()->setPlayerAmplifier($event->getPlayer(), $amplifier);
@@ -270,8 +272,15 @@ class SignListener extends BaseListener{
 					if($event->getPlayer()->hasPermission("walkingparticles.sign.toggle")){
 						switch(strtolower($sign[1])):
 							case "§erandomshow":
+							case "§erandom":
 								$this->getPlugin()->switchRandomMode($event->getPlayer(), ($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? true : false));
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned " . ($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? "off" : "on") . "!"));
+								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
+							break;
+							case "§eitemshow":
+							case "§eitem":
+								$this->getPlugin()->switchItemMode($event->getPlayer(), ($this->getPlugin()->isItemMode($event->getPlayer()) !== false ? false : true));
+								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour item mode has been turned " . ($this->getPlugin()->isItemMode($event->getPlayer()) !== true ? "off" : "on") . "!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
 							break;
 							case "§eget":

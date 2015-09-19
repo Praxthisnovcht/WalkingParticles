@@ -25,6 +25,7 @@ use WalkingParticles\WalkingParticles;
 abstract class BaseTask extends PluginTask{
 
 	/**
+	 *
 	 * @var $plugin
 	 */
 	protected $plugin;

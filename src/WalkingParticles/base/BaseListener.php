@@ -23,8 +23,9 @@ use WalkingParticles\WalkingParticles;
 use pocketmine\event\Listener;
 
 abstract class BaseListener implements Listener{
-    
+
 	/**
+	 *
 	 * @var $plugin
 	 */
 	protected $plugin;

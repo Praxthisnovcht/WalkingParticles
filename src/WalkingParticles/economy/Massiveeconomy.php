@@ -47,7 +47,7 @@ class Massiveeconomy extends BaseEconomy{
 		return true;
 	}
 
-    public function tryPlayer(Player $player, Player $player2){
+	public function tryPlayer(Player $player, Player $player2){
 		$money = $this->getPlugin()->getEco()->getInstance()->getMoney($player->getName());
 		if($money < $this->getConfig()->get("try-player-fee")){
 			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));

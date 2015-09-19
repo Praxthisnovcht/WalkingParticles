@@ -24,6 +24,7 @@ use WalkingParticles\WalkingParticles;
 abstract class BaseEconomy{
 
 	/**
+	 *
 	 * @var $plugin
 	 */
 	protected $plugin;

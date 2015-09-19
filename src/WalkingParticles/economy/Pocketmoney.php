@@ -47,15 +47,15 @@ class Pocketmoney extends BaseEconomy{
 		return true;
 	}
 
-    public function tryPlayer(Player $player, Player $player2){
+	public function tryPlayer(Player $player, Player $player2){
 		$money = $this->getPlugin()->getEco()->getMoney($player->getName());
 		if($money < $this->getConfig()->get("try-player-fee")){
-		    $player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
+			$player->sendMessage($this->getPlugin()->colourMessage("&cYou don't have enough money to try the player's WalkingParticles!"));
 			return false;
-		}else{
-			   $this->getPlugin()->getEco()->setMoney($player->getName(), $money - $this->getConfig()->get("try-player-fee"));
-		$this->getPlugin()->tryPlayerParticle($player, $player2);
-		$player->sendMessage("Bank : -" . $this->getPlugin()->getConfig()->get("try-player-fee") . "PM | " . $this->getPlugin()->getEco()->getMoney($player->getName()) . "PM left");
+		} else{
+			$this->getPlugin()->getEco()->setMoney($player->getName(), $money - $this->getConfig()->get("try-player-fee"));
+			$this->getPlugin()->tryPlayerParticle($player, $player2);
+			$player->sendMessage("Bank : -" . $this->getPlugin()->getConfig()->get("try-player-fee") . "PM | " . $this->getPlugin()->getEco()->getMoney($player->getName()) . "PM left");
 			return true;
 		}
 	}

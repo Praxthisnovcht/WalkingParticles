@@ -121,6 +121,9 @@ class Particles{
 			case "droplet":
 			case "rain":
 				return new RainSplashParticle($pos);
+			case "colorful":
+			case "colourful":
+				return new TerrainParticle($pos, Block::get(round(rand(0, 114))));
 		endswitch
 		;
 		if(substr($name, 0, 5) == "item_"){
@@ -135,7 +138,7 @@ class Particles{
 			$arr = explode("_", $name);
 			return new DestroyBlockParticle($pos, Block::get((int) $arr[1]));
 		}
-		return new TerrainParticle($pos, Block::get(round(rand(0, 114))));
+		return "unknown_particle";
 	}
 
 	public function getRandomParticle(){
@@ -173,6 +176,7 @@ class Particles{
 				"happyvillager",
 				"angryvillager",
 				"droplet",
+				"colorful",
 				"item_{id}",
 				"block_{id}",
 				"desblock_{id}"

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /*
  * This file is a part of WalkingParticles.
  * Copyright (C) 2015 CyberCube-HK

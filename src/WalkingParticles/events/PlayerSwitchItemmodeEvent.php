@@ -17,31 +17,40 @@
  * You should have received a copy of the GNU General Public License
  * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace WalkingParticles\base;
+namespace WalkingParticles\events;
 
-use pocketmine\plugin\PluginBase;
-use pocketmine\command\CommandExecutor;
 use WalkingParticles\WalkingParticles;
+use WalkingParticles\base\BaseEvent;
+use pocketmine\Player;
+use pocketmine\event\Cancellable;
 
-abstract class BaseCommand extends PluginBase implements CommandExecutor{
+class PlayerSwitchItemmodeEvent extends BaseEvent implements Cancellable{
 
-	/**
-	 *
-	 * @var $plugin
-	 */
-	protected $plugin;
+	public static $handlerList = null;
 
-	public function __construct(WalkingParticles $plugin){
+	public $plugin;
+
+	public $player;
+
+	public $value;
+
+	public function __construct(WalkingParticles $plugin, Player $player, $value){
 		$this->plugin = $plugin;
+		$this->player = $player;
+		$this->value = $value;
+		parent::__construct($plugin);
 	}
 
-	public final function getPlugin(){
+	public function getPlugin(){
 		return $this->plugin;
 	}
 
-	public final function getConfig(){
-		return $this->plugin->getConfig();
+	public function getPlayer(){
+		return $this->player;
+	}
+
+	public function getValue(){
+		return $this->value;
 	}
 
 }
-?>

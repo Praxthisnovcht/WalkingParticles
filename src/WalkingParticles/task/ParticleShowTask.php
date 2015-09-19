@@ -31,6 +31,9 @@ class ParticleShowTask extends BaseTask{
 		foreach((array) $this->getPlugin()->getServer()->getOnlinePlayers() as $p){
 			if(isset($t[$p->getName()]) && $this->getPlugin()->isCleared($p) !== true){
 				foreach((array) $t[$p->getName()]["particle"] as $particle){
+					if($this->getPlugin()->getParticles()->getTheParticle($particle, new Vector3($p->x, $p->y, $p->z)) == "unknown_particle"){
+						return;
+					}
 					$y = $p->y;
 					$y2 = $y + 0.5;
 					$y3 = $y2 + 1.4;

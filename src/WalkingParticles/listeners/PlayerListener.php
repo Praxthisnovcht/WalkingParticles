@@ -30,6 +30,8 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\level\sound\AnvilFallSound;
 use pocketmine\math\Vector3;
 use pocketmine\item\Item;
+use pocketmine\item\ItemBlock;
+use pocketmine\block\Block;
 use WalkingParticles\base\BaseListener;
 use WalkingParticles\WalkingParticles;
 
@@ -53,7 +55,9 @@ class PlayerListener extends BaseListener{
 					for($i = 0; $i < $this->getPlugin()->getPlayerAmplifier($event->getPlayer()); $i ++){
 						$t = $this->getPlugin()->getData()->getAll();
 						foreach((array) $t[$event->getPlayer()->getName()]["particle"] as $p){
-							if($this->getPlugin()->getPlayerDisplay($event->getPlayer()) == "line"){
+							if($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3($x, $y, $z)) == "unknown_particle"){
+								return;
+							} else if($this->getPlugin()->getPlayerDisplay($event->getPlayer()) == "line"){
 								$event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3($x, $y2, $z)));
 							} else{
 								$event->getPlayer()->getLevel()->addParticle($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3(mt_rand($x1, $x2), mt_rand(rand($y1, $y), rand($y2, $y3)), mt_rand($z1, $z2))));
@@ -68,17 +72,41 @@ class PlayerListener extends BaseListener{
 	public function onJoin(PlayerJoinEvent $event){
 		$t = $this->getPlugin()->getData()->getAll();
 		if(! isset($t[$event->getPlayer()->getName()])){
-			$t[$event->getPlayer()->getName()]["particle"][] = $this->getPlugin()->getConfig()->get("default-particle");
 			$t[$event->getPlayer()->getName()]["amplifier"] = $this->getPlugin()->getConfig()->get("default-amplifier");
 			$t[$event->getPlayer()->getName()]["display"] = $this->getPlugin()->getConfig()->get("default-display");
 			$this->getPlugin()->getData()->setAll($t);
 			$this->getPlugin()->getData()->save();
+			if($this->getConfig()->get("default-particle") === null){
+				return;
+			} else{
+				$t[$event->getPlayer()->getName()]["particle"][] = $this->getPlugin()->getConfig()->get("default-particle");
+				$this->getPlugin()->getData()->setAll($t);
+				$this->getPlugin()->getData()->save();
+			}
 		}
 	}
 
 	public function onQuit(PlayerQuitEvent $event){
 		if($this->getPlugin()->isRandomMode($event->getPlayer()))
 			$this->getPlugin()->switchRandomMode($event->getPlayer(), false);
+		if($this->getPlugin()->isItemMode($event->getPlayer()))
+			$this->getPlugin()->switchItemMode($event->getPlayer(), false);
+	}
+
+	public function onItemHeld(PlayerItemHeldEvent $event){
+		if($this->getPlugin()->isItemMode($event->getPlayer())){
+			$id = (string) $event->getItem()->getId();
+			if($event->getItem() instanceof ItemBlock){
+				if($id == "0"){
+					$this->getPlugin()->setPlayerParticle($event->getPlayer(), "unknown");
+					return;
+				} else{
+					$this->getPlugin()->setPlayerParticle($event->getPlayer(), "block_" . $id);
+				}
+			} else{
+				$this->getPlugin()->setPlayerParticle($event->getPlayer(), "item_" . $id);
+			}
+		}
 	}
 
 }

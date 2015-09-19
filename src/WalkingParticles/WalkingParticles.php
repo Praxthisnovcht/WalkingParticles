@@ -29,6 +29,7 @@ use WalkingParticles\events\PlayerSwitchRandommodeEvent;
 use WalkingParticles\events\PlayerTryPlayerParticleEvent;
 use WalkingParticles\events\PlayerApplyPackEvent;
 use WalkingParticles\events\PlayerUsePlayerParticlesEvent;
+use WalkingParticles\events\PlayerSwitchItemmodeEvent;
 use WalkingParticles\listeners\PlayerListener;
 use WalkingParticles\listeners\SignListener;
 use WalkingParticles\task\ParticleShowTask;
@@ -47,12 +48,13 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
+use pocketmine\item\ItemBlock;
 
 class WalkingParticles extends PluginBase{
 
 	/**
 	 *
-	 * @var $instance
+	 * @var static $instance
 	 */
 	private static $instance = null;
 
@@ -70,6 +72,12 @@ class WalkingParticles extends PluginBase{
 	
 	/**
 	 * 
+	 * @var $item_mode
+	 */
+	public $item_mode = [];
+
+	/**
+	 *
 	 * @var $item_mode
 	 */
 	public $item_mode = [];
@@ -178,7 +186,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerTryPlayerParticleEvent($this, $player, $player2));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$t = $this->data->getAll();
 		$this->putTemp($player);
@@ -202,7 +209,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerUsePlayerParticlesEvent($this, $player, $player2));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$this->clearPlayerParticle($player);
 		foreach($t[$player2->getName()]["particle"] as $pc){
@@ -274,7 +280,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$this->clearPlayerParticle($player);
 		$this->addPlayerParticle($player, $particle);
@@ -292,7 +297,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerAddWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["particle"][] = $particle;
@@ -312,7 +316,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerRemoveWPEvent($this, $player, $particle));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$t = $this->data->getAll();
 		$p = array_search($particle, $t[$player->getName()]["particle"]);
@@ -333,7 +336,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerClearWPEvent($this, $player, $t[$player->getName()]["particle"]));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		foreach($t[$player->getName()]["particle"] as $p){
 			$pa = array_search($p, $t[$player->getName()]["particle"]);
@@ -383,7 +385,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetAmplifierEvent($this, $player, $amplifier));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["amplifier"] = $amplifier;
@@ -414,7 +415,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSetDisplayEvent($this, $player, $display));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$t = $this->data->getAll();
 		$t[$player->getName()]["display"] = $display;
@@ -450,7 +450,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerApplyPackEvent($this, $player, $pack_name, 0, null));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		$p = $this->data2->getAll();
 		$this->clearPlayerParticle($player);
@@ -493,7 +492,7 @@ class WalkingParticles extends PluginBase{
 	public function removeParticleFromPack($pack_name, $particle){
 		$p = $this->data2->getAll();
 		$pc = array_search($particle, $p[$pack_name]);
-		unset($p[$player->getName()]["particle"][$pc]);
+		unset($p[$pack_name][$pc]);
 		$this->data->setAll($p);
 		$this->data->save();
 	}
@@ -590,7 +589,6 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSwitchRandommodeEvent($this, $player, $value));
 		if($event->isCancelled()){
 			return false;
-			break;
 		}
 		switch($value):
 			case true:
@@ -648,6 +646,53 @@ class WalkingParticles extends PluginBase{
         public function isItemMode(Player $player){
         	return (bool) in_array($player->getName(), $this->item_mode);
         }
+
+	/*
+	 * ITEM MODE
+	 * API PART
+	 */
+	
+	/**
+	 *
+	 * @param Player $player        	
+	 *
+	 * @return boolean
+	 */
+	public function switchItemMode(Player $player, $value = true){
+		$this->getServer()->getPluginManager()->callEvent($event = new PlayerSwitchItemmodeEvent($this, $player, $value));
+		if($event->isCancelled()){
+			return false;
+		}
+		if($value !== false){
+			$this->item_mode[$player->getName()] = $player->getName();
+			$this->putTemp($player);
+			if($player->getInventory()->getItemInHand() instanceof ItemBlock){
+				if((string) $player->getInventory()->getItemInHand()->getId() == "0"){
+					$this->setPlayerParticle($player, "unknown_item");
+					return true;
+				} else{
+					$this->setPlayerParticle($player, "block_" . $player->getInventory()->getItemInHand()->getId());
+					return true;
+				}
+			} else{
+				$this->setPlayerParticle($player, "item_" . $player->getInventory()->getItemInHand()->getId());
+				return true;
+			}
+		} else if($value !== true){
+			unset($this->item_mode[$player->getName()]);
+			$this->byeTemp($player);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * @return boolean
+	 */
+	public function isItemMode(Player $player){
+		return in_array($player->getName(), $this->item_mode);
+	}
 
 }
 ?>
