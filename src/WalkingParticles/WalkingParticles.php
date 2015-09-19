@@ -612,39 +612,6 @@ class WalkingParticles extends PluginBase{
 	 * ITEM MODE
 	 * API PART
 	 */
-	 
-	/**
-	 *
-	 * @param Player $player
-	 * @param bool $value
-	 * 
-	 * @return boolean
-	 */
-        public function switchItemMode(Player $player, $value=true){
-        	if($value !== false){
-        		$this->item_mode[$player->getName()] = $player->getName();
-        		return true;
-        	}else if($value !== true){
-        		unset($this->item_mode[$player->getName()]);
-        		return true;
-        	}
-        	return false;
-        }
-        
-        /**
-         * 
-         * @param Player $player
-         * 
-         * @return boolean
-         */
-        public function isItemMode(Player $player){
-        	return (bool) in_array($player->getName(), $this->item_mode);
-        }
-
-	/*
-	 * ITEM MODE
-	 * API PART
-	 */
 	
 	/**
 	 *
