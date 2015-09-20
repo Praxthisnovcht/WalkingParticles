@@ -42,7 +42,7 @@ class UpdateChecker{
 	}
 
 	public function checkUpdate(){
-		$this->getServer()->getPluginManager()->callEvent($event = new UpdateCheckingEvent($this));
+		$this->plugin->getServer()->getPluginManager()->callEvent($event = new UpdateCheckingEvent($this->plugin));
 		if($event->isCancelled()){
 			return false;
 		}
