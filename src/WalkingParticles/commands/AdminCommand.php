@@ -25,6 +25,7 @@ use WalkingParticles\SignHelp;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
+use WalkingParticles\UpdateChecker;
 
 class AdminCommand extends BaseCommand{
 
@@ -51,6 +52,9 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp itemshow <player>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp signhelp <args..>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp version"));
+											if(!$issuer instanceof Player){
+												$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp update beta|stable"));
+											}
 											return true;
 										break;
 									endswitch
@@ -576,6 +580,26 @@ class AdminCommand extends BaseCommand{
 							case "version":
 								$issuer->sendMessage("You are using WalkingParticles version 2.0.0#build72 for PocketMine 1.6 (API 1.13.0/2.0.0) developed by hoyinm14mc!");
 								return true;
+							break;
+							case "update":
+								if($issuer instanceof Player){
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&cCommand only works in-game!"));
+									return true;
+								}
+								$issuer->sendMessage("Starting to check..");
+								if(isset($args[1])){
+									if($args[1] != "stable" && $args[1] != "beta"){
+										$issuer->sendMessage($this->getPlugin()->colourMessage("&cInvalid channel!"));
+										return true;
+									}
+									$updatechecker = new UpdateChecker($this->getPlugin(), $args[1]);
+									$updatechecker->checkUpdate();
+									return true;
+								}else{
+									$updatechecker = new UpdateChecker($this->getPlugin(), $this->getConfig()->get("channel-updatechecker"));
+									$updatechecker->checkUpdate();
+									return true;
+								}
 							break;
 						endswitch
 						;
