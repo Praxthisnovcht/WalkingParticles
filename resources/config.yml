@@ -4,6 +4,7 @@
 # Enable?
 enable-updatechecker: true
 # channel? (beta/stable)
+# Stable is recommended!
 channel-updatechecker: beta
 # interval? (minutes between checking)
 interval-updatechecker: 30
@@ -37,4 +38,4 @@ apply-pack-fee: 2500
 
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0#75"
+v: "2.0.0#76"

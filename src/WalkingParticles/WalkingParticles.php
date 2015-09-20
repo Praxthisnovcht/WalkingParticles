@@ -50,9 +50,13 @@ use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
+use WalkingParticles\base\BaseTask;
+use WalkingParticles\task\UpdateCheckingTask;
 
 class WalkingParticles extends PluginBase{
 
+	const VERSION = "2.0.0#76";
+	
 	/**
 	 *
 	 * @var static $instance
@@ -70,9 +74,9 @@ class WalkingParticles extends PluginBase{
 	 * @var $random_mode
 	 */
 	public $random_mode = [];
-	
+
 	/**
-	 * 
+	 *
 	 * @var $item_mode
 	 */
 	public $item_mode = [];
@@ -92,12 +96,14 @@ class WalkingParticles extends PluginBase{
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
 		$this->updateConfig();
-		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time..."));
-		$updatechecker = new UpdateChecker($this->getConfig()->get("channel-updatechecker"));
-		try{
-			$updatechecker->checkUpdate();
-		}catch (\Exception $e){
-			$this->getLogger()->debug("Error!  Unable to check update.  Reason: $e");
+		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time...  (Channel: ".$this->getConfig()->get("channel-updatechecker").")"));
+		$updatechecker = new UpdateChecker($this,(string) $this->getConfig()->get("channel-updatechecker"));
+		if($this->getConfig()->get("enable-updatechecker") !== false){
+			try{
+				$updatechecker->checkUpdate();
+			} catch(\Exception $e){
+				$this->getLogger()->debug("Error!  Unable to check update.  Reason: $e");
+			}
 		}
 		$this->getLogger()->info("Loading economy plugins..");
 		$plugins = [
@@ -121,6 +127,7 @@ class WalkingParticles extends PluginBase{
 		$this->particles = new Particles($this);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleShowTask($this), 13);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new RandomModeTask($this), 10);
+		$this->getServer()->getScheduler()->scheduleRepeatingTask(new UpdateCheckingTask($this), (int) $this->getConfig()->get("interval-updatechecker") * 20 * 60);
 		$this->getServer()->getPluginManager()->registerEvents(new PlayerListener($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new SignListener($this), $this);
 		$this->getCommand("wppack")->setExecutor(new WppackCommand($this));
@@ -137,7 +144,8 @@ class WalkingParticles extends PluginBase{
 
 	private function updateConfig(){
 		$this->getLogger()->info("Checking config file..");
-		if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") != $this->getDescription()->getVersion()){
+		if($this->getConfig()->exists("v") !== true || $this->getConfig()->get("v") != self::VERSION){
+			$this->getLogger()->info("Update found!  Updating configuration...");
 			unlink($this->getDataFolder() . "config.yml");
 			$this->saveDefaultConfig();
 			$this->reloadConfig();
@@ -602,7 +610,7 @@ class WalkingParticles extends PluginBase{
 	public function isRandomMode(Player $player){
 		return in_array($player->getName(), $this->random_mode);
 	}
-	
+
 	/*
 	 * ITEM MODE
 	 * API PART
