@@ -42,6 +42,7 @@ use WalkingParticles\commands\WplistCommand;
 use WalkingParticles\commands\WpgetCommand;
 use WalkingParticles\commands\WptryCommand;
 use WalkingParticles\commands\AdminCommand;
+use WalkingParticles\UpdateChecker;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
@@ -91,6 +92,13 @@ class WalkingParticles extends PluginBase{
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
 		$this->updateConfig();
+		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time..."));
+		$updatechecker = new UpdateChecker($this->getConfig()->get("channel-updatechecker"));
+		try{
+			$updatechecker->checkUpdate();
+		}catch (\Exception $e){
+			$this->getLogger()->debug("Error!  Unable to check update.  Reason: $e");
+		}
 		$this->getLogger()->info("Loading economy plugins..");
 		$plugins = [
 				"EconomyAPI",
@@ -476,19 +484,6 @@ class WalkingParticles extends PluginBase{
 		$p[$pack_name][] = $particle;
 		$this->data2->setAll($p);
 		$this->data2->save();
-	}
-
-	/**
-	 *
-	 * @param string $pack_name        	
-	 * @param string $particle        	
-	 */
-	public function removeParticleFromPack($pack_name, $particle){
-		$p = $this->data2->getAll();
-		$pc = array_search($particle, $p[$pack_name]);
-		unset($p[$pack_name][$pc]);
-		$this->data->setAll($p);
-		$this->data->save();
 	}
 
 	/**

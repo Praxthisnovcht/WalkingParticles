@@ -41,7 +41,8 @@ class PlayerListener extends BaseListener{
 		if($event->getPlayer()->hasPermission("walkingparticles")){
 			if($event->getFrom()->x == $event->getPlayer()->x && $event->getFrom()->z == $event->getPlayer()->z){
 			} else{
-				if($this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
+			 $t = $this->getPlugin()->getData()->getAll();
+				if(isset($t[$event->getPlayer()->getName()]) && $this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
 					$x = $event->getPlayer()->x;
 					$y = $event->getPlayer()->y;
 					$z = $event->getPlayer()->z;
@@ -53,7 +54,6 @@ class PlayerListener extends BaseListener{
 					$z1 = $z - 1;
 					$z2 = $z + 1;
 					for($i = 0; $i < $this->getPlugin()->getPlayerAmplifier($event->getPlayer()); $i ++){
-						$t = $this->getPlugin()->getData()->getAll();
 						foreach((array) $t[$event->getPlayer()->getName()]["particle"] as $p){
 							if($this->getPlugin()->getParticles()->getTheParticle($p, new Vector3($x, $y, $z)) == "unknown_particle"){
 								return;

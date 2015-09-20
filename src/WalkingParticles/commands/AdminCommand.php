@@ -365,22 +365,6 @@ class AdminCommand extends BaseCommand{
 												return true;
 											}
 										break;
-										case "removep":
-										case "rmp":
-											if(isset($args[2]) && isset($args[3])){
-												if($this->getPlugin()->packExists($args[2])){
-													$this->getPlugin()->removeParticleFromPack($args[2], $args[3]);
-													$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou removed &e" . $args[3] . " &aparticle from the pack &b" . $args[2] . "&a!"));
-													return true;
-												} else{
-													$issuer->sendMessage($this->getPlugin()->colourMessage("&cPack doesn't exist!"));
-													return true;
-												}
-											} else{
-												$issuer->sendMessage("Usage: /walkp pack rmp <pack_name> <particle>");
-												return true;
-											}
-										break;
 										case "get":
 											if(isset($args[2])){
 												$pack_name = $args[2];
@@ -401,12 +385,12 @@ class AdminCommand extends BaseCommand{
 											return true;
 										break;
 										default:
-											$issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|rmp|get|list> <args..>");
+											$issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|get|list> <args..>");
 											return true;
 									endswitch
 									;
 								} else{
-									$issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|rmp|get|list> <args..>");
+									$issuer->sendMessage("Usage: /walkp pack <use|create|delete|addp|get|list> <args..>");
 									return true;
 								}
 							break;

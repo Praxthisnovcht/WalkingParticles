@@ -1,5 +1,15 @@
 # WalkingParticles Config File
 
+# Update Checker
+# Enable?
+enable-updatechecker: true
+# channel? (beta/stable)
+channel-updatechecker: beta
+# interval? (minutes between checking)
+interval-updatechecker: 30
+# startup checking? (check while server starts)
+startup-updatechecker: true
+
 # Enable the feature or not?
 enable: true
 
@@ -27,4 +37,4 @@ apply-pack-fee: 2500
 
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0#73"
+v: "2.0.0#75"

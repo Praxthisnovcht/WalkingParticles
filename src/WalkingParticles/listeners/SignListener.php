@@ -12,7 +12,7 @@
  * WalkingParticles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * GNU General Public License for more details. 
  *
  * You should have received a copy of the GNU General Public License
  * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
@@ -32,20 +32,7 @@ use WalkingParticles\WalkingParticles;
 use WalkingParticles\Particles;
 
 class SignListener extends BaseListener{
-
-	public function onBlockPlace(BlockPlaceEvent $event){
-		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
-			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
-			if(! $sign instanceof Sign){
-				return;
-			}
-			$sign = $sign->getText();
-			if($sign[0] == '§f[§aWParticles§f]' && $event->getPlayer()->isSneaking() !== true){
-				$event->setCancelled(true);
-			}
-		}
-	}
-
+    
 	public function onBlockBreak(BlockBreakEvent $event){
 		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
 			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
@@ -53,7 +40,7 @@ class SignListener extends BaseListener{
 				return;
 			}
 			$sign = $sign->getText();
-			if($sign[0] == '§f[§aWParticles§f]'){
+			if($sign[0] == '§f[§aWParticles§f]' || $sign[0] == '§f[§aWalkp§f]'){
 				if($event->getPlayer()->hasPermission("walkingparticles.sign.destroy")){
 					$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&bWalkingParticles &esign has been destroyed!"));
 					return true;
@@ -72,7 +59,7 @@ class SignListener extends BaseListener{
 				return;
 			}
 			$sign = $event->getLines();
-			if($sign[0] == '[WParticles]'){
+			if($sign[0] == '[WParticles]' || $sign[0] == '[Walkp]'){
 				if($event->getPlayer()->hasPermission("walkingparticles.sign.create")){
 					if(! empty($sign[1]) && ! empty($sign[2])){
 						$allowed = [
@@ -84,7 +71,7 @@ class SignListener extends BaseListener{
 								"pack"
 						];
 						if(in_array($sign[1], $allowed)){
-							$event->setLine(0, "§f[§aWParticles§f]");
+							$event->setLine(0, ($sign[0] == "§f[§aWParticles§f]" ? "§f[§aWParticles§f]" : "§f[§aWalkp§f]"));
 							$event->setLine(1, "§e" . $sign[1]);
 							switch($sign[1]):
 								case 'pack':
@@ -155,7 +142,7 @@ class SignListener extends BaseListener{
 						];
 						if(in_array($sign[1], $allowed2)){
 							$event->getPlayer()->sendMessage("§bWalkingParticles §asign created!");
-							$event->setLine(0, "§f[§aWParticles§f]");
+							$event->setLine(0, ($sign[0] == "§f[§aWParticles§f]" ? "§f[§aWParticles§f]" : "§f[§aWalkp§f]"));
 							$event->setLine(1, "§e" . $sign[1]);
 							$event->setLine(2, null);
 							$event->setLine(3, null);
@@ -193,7 +180,7 @@ class SignListener extends BaseListener{
 				return;
 			}
 			$sign = $sign->getText();
-			if($sign[0] == '§f[§aWParticles§f]'){
+			if($sign[0] == '§f[§aWParticles§f]' || $sign[0] == '§f[§aWalkp§f]'){
 				if(empty($sign[1]) !== true && empty($sign[2]) !== true){
 					if($event->getPlayer()->hasPermission("walkingparticles.sign.toggle")){
 						switch(strtolower($sign[1])):
