@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  * This file is a part of WalkingParticles.
@@ -23,11 +23,12 @@ use WalkingParticles\UpdateChecker;
 use WalkingParticles\base\BaseTask;
 
 class UpdateCheckingTask extends BaseTask{
+
 	public function onRun($tick){
 		if($this->getPlugin()->getConfig()->get("enable-updatechecker") !== true){
 			return;
 		}
-		$this->getPlugin()->getLogger()->info($this->getPlugin()->colourMessage("Checking for update..  It may take you some time...  (Channel: ".$this->plugin->getConfig()->get("channel-updatechecker").")"));
+		$this->getPlugin()->getLogger()->info($this->getPlugin()->colourMessage("Checking for update..  It may take you some time...  (Channel: " . $this->plugin->getConfig()->get("channel-updatechecker") . ")"));
 		$updatechecker = new UpdateChecker($this->getPlugin(), $this->getPlugin()->getConfig()->get("channel-updatechecker"));
 		try{
 			$updatechecker->checkUpdate();
@@ -35,6 +36,6 @@ class UpdateCheckingTask extends BaseTask{
 			$this->getPlugin()->getLogger()->debug("Error!  Unable to check update.  Reason: $e");
 		}
 	}
-	
+
 }
 ?>

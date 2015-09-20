@@ -55,8 +55,8 @@ use WalkingParticles\task\UpdateCheckingTask;
 
 class WalkingParticles extends PluginBase{
 
-	const VERSION = "2.0.0#76";
-	
+	const VERSION = "2.0.0#077";
+
 	/**
 	 *
 	 * @var static $instance
@@ -96,9 +96,9 @@ class WalkingParticles extends PluginBase{
 		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
 		$this->updateConfig();
-		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time...  (Channel: ".$this->getConfig()->get("channel-updatechecker").")"));
-		$updatechecker = new UpdateChecker($this,(string) $this->getConfig()->get("channel-updatechecker"));
-		if($this->getConfig()->get("enable-updatechecker") !== false){
+		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time...  (Channel: " . $this->getConfig()->get("channel-updatechecker") . ")"));
+		$updatechecker = new UpdateChecker($this, (string) $this->getConfig()->get("channel-updatechecker"));
+		if($this->getConfig()->get("enable-updatechecker") !== false && $this->getConfig()->get("startup-updatechecker") !== false){
 			try{
 				$updatechecker->checkUpdate();
 			} catch(\Exception $e){

@@ -21,6 +21,7 @@ namespace WalkingParticles;
 
 use pocketmine\Server;
 use WalkingParticles\WalkingParticles;
+use WalkingParticles\events\UpdateCheckingEvent;
 use pocketmine\utils\Utils;
 use pocketmine\utils\Config;
 
@@ -41,6 +42,10 @@ class UpdateChecker{
 	}
 
 	public function checkUpdate(){
+		$this->getServer()->getPluginManager()->callEvent($event = new UpdateCheckingEvent($this));
+		if($event->isCancelled()){
+			return false;
+		}
 		if($this->channel == "stable"){
 			$address = "http://forums.pocketmine.net/api.php?action=getResource&value=1192";
 		} else if($this->channel == "beta"){
@@ -59,21 +64,22 @@ class UpdateChecker{
 			$this->dlurl = "http://forums.pocketmine.net/plugins/walkingparticles.1192/download?version=" . $i["current_version_id"];
 		}
 		$plugin = new WalkingParticles();
-		if($this->plugin->getConfig()->get("v") != $this->newversion){
-			$path = $this->plugin->getDataFolder()."newest-version-download-link.txt";
+		if($plugin::VERSION !== $this->newversion){
+			$path = $this->plugin->getDataFolder() . "newest-version-download-link.txt";
 			if(file_exists($path)){
 				unlink($path);
 			}
 			echo "\n";
-			$this->plugin->getLogger()->info("Your version is too old/new!  The latest ".$this->channel." version is: (version: " . $this->newversion . ")");
+			$this->plugin->getLogger()->info("Your version is too old or too new!  The latest " . $this->channel . " version is: (version: " . $this->newversion . ")");
 			$this->plugin->getLogger()->info("Download url for the latest version: §e" . $this->dlurl . "");
-			$this->plugin->getLogger()->info("The link is being saved into: newest-version-download-link.txt\n");
+			$this->plugin->getLogger()->info("The link is being saved into: §bnewest-version-download-link.txt\n");
 			$txt = new Config($path, Config::ENUM);
 			$txt->set($this->dlurl, true);
 			$txt->save();
 			return true;
 		}
-		$this->plugin->getLogger()->info("No updates found!  Your WalkingPartices version is up-to-date!");
+		echo "\n";
+		$this->plugin->getLogger()->info("No updates found!  Your WalkingPartices version is up-to-date!\n");
 		return true;
 	}
 
