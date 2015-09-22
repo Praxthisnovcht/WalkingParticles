@@ -37,6 +37,8 @@ use WalkingParticles\task\RandomModeTask;
 use WalkingParticles\task\TryParticleTask;
 use WalkingParticles\task\TimerTask;
 use WalkingParticles\Particles;
+use WalkingParticles\commands\WprandCommand;
+use WalkingParticles\commands\WpitemCommand;
 use WalkingParticles\commands\WppackCommand;
 use WalkingParticles\commands\WplistCommand;
 use WalkingParticles\commands\WpgetCommand;
@@ -130,6 +132,8 @@ class WalkingParticles extends PluginBase{
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new UpdateCheckingTask($this), (int) $this->getConfig()->get("interval-updatechecker") * 20 * 60);
 		$this->getServer()->getPluginManager()->registerEvents(new PlayerListener($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new SignListener($this), $this);
+		$this->getCommand("wprand")->setExecutor(new WprandCommand($this));
+		$this->getCommand("wpitem")->setExecutor(new WpitemCommand($this));
 		$this->getCommand("wppack")->setExecutor(new WppackCommand($this));
 		$this->getCommand("wplist")->setExecutor(new WplistCommand($this));
 		$this->getCommand("wpget")->setExecutor(new WpgetCommand($this));
