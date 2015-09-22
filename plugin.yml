@@ -26,6 +26,16 @@ commands:
     usage: /wptry <player>
     permission: walkingparticles.command.wptry
     description: Let players to try out a player's particle pack
+  wprand:
+    usage: /wprand
+    permission: walkingparticles.command.wprand
+    description: Toggles your random mode on/off
+    aliases: ["wprandom", "wprandommode", "wprandomshow"]
+  wpitem:
+    usage: /wpitem
+    permission: walkingparticles.command.wpitem
+    description: Toggles your item mode on/off
+    aliases: ["wpitemmode", "wpitemshow"]
 permissions:
   walkingparticles:
     default: true
