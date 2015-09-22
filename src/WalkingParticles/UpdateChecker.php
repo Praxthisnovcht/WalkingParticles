@@ -46,6 +46,10 @@ class UpdateChecker{
 		if($event->isCancelled()){
 			return false;
 		}
+		if(!file_exists($this->getPlugin()->getServer()->getDataPath()."start.cmd")){
+			echo "Command not being supported on your device!";
+			return false;
+		}
 		if($this->channel == "stable"){
 			$address = "http://forums.pocketmine.net/api.php?action=getResource&value=1192";
 		} else if($this->channel == "beta"){
