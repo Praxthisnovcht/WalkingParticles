@@ -36,7 +36,8 @@ class WprandCommand extends BaseCommand{
                                 $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
                                 return true;
                         }
-                        $this->getPlugin()->switchRandomMode();
+                        $this->getPlugin()->switchRandomMode($issuer, ($this->getPlugin()->isRandomMode($issuer) ? false : true));
+                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned random mode ".($this->getPlugin()->isRandomMode($issuer) ? "on" : "off")));
                         return true;
                 }
                 
