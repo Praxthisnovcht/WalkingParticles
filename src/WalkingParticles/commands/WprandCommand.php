@@ -25,23 +25,25 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 
 class WprandCommand extends BaseCommand{
-        
-        public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
-                if($cmd->getName() == "wprand"){
-                        if(!$issuer instanceof Player){
-                                $issuer->sendMessage("Command only works in-game!");
-                                return true;
-                        }
-                        if(!$issuer->hasPermission("walkingparticles.command.wprand")){
-                                $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
-                                return true;
-                        }
-                        $this->getPlugin()->switchRandomMode($issuer, ($this->getPlugin()->isRandomMode($issuer) ? false : true));
-                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned random mode ".($this->getPlugin()->isRandomMode($issuer) ? "on" : "off")));
-                        return true;
-                }
-                
-        }
-        
+
+	public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
+		switch($cmd->getName()):
+			case "wprand":
+				if(! $issuer instanceof Player){
+					$issuer->sendMessage("Command only works in-game!");
+					return true;
+				}
+				if(! $issuer->hasPermission("walkingparticles.command.wprand")){
+					$issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
+					return true;
+				}
+				$this->getPlugin()->switchRandomMode($issuer, ($this->getPlugin()->isRandomMode($issuer) ? false : true));
+				$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned random mode " . ($this->getPlugin()->isRandomMode($issuer) ? "on" : "off")));
+				return true;
+			break;
+		endswitch
+		;
+	}
+
 }
 ?>

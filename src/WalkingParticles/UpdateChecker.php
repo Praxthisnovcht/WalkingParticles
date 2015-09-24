@@ -46,7 +46,7 @@ class UpdateChecker{
 		if($event->isCancelled()){
 			return false;
 		}
-		if(!file_exists($this->getPlugin()->getServer()->getDataPath()."start.cmd")){
+		if(! file_exists($this->plugin->getServer()->getDataPath() . "start.cmd")){
 			echo "Command not being supported on your device!";
 			return false;
 		}

@@ -52,8 +52,8 @@ class AdminCommand extends BaseCommand{
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp itemshow <player>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp signhelp <args..>"));
 											$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp version"));
-											if(!$issuer instanceof Player){
-												$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp update beta|stable"));
+											if(! $issuer instanceof Player){
+												$issuer->sendMessage($this->getPlugin()->colourMessage("&l&b- &r&f/walkp checkupdate beta|stable"));
 											}
 											return true;
 										break;
@@ -578,10 +578,16 @@ class AdminCommand extends BaseCommand{
 							break;
 							case "about":
 							case "version":
-								$issuer->sendMessage("You are using WalkingParticles version 2.0.0#build72 for PocketMine 1.6 (API 1.13.0/2.0.0) developed by hoyinm14mc!");
+								$plugin = $this->getPlugin();
+								$issuer->sendMessage("You are using WalkingParticles version ".$plugin::VERSION." for PocketMine 1.6 (API 1.13.0/2.0.0) developed by hoyinm14mc!");
 								return true;
 							break;
 							case "update":
+							case "checkupdate":
+								if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd")){
+									$issuer->sendMessage($this->getPlugin()->colourMessage("&cCommand is not usable!"));
+									return true;
+								}
 								if($issuer instanceof Player){
 									$issuer->sendMessage($this->getPlugin()->colourMessage("&cCommand only works in-game!"));
 									return true;
@@ -595,7 +601,7 @@ class AdminCommand extends BaseCommand{
 									$updatechecker = new UpdateChecker($this->getPlugin(), $args[1]);
 									$updatechecker->checkUpdate();
 									return true;
-								}else{
+								} else{
 									$updatechecker = new UpdateChecker($this->getPlugin(), $this->getConfig()->get("channel-updatechecker"));
 									$updatechecker->checkUpdate();
 									return true;

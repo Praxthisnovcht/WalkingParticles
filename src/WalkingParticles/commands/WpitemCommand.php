@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is a part of WalkingParticles.
  * Copyright (C) 2015 CyberCube-HK
@@ -17,29 +18,32 @@
  * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
  */
 namespace WalkingParticles\commands;
+
 use WalkingParticles\base\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
 
 class WpitemCommand extends BaseCommand{
-        
-        public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
-                if($cmd->getName() == "wpitem"){
-                        if(!$issuer instanceof Player){
-                                $issuer->sendMessage("Command only works in-game!");
-                                return true;
-                        }
-                        if(!$issuer->hasPermission("walkingparticles.command.wpitem")){
-                                $issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
-                                return true;
-                        }
-                        $this->getPlugin()->switchItemMode($issuer, ($this->getPlugin()->isItemMode($issuer) ? false : true));
-                        $issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned item mode ".($this->getPlugin()->isItemMode($issuer) ? "on" : "off")));
-                        return true;
-                }
-                
-        }
-        
+
+	public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
+		switch($cmd->getName()):
+			case "wpitem":
+				if(! $issuer instanceof Player){
+					$issuer->sendMessage("Command only works in-game!");
+					return true;
+				}
+				if(! $issuer->hasPermission("walkingparticles.command.wpitem")){
+					$issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
+					return true;
+				}
+				$this->getPlugin()->switchItemMode($issuer, ($this->getPlugin()->isItemMode($issuer) ? false : true));
+				$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned item mode " . ($this->getPlugin()->isItemMode($issuer) ? "on" : "off")));
+				return true;
+			break;
+		endswitch
+		;
+	}
+
 }
 ?>
