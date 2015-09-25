@@ -43,9 +43,9 @@ class PlayerListener extends BaseListener{
 			} else{
 			 $t = $this->getPlugin()->getData()->getAll();
 				if(isset($t[$event->getPlayer()->getName()]) && $this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
-					$x = $event->getPlayer()->x;
-					$y = $event->getPlayer()->y;
-					$z = $event->getPlayer()->z;
+					$x = $event->getFrom()->x;
+					$y = $event->getFrom()->y;
+					$z = $event->getFrom()->z;
 					$x1 = $x - 1;
 					$x2 = $x + 1;
 					$y1 = $y + 0.6;

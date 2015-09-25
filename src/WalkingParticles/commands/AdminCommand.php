@@ -291,7 +291,7 @@ class AdminCommand extends BaseCommand{
 											return true;
 										}
 									} else{
-										$issuer->sendMessage("Commamd only works in-game!");
+										$issuer->sendMessage("Usage: /walkp clear <player>");
 										return true;
 									}
 								}
@@ -444,7 +444,7 @@ class AdminCommand extends BaseCommand{
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned " . ($this->getPlugin()->isRandomMode($issuer) !== true ? "off" : "on") . "!"));
 										return true;
 									} else{
-										$issuer->sendMessage("Command only works in-game!");
+										$issuer->sendMessage("Usage: /walkp rand <player>");
 										return true;
 									}
 								}
@@ -515,7 +515,7 @@ class AdminCommand extends BaseCommand{
 										$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles&a: &f" . $this->getPlugin()->getAllPlayerParticles($issuer)));
 										return true;
 									} else{
-										$issuer->sendMessage("Command only works in-game!");
+										$issuer->sendMessage("Usage: /walkp get <player>");
 										return true;
 									}
 								}
