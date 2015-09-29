@@ -50,7 +50,7 @@ class UpdateChecker{
 			return false;
 		}
 		//Android device not checkable
-		if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd" || ! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.sh"))){
+		if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd" && ! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.sh"))){
 			echo "Command not being supported on your device!";
 			return;
 		}
