@@ -91,7 +91,25 @@ class WalkingParticles extends PluginBase{
 		$this->saveDefaultConfig();
 		$this->reloadConfig();
 		$this->data = new Config($this->getDataFolder() . "players.yml", Config::YAML, array());
-		$this->data2 = new Config($this->getDataFolder() . "particlepacks.yml", Config::YAML, array());
+		$this->data2 = new Config($this->getDataFolder() . "particlepacks.yml", Config::YAML, array(
+				"default1" => array(
+						"block_90",
+						"block_7",
+						"block_8",
+						"block_10"
+				),
+				"default2" => array(
+						"item_264",
+						"item_265",
+						"item_266",
+						"item_267"
+				),
+				"default3" => array(
+						"largeexplode",
+						"lava",
+						"angryvillager"
+				)
+		));
 		// Update the file caz build#39 has bug
 		if(file_exists($this->getDataFolder() . "temp1.yml")){
 			unlink($this->getDataFolder() . "temp1.yml");
