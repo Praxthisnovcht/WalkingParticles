@@ -49,11 +49,6 @@ class UpdateChecker{
 		if($event->isCancelled()){
 			return false;
 		}
-		// Android device not checkable
-		if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd" && ! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.sh"))){
-			echo "Command not being supported on your device!\n";
-			return;
-		}
 		if($this->channel == "stable"){
 			$address = "http://forums.pocketmine.net/api.php?action=getResource&value=1192";
 		} else if($this->channel == "beta"){
