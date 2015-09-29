@@ -20,7 +20,6 @@
 namespace WalkingParticles;
 
 use pocketmine\Server;
-use WalkingParticles\WalkingParticles;
 use WalkingParticles\events\UpdateCheckingEvent;
 use pocketmine\utils\Utils;
 use pocketmine\utils\Config;
@@ -36,26 +35,31 @@ class UpdateChecker{
 	 * @param string $channel        	
 	 * @param int $interval        	
 	 */
-	public function __construct(WalkingParticles $plugin, $channel){
+	public function __construct($plugin, $channel){
 		$this->plugin = $plugin;
 		$this->channel = $channel;
 	}
+	
+	private function getPlugin(){
+		return $this->plugin;
+	}
 
 	public function checkUpdate(){
-		$this->plugin->getServer()->getPluginManager()->callEvent($event = new UpdateCheckingEvent($this->plugin));
+		$this->getPlugin()->getServer()->getPluginManager()->callEvent($event = new UpdateCheckingEvent($this->getPlugin()));
 		if($event->isCancelled()){
 			return false;
 		}
-		if(! file_exists($this->plugin->getServer()->getDataPath() . "start.cmd")){
+		//Android device not checkable
+		if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd" || ! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.sh"))){
 			echo "Command not being supported on your device!";
-			return false;
+			return;
 		}
 		if($this->channel == "stable"){
 			$address = "http://forums.pocketmine.net/api.php?action=getResource&value=1192";
 		} else if($this->channel == "beta"){
 			$address = "https://api.github.com/repos/cybercube-hk/walkingparticles/releases";
 		} else{
-			$this->plugin->getLogger()->info("[UPDATER] INVALID CHANNEL!");
+			$this->plugin->getLogger()->alert("[UPDATER] INVALID CHANNEL!");
 			return false;
 		}
 		$i = json_decode(Utils::getURL($address), true);
@@ -67,18 +71,15 @@ class UpdateChecker{
 			$this->newversion = $i["version_string"];
 			$this->dlurl = "http://forums.pocketmine.net/plugins/walkingparticles.1192/download?version=" . $i["current_version_id"];
 		}
-		$plugin = new WalkingParticles();
+		$plugin = $this->getPlugin();
 		if($plugin::VERSION !== $this->newversion){
 			$path = $this->plugin->getDataFolder() . "newest-version-download-link.txt";
-			if(file_exists($path)){
-				unlink($path);
-			}
 			echo "\n";
 			$this->plugin->getLogger()->info("Your version is too old or too new!  The latest " . $this->channel . " version is: (version: " . $this->newversion . ")");
 			$this->plugin->getLogger()->info("Download url for the latest version: §e" . $this->dlurl . "");
 			$this->plugin->getLogger()->info("The link is being saved into: §bnewest-version-download-link.txt\n");
 			$txt = new Config($path, Config::ENUM);
-			$txt->set($this->dlurl, true);
+			$txt->set("Version ".$this->newversion." -> ".$this->dlurl, true);
 			$txt->save();
 			return true;
 		}
