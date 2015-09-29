@@ -39,7 +39,7 @@ class UpdateChecker{
 		$this->plugin = $plugin;
 		$this->channel = $channel;
 	}
-	
+
 	private function getPlugin(){
 		return $this->plugin;
 	}
@@ -49,9 +49,9 @@ class UpdateChecker{
 		if($event->isCancelled()){
 			return false;
 		}
-		//Android device not checkable
+		// Android device not checkable
 		if(! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.cmd" && ! file_exists($this->getPlugin()->getServer()->getDataPath() . "start.sh"))){
-			echo "Command not being supported on your device!";
+			echo "Command not being supported on your device!\n";
 			return;
 		}
 		if($this->channel == "stable"){
@@ -79,7 +79,7 @@ class UpdateChecker{
 			$this->plugin->getLogger()->info("Download url for the latest version: §e" . $this->dlurl . "");
 			$this->plugin->getLogger()->info("The link is being saved into: §bnewest-version-download-link.txt\n");
 			$txt = new Config($path, Config::ENUM);
-			$txt->set("Version ".$this->newversion." -> ".$this->dlurl, true);
+			$txt->set("Version " . $this->newversion . " -> " . $this->dlurl, true);
 			$txt->save();
 			return true;
 		}
