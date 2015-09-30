@@ -45,6 +45,7 @@ use WalkingParticles\commands\WpgetCommand;
 use WalkingParticles\commands\WptryCommand;
 use WalkingParticles\commands\AdminCommand;
 use WalkingParticles\UpdateChecker;
+use WalkingParticles\WalkpAPI;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
@@ -55,7 +56,7 @@ use pocketmine\item\ItemBlock;
 use WalkingParticles\base\BaseTask;
 use WalkingParticles\task\UpdateCheckingTask;
 
-class WalkingParticles extends PluginBase{
+class WalkingParticles extends PluginBase implements WalkpAPI{
 
 	const VERSION = "2.0.0 beta";
 
