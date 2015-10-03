@@ -57,7 +57,7 @@ use WalkingParticles\task\UpdateCheckingTask;
 
 class WalkingParticles extends PluginBase{
 
-	const VERSION = "2.0.0 beta";
+	const VERSION = "2.0.0";
 
 	/**
 	 *
