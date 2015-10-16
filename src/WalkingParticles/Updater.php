@@ -38,12 +38,10 @@ class Updater{
 	public function update(){
 		$files = files($this->plugin->getServer()->getDataPath() . "plugins");
 		foreach($files as $file){
-			if(strpos($file, "WalkingParticles")){
+			if(strpos($file, "WalkingParticles_")){
 				unlink($file);
 			}
 		}
-		// Update..
-		// TODO (For v2.1.0)
 	}
 
 }

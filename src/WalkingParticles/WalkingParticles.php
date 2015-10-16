@@ -110,10 +110,6 @@ class WalkingParticles extends PluginBase{
 						"angryvillager"
 				)
 		));
-		// Update the file caz build#39 has bug
-		if(file_exists($this->getDataFolder() . "temp1.yml")){
-			unlink($this->getDataFolder() . "temp1.yml");
-		}
 		$this->data3 = new Config($this->getDataFolder() . "temp1.yml", Config::YAML, array());
 		$this->updateConfig();
 		$this->getLogger()->info($this->colourMessage("Checking for update..  It may take you some time...  (Channel: " . $this->getConfig()->get("channel-updatechecker") . ")"));
