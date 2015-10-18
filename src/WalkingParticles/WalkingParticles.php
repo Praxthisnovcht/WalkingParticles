@@ -145,7 +145,7 @@ class WalkingParticles extends PluginBase{
 		$this->getLogger()->info("Loading plugin..");
 		$this->VanishNoPacket = $this->getServer()->getPluginManager()->getPlugin("VanishNP");
 		if($this->VanishNoPacket !== null){
-		  $this->getLogger()->info("Loaded with VanishNoPacket!");
+			$this->getLogger()->info("Loaded with VanishNoPacket!");
 		}
 		self::$instance = $this;
 		$this->particles = new Particles($this);
@@ -411,49 +411,49 @@ class WalkingParticles extends PluginBase{
 		$array = $t[$player->getName()]["particle"];
 		return (bool) count($array) < 1;
 	}
-	
+
 	/**
 	 *
-	 * @param Player $player
+	 * @param Player $player        	
 	 * @return boolean
 	 */
 	public function enableEffects(Player $player){
-	  $this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsEnableEvent($this, $player));
+		$this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsEnableEvent($this, $player));
 		if($event->isCancelled()){
 			return false;
 		}
-	  $t = $this->data->getAll();
-	  $t[$player->getName()]["enabled"] = true;
-	  $this->data->setAll($t);
-	  $this->data->save();
-	  return true;
+		$t = $this->data->getAll();
+		$t[$player->getName()]["enabled"] = true;
+		$this->data->setAll($t);
+		$this->data->save();
+		return true;
 	}
-	
+
 	/**
 	 *
-	 * @param Player $player
+	 * @param Player $player        	
 	 * @return boolean
 	 */
 	public function disableEffects(Player $player){
-	  $this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsDisableEvent($this, $player));
+		$this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsDisableEvent($this, $player));
 		if($event->isCancelled()){
 			return false;
 		}
-	  $t = $this->data->getAll();
-	  $t[$player->getName()]["enabled"] = false;
-	  $this->data->setAll($t);
-	  $this->data->save();
-	  return true;
+		$t = $this->data->getAll();
+		$t[$player->getName()]["enabled"] = false;
+		$this->data->setAll($t);
+		$this->data->save();
+		return true;
 	}
-	
+
 	/**
-	 * 
-	 * @param Player $player
+	 *
+	 * @param Player $player        	
 	 * @return boolean
 	 */
 	public function isEffectsEnabled(Player $player){
-	  $t = $this->data->getAll();
-	  return (bool) $t[$player->getName()]["enabled"];
+		$t = $this->data->getAll();
+		return (bool) $t[$player->getName()]["enabled"];
 	}
 
 	/**
@@ -724,7 +724,7 @@ class WalkingParticles extends PluginBase{
 
 	/**
 	 *
-	 * @param Player $player
+	 * @param Player $player        	
 	 * @return boolean
 	 */
 	public function isItemMode(Player $player){

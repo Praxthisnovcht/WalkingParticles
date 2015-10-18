@@ -38,7 +38,7 @@ class WpitemCommand extends BaseCommand{
 					return true;
 				}
 				if($this->getPlugin()->switchItemMode($issuer, ($this->getPlugin()->isItemMode($issuer) ? false : true)) !== true){
-				  return true;
+					return true;
 				}
 				$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned item mode " . ($this->getPlugin()->isItemMode($issuer) ? "on" : "off")));
 				return true;

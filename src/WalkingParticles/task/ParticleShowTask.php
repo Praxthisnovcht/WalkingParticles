@@ -30,18 +30,18 @@ class ParticleShowTask extends BaseTask{
 		$t = $this->getPlugin()->getData()->getAll();
 		foreach((array) $this->getPlugin()->getServer()->getOnlinePlayers() as $p){
 			if(isset($t[$p->getName()]) && $this->getPlugin()->isCleared($p) !== true && $t[$p->getName()]["enabled"] !== false){
-			  if($this->getPlugin()->VanishNoPacket !== null){
-			    if($this->getPlugin()->VanishNoPacket->isVanished($p) !== false && $this->plugin->getConfig()->get("hideparticles-vanished") !== false){
-			      return;
-			    }
-			  }
-			  if($this->getPlugin()->getConfig()->get("worlds-only") !== false){
-			    foreach($this->getPlugin()->getConfig()->get("allowed-worlds") as $world){
-			      if($p->getLevel()->getName() == $world){
-			        return;
-			      }
-			    }
-			  }
+				if($this->getPlugin()->VanishNoPacket !== null){
+					if($this->getPlugin()->VanishNoPacket->isVanished($p) !== false && $this->plugin->getConfig()->get("hideparticles-vanished") !== false){
+						return;
+					}
+				}
+				if($this->getPlugin()->getConfig()->get("worlds-only") !== false){
+					foreach($this->getPlugin()->getConfig()->get("allowed-worlds") as $world){
+						if($p->getLevel()->getName() == $world){
+							return;
+						}
+					}
+				}
 				foreach((array) $t[$p->getName()]["particle"] as $particle){
 					if($this->getPlugin()->getParticles()->getTheParticle($particle, new Vector3($p->x, $p->y, $p->z)) == "unknown_particle"){
 						return;

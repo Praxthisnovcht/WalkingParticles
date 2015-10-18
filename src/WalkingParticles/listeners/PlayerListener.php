@@ -41,20 +41,20 @@ class PlayerListener extends BaseListener{
 		if($event->getPlayer()->hasPermission("walkingparticles")){
 			if($event->getFrom()->x == $event->getPlayer()->x && $event->getFrom()->z == $event->getPlayer()->z){
 			} else{
-			 $t = $this->getPlugin()->getData()->getAll();
+				$t = $this->getPlugin()->getData()->getAll();
 				if(isset($t[$event->getPlayer()->getName()]) && $this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true && $t[$event->getPlayer()->getName()]["enabled"] !== false){
-				  if($this->plugin->VanishNoPacket !== null){
-				    if($this->plugin->VanishNoPacket->isVanished($event->getPlayer()) !== false && $this->plugin->getConfig()->get("hideparticles-vanished") !== false){
-				      return;
-				    }
-				  }
-				  if($this->getPlugin()->getConfig()->get("worlds-only") !== false){
-			     foreach($this->getPlugin()->getConfig()->get("allowed-worlds") as $world){
-	 		      if($event->getPlayer()->getLevel()->getName() == $world){
-			         return;
-		 	      }
-		 	    }
-	  		 }
+					if($this->plugin->VanishNoPacket !== null){
+						if($this->plugin->VanishNoPacket->isVanished($event->getPlayer()) !== false && $this->plugin->getConfig()->get("hideparticles-vanished") !== false){
+							return;
+						}
+					}
+					if($this->getPlugin()->getConfig()->get("worlds-only") !== false){
+						foreach($this->getPlugin()->getConfig()->get("allowed-worlds") as $world){
+							if($event->getPlayer()->getLevel()->getName() == $world){
+								return;
+							}
+						}
+					}
 					$x = $event->getFrom()->x;
 					$y = $event->getFrom()->y;
 					$z = $event->getFrom()->z;
@@ -95,10 +95,10 @@ class PlayerListener extends BaseListener{
 				$this->getPlugin()->getData()->save();
 			}
 		}
-		if(!isset($t[$event->getPlayer()->getName()])){
-		  $t[$event->getPlayer()->getName()]["enabled"] = true;
-		  $this->getPlugin()->data->setAll($t);
-		  $this->getPlugin()->data->save();
+		if(! isset($t[$event->getPlayer()->getName()])){
+			$t[$event->getPlayer()->getName()]["enabled"] = true;
+			$this->getPlugin()->data->setAll($t);
+			$this->getPlugin()->data->save();
 		}
 	}
 

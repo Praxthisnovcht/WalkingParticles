@@ -38,7 +38,7 @@ class WprandCommand extends BaseCommand{
 					return true;
 				}
 				if($this->getPlugin()->switchRandomMode($issuer, ($this->getPlugin()->isRandomMode($issuer) ? false : true)) !== true){
-				  return true;
+					return true;
 				}
 				$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned random mode " . ($this->getPlugin()->isRandomMode($issuer) ? "on" : "off")));
 				return true;

@@ -31,15 +31,15 @@ class WpoffCommand extends BaseCommand{
 			case "wpoff":
 				if($issuer->hasPermission("walkingparticles.command.wpoff")){
 					if($issuer instanceof Player !== false){
-					  if($this->getPlugin()->disableEffects($issuer) !== true){
-					    return true;
-					  }
-					  $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned off!"));
-					  return true;
-				  }else{
-				    $issuer->sendMessage("Command only works in-game!");
-				    return true;
-				  }
+						if($this->getPlugin()->disableEffects($issuer) !== true){
+							return true;
+						}
+						$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned off!"));
+						return true;
+					} else{
+						$issuer->sendMessage("Command only works in-game!");
+						return true;
+					}
 				} else{
 					$issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
 					return true;

@@ -12,7 +12,7 @@
  * WalkingParticles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details. 
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with WalkingParticles. If not, see <http://www.gnu.org/licenses/>.
@@ -32,7 +32,7 @@ use WalkingParticles\WalkingParticles;
 use WalkingParticles\Particles;
 
 class SignListener extends BaseListener{
-    
+
 	public function onBlockBreak(BlockBreakEvent $event){
 		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
 			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
@@ -189,7 +189,7 @@ class SignListener extends BaseListener{
 							case "§eadd":
 								$particle = substr($sign[2], 3);
 								if($this->getPlugin()->addPlayerParticle($event->getPlayer(), $particle) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou added your &bWalkingParticles&a's " . $particle . " particle!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -198,7 +198,7 @@ class SignListener extends BaseListener{
 							case "§eremove":
 								$particle = substr($sign[2], 3);
 								if($this->getPlugin()->removePlayerParticle($event->getPlayer(), $particle) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou removed your &bWalkingParticles&a's " . $particle . " particle!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -207,7 +207,7 @@ class SignListener extends BaseListener{
 							case "§eset":
 								$particle = substr($sign[2], 3);
 								if($this->getPlugin()->setPlayerParticle($event->getPlayer(), $particle) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou set your &bWalkingParticles&a's particle to &e" . $particle . "!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -216,7 +216,7 @@ class SignListener extends BaseListener{
 							case "§eamplifier":
 								$amplifier = substr($sign[2], 3);
 								if($this->getPlugin()->setPlayerAmplifier($event->getPlayer(), $amplifier) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou changed your &bWalkingParticles&a's amplifier!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -225,7 +225,7 @@ class SignListener extends BaseListener{
 							case "§edisplay":
 								$display = substr($sign[2], 3);
 								if($this->getPlugin()->setPlayerDisplay($event->getPlayer(), $display) !== true){
-								  return true;
+									return true;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYou changed the display of your particles!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -273,7 +273,7 @@ class SignListener extends BaseListener{
 							case "§erandomshow":
 							case "§erandom":
 								if($this->getPlugin()->switchRandomMode($event->getPlayer(), ($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? true : false)) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour random mode has been turned " . ($this->getPlugin()->isRandomMode($event->getPlayer()) !== true ? "off" : "on") . "!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -281,7 +281,7 @@ class SignListener extends BaseListener{
 							case "§eitemshow":
 							case "§eitem":
 								if($this->getPlugin()->switchItemMode($event->getPlayer(), ($this->getPlugin()->isItemMode($event->getPlayer()) !== false ? false : true)) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour item mode has been turned " . ($this->getPlugin()->isItemMode($event->getPlayer()) !== true ? "off" : "on") . "!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -293,7 +293,7 @@ class SignListener extends BaseListener{
 							break;
 							case "§eclear":
 								if($this->getPlugin()->clearPlayerParticle($event->getPlayer()) !== true){
-								  return;
+									return;
 								}
 								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles &ahas been cleared!"));
 								$event->getPlayer()->getLevel()->addSound(new BatSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
@@ -306,20 +306,20 @@ class SignListener extends BaseListener{
 								return true;
 							break;
 							case "§eon":
-							  if($this->getPlugin()->enableEffects($event->getPlayer()) !== true){
-					       return true;
-					     }
-					     $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned on!"));
-					     $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
-					     return true;
+								if($this->getPlugin()->enableEffects($event->getPlayer()) !== true){
+									return true;
+								}
+								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned on!"));
+								$event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
+								return true;
 							break;
 							case "§eoff":
-							  if($this->getPlugin()->disableEffects($event->getPlayer()) !== true){
-					       return true;
-					     }
-					     $event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned off!"));
-					     $event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
-					     return true;
+								if($this->getPlugin()->disableEffects($event->getPlayer()) !== true){
+									return true;
+								}
+								$event->getPlayer()->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned off!"));
+								$event->getPlayer()->getLevel()->addSound(new ClickSound($event->getPlayer()), $this->getPlugin()->getServer()->getOnlinePlayers());
+								return true;
 							break;
 						endswitch
 						;
