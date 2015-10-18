@@ -30,6 +30,10 @@ class WpgetCommand extends BaseCommand{
 		switch($cmd->getName()){
 			case "wpget":
 				if($issuer->hasPermission("walkingparticles.command.wpget")){
+				  if($issuer instanceof Player !== true){
+				    $issuer->sendMessage("Command only works in-game!");
+				    return true;
+				  }
 					$issuer->sendMessage($this->getPlugin()->colourMessage("&aYour &bWalkingParticles&a: &f" . $this->getPlugin()->getAllPlayerParticles($issuer)));
 					return true;
 				} else{

@@ -20,6 +20,7 @@
 namespace WalkingParticles;
 
 use WalkingParticles\WalkingParticles;
+use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
 class SignHelp{
@@ -99,7 +100,7 @@ class SignHelp{
 		return false;
 	}
 
-	public function sendHelp($issuer, $line2){
+	public function sendHelp(CommandSender $issuer, $line2){
 		switch(strtolower($line2)):
 			case "add":
 				$array = $this->getHelp("add");

@@ -37,6 +37,8 @@ use WalkingParticles\task\RandomModeTask;
 use WalkingParticles\task\TryParticleTask;
 use WalkingParticles\task\TimerTask;
 use WalkingParticles\Particles;
+use WalkingParticles\commands\WponCommand;
+use WalkingParticles\commands\WpoffCommand;
 use WalkingParticles\commands\WprandCommand;
 use WalkingParticles\commands\WpitemCommand;
 use WalkingParticles\commands\WppackCommand;
@@ -45,6 +47,10 @@ use WalkingParticles\commands\WpgetCommand;
 use WalkingParticles\commands\WptryCommand;
 use WalkingParticles\commands\AdminCommand;
 use WalkingParticles\UpdateChecker;
+use WalkingParticles\base\BaseTask;
+use WalkingParticles\task\UpdateCheckingTask;
+use WalkingParticles\events\PlayerEffectsEnableEvent;
+use WalkingParticles\events\PlayerEffectsDisableEvent;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
@@ -52,34 +58,32 @@ use pocketmine\utils\Config;
 use pocketmine\command\CommandExecutor;
 use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
-use WalkingParticles\base\BaseTask;
-use WalkingParticles\task\UpdateCheckingTask;
 
 class WalkingParticles extends PluginBase{
 
-	const VERSION = "2.0.0";
+	const VERSION = "2.1.0";
 
 	/**
 	 *
-	 * @var static $instance
+	 * @var static $this|null
 	 */
 	private static $instance = null;
 
 	/**
 	 *
-	 * @var $eco
+	 * @var EconomyAPI|PocketMoney|MassiveEconony|GoldStd|null
 	 */
 	private $eco = null;
 
 	/**
 	 *
-	 * @var $random_mode
+	 * @var string
 	 */
 	public $random_mode = [];
 
 	/**
 	 *
-	 * @var $item_mode
+	 * @var string
 	 */
 	public $item_mode = [];
 
@@ -139,6 +143,10 @@ class WalkingParticles extends PluginBase{
 			$this->getLogger()->info("No economy plugin found!");
 		}
 		$this->getLogger()->info("Loading plugin..");
+		$this->VanishNoPacket = $this->getServer()->getPluginManager()->getPlugin("VanishNP");
+		if($this->VanishNoPacket !== null){
+		  $this->getLogger()->info("Loaded with VanishNoPacket!");
+		}
 		self::$instance = $this;
 		$this->particles = new Particles($this);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleShowTask($this), 13);
@@ -152,12 +160,14 @@ class WalkingParticles extends PluginBase{
 		$this->getCommand("wplist")->setExecutor(new WplistCommand($this));
 		$this->getCommand("wpget")->setExecutor(new WpgetCommand($this));
 		$this->getCommand("wptry")->setExecutor(new WptryCommand($this));
+		$this->getCommand("wpon")->setExecutor(new WponCommand($this));
+		$this->getCommand("wpoff")->setExecutor(new WpoffCommand($this));
 		$this->getCommand("walkingparticles")->setExecutor(new AdminCommand($this));
 		$this->getLogger()->info($this->colourMessage("&aLoaded Successfully!"));
 	}
 
 	private function pluginLoaded($plugin){
-		return $plugin !== null;
+		return (bool) $plugin !== null;
 	}
 
 	private function updateConfig(){
@@ -200,7 +210,7 @@ class WalkingParticles extends PluginBase{
 	}
 
 	public function colourMessage($message){
-		return str_replace("&", "§", $message);
+		return (string) str_replace("&", "§", $message);
 	}
 
 	/**
@@ -400,6 +410,50 @@ class WalkingParticles extends PluginBase{
 		$t = $this->data->getAll();
 		$array = $t[$player->getName()]["particle"];
 		return (bool) count($array) < 1;
+	}
+	
+	/**
+	 *
+	 * @param Player $player
+	 * @return boolean
+	 */
+	public function enableEffects(Player $player){
+	  $this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsEnableEvent($this, $player));
+		if($event->isCancelled()){
+			return false;
+		}
+	  $t = $this->data->getAll();
+	  $t[$player->getName()]["enabled"] = true;
+	  $this->data->setAll($t);
+	  $this->data->save();
+	  return true;
+	}
+	
+	/**
+	 *
+	 * @param Player $player
+	 * @return boolean
+	 */
+	public function disableEffects(Player $player){
+	  $this->getServer()->getPluginManager()->callEvent($event = new PlayerEffectsDisableEvent($this, $player));
+		if($event->isCancelled()){
+			return false;
+		}
+	  $t = $this->data->getAll();
+	  $t[$player->getName()]["enabled"] = false;
+	  $this->data->setAll($t);
+	  $this->data->save();
+	  return true;
+	}
+	
+	/**
+	 * 
+	 * @param Player $player
+	 * @return boolean
+	 */
+	public function isEffectsEnabled(Player $player){
+	  $t = $this->data->getAll();
+	  return (bool) $t[$player->getName()]["enabled"];
 	}
 
 	/**
@@ -670,6 +724,7 @@ class WalkingParticles extends PluginBase{
 
 	/**
 	 *
+	 * @param Player $player
 	 * @return boolean
 	 */
 	public function isItemMode(Player $player){

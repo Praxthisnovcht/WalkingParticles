@@ -42,7 +42,19 @@ class PlayerListener extends BaseListener{
 			if($event->getFrom()->x == $event->getPlayer()->x && $event->getFrom()->z == $event->getPlayer()->z){
 			} else{
 			 $t = $this->getPlugin()->getData()->getAll();
-				if(isset($t[$event->getPlayer()->getName()]) && $this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true){
+				if(isset($t[$event->getPlayer()->getName()]) && $this->getConfig()->get("enable") !== false && $this->getPlugin()->isCleared($event->getPlayer()) !== true && $t[$event->getPlayer()->getName()]["enabled"] !== false){
+				  if($this->plugin->VanishNoPacket !== null){
+				    if($this->plugin->VanishNoPacket->isVanished($event->getPlayer()) !== false && $this->plugin->getConfig()->get("hideparticles-vanished") !== false){
+				      return;
+				    }
+				  }
+				  if($this->getPlugin()->getConfig()->get("worlds-only") !== false){
+			     foreach($this->getPlugin()->getConfig()->get("allowed-worlds") as $world){
+	 		      if($event->getPlayer()->getLevel()->getName() == $world){
+			         return;
+		 	      }
+		 	    }
+	  		 }
 					$x = $event->getFrom()->x;
 					$y = $event->getFrom()->y;
 					$z = $event->getFrom()->z;
@@ -69,20 +81,24 @@ class PlayerListener extends BaseListener{
 		}
 	}
 
-	public function onJoin(PlayerJoinEvent $event){
+	public function onLogin(PlayerLoginEvent $event){
 		$t = $this->getPlugin()->getData()->getAll();
 		if(! isset($t[$event->getPlayer()->getName()])){
 			$t[$event->getPlayer()->getName()]["amplifier"] = $this->getPlugin()->getConfig()->get("default-amplifier");
 			$t[$event->getPlayer()->getName()]["display"] = $this->getPlugin()->getConfig()->get("default-display");
+			$t[$event->getPlayer()->getName()]["enabled"] = true;
 			$this->getPlugin()->getData()->setAll($t);
 			$this->getPlugin()->getData()->save();
-			if($this->getConfig()->get("default-particle") === null){
-				return;
-			} else{
+			if($this->getConfig()->get("default-particle") !== null){
 				$t[$event->getPlayer()->getName()]["particle"][] = $this->getPlugin()->getConfig()->get("default-particle");
 				$this->getPlugin()->getData()->setAll($t);
 				$this->getPlugin()->getData()->save();
 			}
+		}
+		if(!isset($t[$event->getPlayer()->getName()])){
+		  $t[$event->getPlayer()->getName()]["enabled"] = true;
+		  $this->getPlugin()->data->setAll($t);
+		  $this->getPlugin()->data->save();
 		}
 	}
 

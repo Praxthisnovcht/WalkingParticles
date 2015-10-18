@@ -1,5 +1,7 @@
 # WalkingParticles Config File
 
+####### Basics  #######
+
 # Update Checker
 # Enable?
 enable-updatechecker: true
@@ -11,18 +13,31 @@ interval-updatechecker: 30
 # startup checking? (check while server starts)
 startup-updatechecker: true
 
-# Enable the feature or not?
+# Enable the particle effects on the whole server?  (Always true)
 enable: true
 
-# What particle to give out while walking?
-# To see the list of available particles, run '/walkp list' in your console
+# Default particle?
+# To see the list of available particles, run '/wplist' in your console
 # Do not enter anything if you do not want default players to have
-default-particle: item_264
+default-particle: item_265
 
 # How much particles do u want to output?
 # The larger the amplifier, the more lag in your server
 # 9 is tested and recommended by developers
 default-amplifier: 11
+
+####### Worlds  #######
+
+# Only certain worlds can have particle effects? (On every players)
+# true|false
+worlds-only: false
+
+# What worlds are allowed to have particle effects?
+# Ignore this if 'worlds-only' is set to false
+allowed-worlds:
+- example-world
+- example-world2
+- example-world3
 
 #######  Economy  #######
 
@@ -38,8 +53,14 @@ try-player-fee: 300
 # Ignore this if you do not have any economy plugins installed
 apply-pack-fee: 2500
 
+#######  VanishNoPacket #######
+
+# Hide particles of vanished players?
+# Ignore it if there isn't VanishNoPacket installed
+hideparticles-vanished: true
+
 #######  DANGEROUS  #######
 
 # Version
 # DO NOT MODIFY THIS!
-v: "2.0.0"
+v: "2.1.0"

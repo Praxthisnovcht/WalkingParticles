@@ -1,8 +1,11 @@
 name: WalkingParticles
 main: WalkingParticles\WalkingParticles
 api: ["1.13.0", "2.0.0"]
-version: 2.0.0
+version: 2.1.0
+load: POSTWORLD
 author: CyberCube-HK Team & hoyinm14mc
+softdepend:
+- VanishNP
 
 commands:
   walkp:
@@ -36,6 +39,17 @@ commands:
     permission: walkingparticles.command.wpitem
     description: Toggles your item mode on/off
     aliases: ["wpitemmode", "wpitemshow"]
+  wpon:
+    usage: /wpon
+    permission: walkingparticles.command.wpon
+    description: Enables your walkp effects
+    aliases: ["wpenable"]
+  wpoff:
+    usage: /wpoff
+    permission: walkingparticles.command.wpoff
+    description: Disables your walkp effects
+    aliases: ["wpdisable"]
+    
 permissions:
   walkingparticles:
     default: true
@@ -53,6 +67,14 @@ permissions:
       walkingparticles.command.wppack:
         default: true
       walkingparticles.command.wptry:
+        default: true
+      walkingparticles.command.wprand:
+        default: op
+      walkingparticles.command.wpitem:
+        default: op
+      walkingparticles.command.wpon:
+        default: true
+      walkingparticles.command.wpoff:
         default: true
   walkingparticles.sign.toggle:
     default: true

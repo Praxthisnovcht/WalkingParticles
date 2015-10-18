@@ -24,27 +24,28 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
 
-class WpitemCommand extends BaseCommand{
+class WpoffCommand extends BaseCommand{
 
 	public function onCommand(CommandSender $issuer, Command $cmd, $label, array $args){
-		switch($cmd->getName()):
-			case "wpitem":
-				if(! $issuer instanceof Player){
-					$issuer->sendMessage("Command only works in-game!");
-					return true;
-				}
-				if(! $issuer->hasPermission("walkingparticles.command.wpitem")){
+		switch($cmd->getName()){
+			case "wpoff":
+				if($issuer->hasPermission("walkingparticles.command.wpoff")){
+					if($issuer instanceof Player !== false){
+					  if($this->getPlugin()->disableEffects($issuer) !== true){
+					    return true;
+					  }
+					  $issuer->sendMessage($this->getPlugin()->colourMessage("&aYour WalkingParticles has been turned off!"));
+					  return true;
+				  }else{
+				    $issuer->sendMessage("Command only works in-game!");
+				    return true;
+				  }
+				} else{
 					$issuer->sendMessage($this->getPlugin()->colourMessage("&cYou don't have permission for this!"));
 					return true;
 				}
-				if($this->getPlugin()->switchItemMode($issuer, ($this->getPlugin()->isItemMode($issuer) ? false : true)) !== true){
-				  return true;
-				}
-				$issuer->sendMessage($this->getPlugin()->colourMessage("&aYou turned item mode " . ($this->getPlugin()->isItemMode($issuer) ? "on" : "off")));
-				return true;
 			break;
-		endswitch
-		;
+		}
 	}
 
 }
